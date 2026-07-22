@@ -318,7 +318,7 @@
           <!-- Visual bar -->
           <div class="mt-6 max-w-lg mx-auto">
             <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs text-navy-400 w-20 text-right">DimeRepublic</span>
+              <span class="text-xs text-navy-400 w-20 text-right">You Save</span>
               <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
                 <div id="drBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 20%"></div>
               </div>
@@ -715,13 +715,14 @@
       const drAnnual = employees * avgMonthly * 12;
       const usaAnnual = employees * usaMonthly * 12;
       const saved = usaAnnual - drAnnual;
-      const pct = Math.round((drAnnual / usaAnnual) * 100);
+      const costPct = Math.round((drAnnual / usaAnnual) * 100);
+      const savePct = 100 - costPct;
 
       document.getElementById('savingsAmount').textContent = '$' + saved.toLocaleString();
       document.getElementById('drCost').textContent = '$' + drAnnual.toLocaleString() + ' / year';
       document.getElementById('usaCost').textContent = '$' + usaAnnual.toLocaleString() + ' / year';
-      document.getElementById('drBar').style.width = pct + '%';
-      document.getElementById('drBarLabel').textContent = pct + '%';
+      document.getElementById('drBar').style.width = savePct + '%';
+      document.getElementById('drBarLabel').textContent = 'Save ' + savePct + '%';
     }
 
     recalc();
