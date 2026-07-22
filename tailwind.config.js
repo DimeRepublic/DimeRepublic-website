@@ -27,7 +27,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Lora"', 'serif'],
+        display: ['"Fraunces"', 'serif'],
         sans: ['"Inter"', 'sans-serif'],
       },
       boxShadow: {
