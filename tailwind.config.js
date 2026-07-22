@@ -27,8 +27,9 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Lora"', 'serif'],
-        sans: ['"Inter"', 'sans-serif'],
+        display: ['"Bitter"', 'serif'],
+        sans: ['"Manrope"', 'sans-serif'],
+        mono: ['"Space Mono"', 'monospace'],
       },
       boxShadow: {
         card: '0 4px 24px -6px rgba(16, 26, 52, 0.08)',
