@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DimeRepublic × iGate Softwares — 2-Month Case Study</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2B1416; --ink-soft:#4A2327; --paper:#FBF3F1; --panel:#FFFFFF;
+    --red:#D6303F; --red-deep:#A8202D; --red-soft:#FBE1E0;
+    --wine:#7A2231; --wine-soft:#F1DEDD;
+    --slate:#6B4B4E; --line:#F0DAD8; --au-color:#8B5A5E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px;}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0;border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;justify-content:space-between;align-items:center;width:100%;}
+  .logo{font-family:'Space Mono',monospace;font-weight:700;font-size:17px;letter-spacing:0.02em;color:var(--ink);}
+  .logo span{color:var(--red);}
+  .tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);border:1px solid var(--line);padding:6px 12px;border-radius:20px;}
+
+  .hero{padding:60px 0 40px;border-bottom:1px solid var(--line);position:relative;}
+  .hero::before{content:"";position:absolute;top:0;right:0;width:280px;height:280px;background-image:radial-gradient(var(--line) 1.4px, transparent 1.4px);background-size:16px 16px;opacity:0.55;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom left, black, transparent 70%);mask-image:linear-gradient(to bottom left, black, transparent 70%);}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red-deep);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--red-deep);display:inline-block;}
+  h1{font-family:'Bitter',serif;font-weight:800;font-size:40px;line-height:1.16;margin:0 0 20px;max-width:760px;letter-spacing:-0.01em;}
+  .hero-sub{font-size:16.5px;color:var(--slate);max-width:640px;line-height:1.65;margin-bottom:36px;}
+
+  .vitals{width:100%;height:150px;margin:8px 0 40px;position:relative;}
+  .vitals path.ecg{fill:none;stroke:var(--au-color);stroke-width:2;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.2s ease-out forwards;}
+  .vitals path.growth{fill:none;stroke:var(--red);stroke-width:2.6;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.2s ease-out 1.4s forwards;}
+  .vitals circle{fill:var(--red-deep);opacity:0;animation:pop .4s ease-out 3.6s forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @keyframes pop{to{opacity:1;}}
+  @media (prefers-reduced-motion: reduce){ .vitals path,.vitals circle{animation:none !important;stroke-dashoffset:0 !important;opacity:1 !important;} }
+
+  .hero-stats{display:flex;gap:0;border-top:1px solid var(--line);padding-top:28px;}
+  .stat{flex:1;padding-right:24px;}
+  .stat + .stat{border-left:1px solid var(--line);padding-left:24px;}
+  .stat .num{font-family:'Bitter',serif;font-weight:800;font-size:31px;color:var(--ink);}
+  .stat .num.accent{color:var(--red-deep);}
+  .stat .label{font-size:12.5px;color:var(--slate);margin-top:4px;letter-spacing:0.01em;}
+
+  section{padding:54px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+  .num-marker{font-family:'Space Mono',monospace;font-size:12px;color:var(--red);letter-spacing:0.1em;}
+  h2{font-family:'Bitter',serif;font-weight:700;font-size:25px;margin:2px 0 6px;color:var(--ink);}
+  .section-intro{color:var(--slate);font-size:15px;max-width:680px;line-height:1.65;margin-bottom:26px;}
+
+  .team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px;max-width:600px;}
+  .team-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 20px 18px;}
+  .team-card .role{font-weight:700;font-size:15px;color:var(--ink);}
+  .team-card .level{font-size:12px;color:var(--red-deep);font-family:'Space Mono',monospace;margin:4px 0 10px;text-transform:uppercase;letter-spacing:0.06em;}
+  .team-card .count{font-family:'Bitter',serif;font-size:27px;font-weight:800;}
+  .team-card .count-label{font-size:11.5px;color:var(--slate);}
+
+  .waffle-row{display:flex;gap:36px;align-items:center;flex-wrap:wrap;}
+  .waffle-legend{display:flex;flex-direction:column;gap:12px;}
+  .waffle-legend .item{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--slate);}
+  .waffle-legend .sw{width:16px;height:16px;border-radius:4px;flex-shrink:0;}
+  .waffle-legend b{color:var(--ink);font-family:'Bitter',serif;}
+
+  .chart-panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 24px 8px;margin-bottom:14px;}
+  .chart-row{display:flex;gap:16px;flex-wrap:wrap;align-items:stretch;}
+  .chart-row .chart-panel{flex:1;min-width:220px;display:flex;flex-direction:column;justify-content:center;}
+  .chart-box{position:relative;width:100%;}
+  .legend-row{display:flex;gap:22px;margin-bottom:14px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--slate);}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+  .explain{font-size:14px;color:var(--slate);line-height:1.65;margin-top:14px;max-width:720px;}
+  .explain strong{color:var(--ink);}
+
+  .chart-svg{width:100%;height:auto;display:block;}
+  .chart-svg .cat-label{font-family:'Manrope',sans-serif;font-size:11.5px;fill:var(--slate);}
+  .chart-svg .cat-label-strong{font-family:'Space Mono',monospace;font-size:10.5px;fill:var(--au-color);letter-spacing:0.08em;}
+  .chart-svg .val-label{font-family:'Space Mono',monospace;font-size:11px;fill:var(--ink);font-weight:700;}
+  .chart-svg .sub-label{font-family:'Manrope',sans-serif;font-size:11px;fill:var(--au-color);}
+  .chart-svg .gauge-num{font-family:'Bitter',serif;font-weight:800;}
+  .chart-svg .slope-title{font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;fill:var(--ink);}
+  .chart-svg .val-label-sm{font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;}
+  .chart-svg .cat-label-sm{font-family:'Manrope',sans-serif;font-size:10px;fill:var(--au-color);text-transform:uppercase;letter-spacing:0.08em;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
+  th{text-align:left;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--slate);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);}
+  td{padding:12px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+  tr:last-child td{border-bottom:none;}
+  td.num,th.num{text-align:right;font-family:'Space Mono',monospace;}
+  tr.total td{font-weight:700;color:var(--ink);border-top:2px solid var(--ink);}
+  .save-pos{color:var(--red-deep);font-weight:700;}
+
+  .callout{background:var(--red-soft);border:1px solid #F2C6C4;border-radius:12px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:20px;}
+  .callout .big{font-family:'Bitter',serif;font-size:27px;font-weight:800;color:var(--ink);}
+  .callout .small{font-size:13px;color:var(--slate);max-width:420px;}
+
+  .ring-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;}
+  .ring-item{flex:1;min-width:150px;text-align:center;}
+
+  .slope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .slope-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 10px 16px;text-align:center;}
+  .delta-pill{display:inline-block;margin-top:2px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:#fff;background:var(--red-deep);padding:4px 12px;border-radius:20px;}
+
+  .assumptions{font-size:12.5px;color:var(--slate);background:var(--wine-soft);border:1px solid #E3C4C1;border-radius:10px;padding:16px 18px;line-height:1.6;margin-top:18px;}
+  .assumptions strong{color:var(--ink);}
+
+  footer{padding:40px 0 60px;}
+  .foot-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+  .foot-logo{font-family:'Bitter',serif;font-weight:800;font-size:18px;}
+  .foot-note{font-size:12px;color:var(--slate);max-width:460px;line-height:1.6;}
+
+  @media (max-width:720px){
+    h1{font-size:28px;}
+    .hero-stats{flex-wrap:wrap;}
+    .stat{flex:0 0 50%;margin-bottom:16px;}
+    .chart-row{flex-direction:column;}
+    .slope-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:480px){
+    .slope-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav"><div class="wrap">
+  <div class="logo">Dime<span>Republic</span></div>
+  <div class="tag">Client Case Study</div>
+</div></div>
+
+<div class="wrap">
+  <section class="hero" style="border-bottom:none;">
+    <div class="eyebrow">iGate Softwares · Saudi Arabia · 2-Month Review</div>
+    <h1>Eleven IT specialists, four high-ticket closers, one remote team that rebuilt iGate's infrastructure and its pipeline.</h1>
+    <p class="hero-sub">A look at what changed when iGate Softwares moved its entire IT infrastructure function and high-ticket sales closing to a dedicated remote team built and run by DimeRepublic — and what it cost versus hiring the same 15 roles in Australia.</p>
+
+    <svg class="vitals" viewBox="0 0 1000 150" preserveAspectRatio="none">
+      <line x1="0" y1="75" x2="1000" y2="75" stroke="#F0DAD8" stroke-width="1"/>
+      <path class="ecg" d="M0,95 L40,95 L60,110 L80,70 L100,100 L120,60 L150,105 L180,65 L210,95 L240,80 L270,95 L300,75 L330,95 L360,82 L400,90 L440,85 L480,88 L520,84 L560,86" />
+      <path class="growth" d="M560,86 C 630,86 655,50 700,40 C 750,28 780,20 850,14 C 900,10 940,7 1000,5" />
+      <circle cx="1000" cy="5" r="5"/>
+    </svg>
+
+    <div class="hero-stats">
+      <div class="stat"><div class="num accent">A$199,800</div><div class="label">AUD saved over 2 months vs. hiring the same 15 roles in Australia</div></div>
+      <div class="stat"><div class="num">81.9%</div><div class="label">Average reduction in monthly staffing cost across the engagement</div></div>
+      <div class="stat"><div class="num">15</div><div class="label">IT specialists &amp; sales closers, fully recruited and managed by DimeRepublic</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="num-marker">01 — The Handover</span></div>
+    <h2>The team we run for iGate Softwares</h2>
+    <p class="section-intro">Two months ago, iGate Softwares handed its IT infrastructure operations and high-ticket sales closing to DimeRepublic. Here's the team that now runs both, full-time.</p>
+    <div class="team-grid">
+      <div class="team-card"><div class="role">IT Specialist</div><div class="level">Mid-level</div><div class="count">11</div><div class="count-label">infrastructure &amp; support agents</div></div>
+      <div class="team-card"><div class="role">High-Ticket Sales Closer</div><div class="level">Mid/Senior</div><div class="count">4</div><div class="count-label">closers</div></div>
+    </div>
+    <div class="waffle-row">
+      <div class="chart-box" style="width:auto;"><div id="waffleGrid"></div></div>
+      <div class="waffle-legend">
+        <div class="item"><span class="sw" style="background:var(--red)"></span><span><b>11</b> &nbsp;IT Specialists — infrastructure migration, monitoring &amp; support</span></div>
+        <div class="item"><span class="sw" style="background:var(--wine)"></span><span><b>4</b> &nbsp;High-Ticket Sales Closers — enterprise deal closing</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PER-SEAT ECONOMICS: BULLET CHART -->
+  <section>
+    <div class="section-head"><span class="num-marker">02 — Per-Seat Economics</span></div>
+    <h2>What each seat costs in Australia vs. with DimeRepublic</h2>
+    <p class="section-intro">Each bar is scaled to the Australian market rate for that role. The filled portion is what iGate actually pays per seat through DimeRepublic — the shorter the fill, the bigger the saving.</p>
+    <div class="chart-panel">
+      <div class="legend-row">
+        <div class="legend-item"><span class="swatch" style="background:var(--au-color)"></span>Australian market rate (track length)</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--red)"></span>DimeRepublic rate (fill)</div>
+      </div>
+      <div class="chart-box"><div id="bulletChart"></div></div>
+    </div>
+    <p class="explain">iGate pays <strong>80.3% less</strong> per IT Specialist seat and <strong>85.4% less</strong> per High-Ticket Sales Closer seat than the equivalent Australian rate, while every seat is filled full-time, onboarded, and performance-managed by DimeRepublic.</p>
+  </section>
+
+  <!-- TOTAL SAVINGS: STACKED BAR + RING CLUSTER -->
+  <section>
+    <div class="section-head"><span class="num-marker">03 — Total Monthly Savings</span></div>
+    <h2>How the monthly number breaks down</h2>
+    <p class="section-intro">Starting from what the 15-person team would cost in Australia, here's what's actually spent through DimeRepublic each month — and what's left over as savings.</p>
+
+    <div class="chart-row">
+      <div class="chart-panel" style="flex:2;">
+        <div class="legend-row">
+          <div class="legend-item"><span class="swatch" style="background:var(--red)"></span>DimeRepublic spend / mo</div>
+          <div class="legend-item"><span class="swatch" style="background:var(--red-soft);border:1px solid #F2C6C4;"></span>Savings / mo</div>
+        </div>
+        <div class="chart-box"><div id="stackedBar"></div></div>
+      </div>
+      <div class="chart-panel" style="flex:1;">
+        <div class="ring-row">
+          <div class="ring-item"><div id="ringIT"></div></div>
+          <div class="ring-item"><div id="ringSales"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th></tr></thead>
+      <tbody>
+        <tr><td>IT Specialist — Mid</td><td class="num">11</td><td class="num">A$83,600</td><td class="num">A$16,500</td><td class="num save-pos">A$67,100</td></tr>
+        <tr><td>High-Ticket Sales Closer</td><td class="num">4</td><td class="num">A$38,400</td><td class="num">A$5,600</td><td class="num save-pos">A$32,800</td></tr>
+        <tr class="total"><td>Total</td><td class="num">15</td><td class="num">A$122,000</td><td class="num">A$22,100</td><td class="num save-pos">A$99,900</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div><div class="big">A$99,900 AUD / month</div><div class="small">saved across the 15-person team — an 81.9% reduction on what the equivalent Australian hires would cost.</div></div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE BOOST: SLOPE MULTIPLES -->
+  <section>
+    <div class="section-head"><span class="num-marker">04 — Performance Boost</span></div>
+    <h2>What actually improved, not just what got cheaper</h2>
+    <p class="section-intro">Cost aside, here's the operational shift over the two months — from infrastructure stability to how much the closer team is now landing.</p>
+    <div class="slope-grid">
+      <div class="slope-card"><div id="slope1"></div><div class="delta-pill">▲ 3.4pp</div></div>
+      <div class="slope-card"><div id="slope2"></div><div class="delta-pill">▼ 60%</div></div>
+      <div class="slope-card"><div id="slope3"></div><div class="delta-pill">▲ 98%</div></div>
+      <div class="slope-card"><div id="slope4"></div><div class="delta-pill">▼ 75%</div></div>
+      <div class="slope-card"><div id="slope5"></div><div class="delta-pill">▲ 67%</div></div>
+      <div class="slope-card"><div id="slope6"></div><div class="delta-pill">▲ 12pp</div></div>
+    </div>
+    <p class="explain">In two months, the DimeRepublic IT team took over monitoring and ticketing from scratch, cut average resolution time from <strong>5.8 hours to 2.3 hours</strong>, and pushed uptime from 96.2% to 99.6%. On the sales side, the closer team nearly doubled monthly deals closed while lifting close rate from 21% to 33%.</p>
+  </section>
+
+  <!-- 2-MONTH GROWTH: GRADIENT AREA CHART -->
+  <section>
+    <div class="section-head"><span class="num-marker">05 — Two Months of Growth</span></div>
+    <h2>How fast the closer team's pipeline grew</h2>
+    <p class="section-intro">Weekly revenue closed by the High-Ticket Sales Closer team since onboarding — growth that compounded as the team ramped past its first month.</p>
+    <div class="chart-panel">
+      <div class="chart-box"><div id="growthChart"></div></div>
+    </div>
+    <p class="explain">Weekly revenue closed grew from <strong>A$34,000</strong> in Week 1 to <strong>A$88,000</strong> in Week 8 — a <strong>158.8% increase</strong>. Across the two months, the closer team booked <strong>A$453,500</strong> in total revenue, with Month 2 (A$286,000) outpacing Month 1 (A$167,500) by 70.7%.</p>
+  </section>
+
+  <section style="padding-bottom:24px;">
+    <div class="assumptions">
+      <strong>Notes on this report.</strong> Australian benchmark rates are drawn from DimeRepublic's standard Australian market rate comparison (160 hrs/month, fully loaded cost). IT Specialist (Mid) and High-Ticket Sales Closer aren't yet distinct line items on the standard rate card, so they were benchmarked against the closest comparable functions — Mid-level IT Support/Infrastructure and Cold Calling Senior respectively. Performance figures (uptime, resolution time, tickets resolved, incidents, deals closed, close rate, weekly revenue) compare the two-month DimeRepublic engagement against iGate's pre-engagement baseline, as reported by iGate. Two-month totals assume a stable 15-person team across the period.
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-logo">Dime<span style="color:var(--red);">Republic</span></div>
+      <div class="foot-note">Prepared for iGate Softwares — a 2-month review of the remote IT and sales team built and managed by DimeRepublic. Figures reflect negotiated engagement rates, standard Australian market benchmarks, and performance data as reported by iGate as of this report's preparation.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const fmt = (v) => 'A$' + Math.round(v).toLocaleString();
+const NS = "http://www.w3.org/2000/svg";
+function makeSVG(w,h){ const el=document.createElementNS(NS,'svg'); el.setAttribute('viewBox','0 0 '+w+' '+h); el.setAttribute('class','chart-svg'); return el; }
+function rect(x,y,w,h,fill,rx){ const r=document.createElementNS(NS,'rect'); r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',Math.max(w,0)); r.setAttribute('height',Math.max(h,0)); r.setAttribute('fill',fill); r.setAttribute('rx',rx===undefined?3:rx); return r; }
+function text(x,y,str,cls,anchor,fill){ const t=document.createElementNS(NS,'text'); t.setAttribute('x',x); t.setAttribute('y',y); t.setAttribute('class',cls||''); t.setAttribute('text-anchor',anchor||'middle'); if(fill) t.setAttribute('fill',fill); t.textContent=str; return t; }
+function lineEl(x1,y1,x2,y2,stroke,w,dash){ const l=document.createElementNS(NS,'line'); l.setAttribute('x1',x1); l.setAttribute('y1',y1); l.setAttribute('x2',x2); l.setAttribute('y2',y2); l.setAttribute('stroke',stroke); l.setAttribute('stroke-width',w||2); if(dash) l.setAttribute('stroke-dasharray',dash); return l; }
+function circle(cx,cy,r,fill,stroke,sw){ const c=document.createElementNS(NS,'circle'); c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r); c.setAttribute('fill',fill||'#fff'); if(stroke){ c.setAttribute('stroke',stroke); c.setAttribute('stroke-width',sw||2);} return c; }
+function polygon(points, fill, opacity){ const p=document.createElementNS(NS,'polygon'); p.setAttribute('points', points.map(pt=>pt.join(',')).join(' ')); p.setAttribute('fill',fill); if(opacity) p.setAttribute('opacity',opacity); return p; }
+function polyline(points,stroke,w,dash){ const p=document.createElementNS(NS,'polyline'); p.setAttribute('points', points.map(pt=>pt.join(',')).join(' ')); p.setAttribute('fill','none'); p.setAttribute('stroke',stroke); p.setAttribute('stroke-width',w||2.5); p.setAttribute('stroke-linejoin','round'); p.setAttribute('stroke-linecap','round'); if(dash) p.setAttribute('stroke-dasharray',dash); return p; }
+function arcPath(cx,cy,r,startAngle,endAngle){
+  const sx = cx + r*Math.cos(startAngle), sy = cy + r*Math.sin(startAngle);
+  const ex = cx + r*Math.cos(endAngle), ey = cy + r*Math.sin(endAngle);
+  const large = (endAngle-startAngle) > Math.PI ? 1 : 0;
+  return 'M '+sx+' '+sy+' A '+r+' '+r+' 0 '+large+' 1 '+ex+' '+ey;
+}
+
+/* ---- Waffle grid (headcount) ---- */
+function waffleGrid(containerId, groups){
+  const cols=5, size=34, gap=10;
+  const total = groups.reduce((a,g)=>a+g.count,0);
+  const rows = Math.ceil(total/cols);
+  const W = cols*size + (cols-1)*gap, H = rows*size + (rows-1)*gap;
+  const svg = makeSVG(W,H);
+  let idx=0;
+  groups.forEach(g=>{
+    for(let i=0;i<g.count;i++){
+      const col = idx % cols, row = Math.floor(idx/cols);
+      svg.appendChild(rect(col*(size+gap), row*(size+gap), size, size, g.color, 7));
+      idx++;
+    }
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Bullet chart (per-seat economics) ---- */
+function bulletChart(containerId, rows){
+  const W=760, rowH=100, leftPad=190, rightPad=100, top=10;
+  const H = top*2 + rows.length*rowH;
+  const maxVal = Math.max(...rows.map(r=>r.au));
+  const plotW = W-leftPad-rightPad;
+  const svg = makeSVG(W,H);
+  rows.forEach((r,i)=>{
+    const y = top + i*rowH + rowH/2;
+    const trackW = (r.au/maxVal)*plotW;
+    const fillW = (r.dr/maxVal)*plotW;
+    svg.appendChild(text(leftPad-16, y-4, r.label, 'cat-label', 'end'));
+    svg.appendChild(text(leftPad-16, y+14, r.sub, 'sub-label', 'end'));
+    svg.appendChild(rect(leftPad, y-13, trackW, 26, '#F6E4E3', 13));
+    svg.appendChild(rect(leftPad, y-13, fillW, 26, r.color, 13));
+    svg.appendChild(lineEl(leftPad+trackW, y-22, leftPad+trackW, y+22, '#4A2327', 2));
+    svg.appendChild(text(leftPad+trackW, y-30, fmt(r.au)+'/mo', 'val-label', 'middle', '#4A2327'));
+    svg.appendChild(text(leftPad+fillW+8, y+4, fmt(r.dr)+'/mo', 'val-label', 'start', r.color));
+    svg.appendChild(text(leftPad, y+38, 'saves '+fmt(r.au-r.dr)+'/mo · '+Math.round((r.au-r.dr)/r.au*100)+'% less', 'sub-label', 'start'));
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Stacked horizontal bar (spend vs savings) ---- */
+function stackedBar(containerId, rows){
+  // rows: [{label, dr, saved}]
+  const W=560, rowH=96, leftPad=10, rightPad=10, top=10;
+  const H = top*2 + rows.length*rowH;
+  const maxVal = Math.max(...rows.map(r=>r.dr+r.saved));
+  const plotW = W-leftPad-rightPad;
+  const svg = makeSVG(W,H);
+  rows.forEach((r,i)=>{
+    const y = top + i*rowH;
+    const total = r.dr + r.saved;
+    const totalW = (total/maxVal)*plotW;
+    const drW = (r.dr/total)*totalW;
+    svg.appendChild(text(leftPad, y+4, r.label, 'cat-label', 'start'));
+    svg.appendChild(rect(leftPad, y+14, totalW, 30, '#F6E4E3', 8));
+    svg.appendChild(rect(leftPad, y+14, drW, 30, '#D6303F', 8));
+    svg.appendChild(text(leftPad+drW/2, y+34, fmt(r.dr), 'val-label', 'middle', '#FFFFFF'));
+    svg.appendChild(text(leftPad+drW+ (totalW-drW)/2, y+34, fmt(r.saved), 'val-label', 'middle', '#A8202D'));
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Mini radial ring ---- */
+function miniRing(containerId, percent, label, sublabel, color){
+  const size=180, cx=size/2, cy=size/2-8, r=58, sw=15;
+  const startAngle = Math.PI*0.8, endAngle = Math.PI*2.2;
+  const svg = makeSVG(size,size-4);
+  const track = document.createElementNS(NS,'path');
+  track.setAttribute('d', arcPath(cx,cy,r,startAngle,endAngle));
+  track.setAttribute('fill','none'); track.setAttribute('stroke','#F6E4E3'); track.setAttribute('stroke-width',sw); track.setAttribute('stroke-linecap','round');
+  svg.appendChild(track);
+  const valueAngle = startAngle + (endAngle-startAngle)*(percent/100);
+  const fillArc = document.createElementNS(NS,'path');
+  fillArc.setAttribute('d', arcPath(cx,cy,r,startAngle,valueAngle));
+  fillArc.setAttribute('fill','none'); fillArc.setAttribute('stroke',color); fillArc.setAttribute('stroke-width',sw); fillArc.setAttribute('stroke-linecap','round');
+  svg.appendChild(fillArc);
+  const numEl = text(cx, cy+6, percent+'%', 'gauge-num', 'middle', '#2B1416');
+  numEl.style.fontSize='30px';
+  svg.appendChild(numEl);
+  svg.appendChild(text(cx, cy+28, label, 'cat-label', 'middle', '#4A2327'));
+  svg.appendChild(text(cx, cy+42, sublabel, 'cat-label', 'middle', '#8B5A5E'));
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Slope mini chart (before/after) ---- */
+function slopeMini(containerId, metricLabel, beforeVal, beforeStr, afterVal, afterStr){
+  const W=210,H=162, top=46, bottom=50, leftX=48, rightX=162;
+  const svg = makeSVG(W,H);
+  const big = Math.max(beforeVal, afterVal);
+  const yTop = top, yBottom = H-bottom;
+  const yBefore = beforeVal===big ? yTop : yBottom;
+  const yAfter = afterVal===big ? yTop : yBottom;
+  svg.appendChild(text(W/2, 18, metricLabel, 'slope-title', 'middle'));
+  svg.appendChild(lineEl(leftX, yBefore, rightX, yAfter, '#D6303F', 3));
+  svg.appendChild(circle(leftX, yBefore, 6, '#D9B7B8'));
+  svg.appendChild(circle(rightX, yAfter, 7, '#A8202D'));
+  svg.appendChild(text(leftX, yBefore + (yBefore===yTop? -16:20), beforeStr, 'val-label-sm', 'middle', '#8B5A5E'));
+  svg.appendChild(text(rightX, yAfter + (yAfter===yTop? -16:20), afterStr, 'val-label-sm', 'middle', '#A8202D'));
+  svg.appendChild(text(leftX, H-14, 'BEFORE', 'cat-label-sm', 'middle'));
+  svg.appendChild(text(rightX, H-14, 'AFTER', 'cat-label-sm', 'middle'));
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Gradient growth area chart ---- */
+function growthArea(containerId, labels, values, monthSplitIndex){
+  const W=820,H=300, top=34, base=240, leftPad=54, rightPad=30;
+  const maxVal = Math.max(...values)*1.15;
+  const stepX = (W-leftPad-rightPad)/(values.length-1);
+  const svg = makeSVG(W,H);
+  svg.appendChild(lineEl(leftPad,base,W-rightPad,base,'#F0DAD8',1));
+  const dividerX = leftPad + (monthSplitIndex+0.5)*stepX;
+  svg.appendChild(lineEl(dividerX, top, dividerX, base, '#D9B7B8', 1, '4,4'));
+  const yOf = (v) => base - (v/maxVal)*(base-top);
+  const pts = values.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+  const baseline = values.map((v,i)=>[leftPad+i*stepX, base]);
+  const defs = document.createElementNS(NS,'defs');
+  const grad = document.createElementNS(NS,'linearGradient');
+  grad.setAttribute('id','growthGrad'); grad.setAttribute('x1','0'); grad.setAttribute('y1','0'); grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
+  const stop1=document.createElementNS(NS,'stop'); stop1.setAttribute('offset','0%'); stop1.setAttribute('stop-color','#D6303F'); stop1.setAttribute('stop-opacity','0.5');
+  const stop2=document.createElementNS(NS,'stop'); stop2.setAttribute('offset','100%'); stop2.setAttribute('stop-color','#D6303F'); stop2.setAttribute('stop-opacity','0.03');
+  grad.appendChild(stop1); grad.appendChild(stop2); defs.appendChild(grad); svg.appendChild(defs);
+  svg.appendChild(polygon([...baseline, ...pts.slice().reverse()], 'url(#growthGrad)'));
+  svg.appendChild(polyline(pts, '#A8202D', 3));
+  pts.forEach((pt,i)=>{
+    svg.appendChild(circle(pt[0],pt[1],4,'#fff','#A8202D',2.5));
+    if(i===0||i===pts.length-1){ svg.appendChild(text(pt[0], pt[1]-14, fmt(values[i]), 'val-label','middle','#A8202D')); }
+  });
+  labels.forEach((lab,i)=>{ svg.appendChild(text(leftPad+i*stepX, base+22, lab, 'cat-label')); });
+  svg.appendChild(text(leftPad + 1.5*stepX, base+40, 'MONTH 1', 'cat-label-strong', 'middle'));
+  svg.appendChild(text(leftPad + 5.5*stepX, base+40, 'MONTH 2', 'cat-label-strong', 'middle'));
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Build charts ---- */
+waffleGrid('waffleGrid', [
+  { count:11, color:'#D6303F' },
+  { count:4, color:'#7A2231' }
+]);
+
+bulletChart('bulletChart', [
+  { label:'IT Specialist Mid', sub:'11 seats', au:7600, dr:1500, color:'#D6303F' },
+  { label:'High-Ticket Closer', sub:'4 seats', au:9600, dr:1400, color:'#7A2231' }
+]);
+
+stackedBar('stackedBar', [
+  { label:'IT Specialist (11)', dr:16500, saved:67100 },
+  { label:'High-Ticket Closer (4)', dr:5600, saved:32800 }
+]);
+
+miniRing('ringIT', 80, 'IT Specialist', 'cost reduction', '#D6303F');
+miniRing('ringSales', 85, 'Sales Closer', 'cost reduction', '#7A2231');
+
+slopeMini('slope1', 'System Uptime', 96.2, '96.2%', 99.6, '99.6%');
+slopeMini('slope2', 'Avg. Ticket Resolution', 5.8, '5.8 hrs', 2.3, '2.3 hrs');
+slopeMini('slope3', 'Tickets Resolved / mo', 460, '460', 910, '910');
+slopeMini('slope4', 'Critical Incidents / mo', 12, '12', 3, '3');
+slopeMini('slope5', 'Deals Closed / mo', 9, '9', 15, '15');
+slopeMini('slope6', 'Close Rate', 21, '21%', 33, '33%');
+
+growthArea('growthChart',
+  ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'],
+  [34000,39500,45000,49000,58000,66000,74000,88000],
+  3
+);
+</script>
+
+</body>
+</html>

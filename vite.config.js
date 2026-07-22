@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   base: '/DimeRepublic-website/',
@@ -8,5 +9,13 @@ export default defineConfig({
   },
   build: {
     outDir: 'docs',
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        igate: resolve(__dirname, 'igate-dimerepublic-case-study.html'),
+        infinitex: resolve(__dirname, 'infinitex-trade-syndicate-case-study.html'),
+        titan: resolve(__dirname, 'titan-anaesthesia-case-study.html'),
+      },
+    },
   },
 });

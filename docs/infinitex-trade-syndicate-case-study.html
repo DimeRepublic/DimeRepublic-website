@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DimeRepublic × Infinitex Trade Syndicate — 6-Month Case Study</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F1B2E; --ink-soft:#332C4D; --paper:#F6F4F9; --panel:#FFFFFF;
+    --mint:#6D4AFF; --mint-soft:#EAE3FB; --gold:#F2994A; --gold-soft:#FDEBD8;
+    --slate:#5B5570; --line:#E3DEF0; --au-color:#7A6E99; --dr-color:#6D4AFF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 32px;}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0;border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;justify-content:space-between;align-items:center;width:100%;}
+  .logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;letter-spacing:0.01em;color:var(--ink);}
+  .logo span{color:var(--mint);}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);border:1px solid var(--line);padding:6px 12px;border-radius:20px;}
+
+  .hero{padding:64px 0 40px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mint);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--mint);display:inline-block;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:42px;line-height:1.14;margin:0 0 20px;max-width:760px;letter-spacing:-0.01em;}
+  .hero-sub{font-size:17px;color:var(--slate);max-width:640px;line-height:1.6;margin-bottom:36px;}
+
+  .vitals{width:100%;height:150px;margin:8px 0 40px;}
+  .vitals path.ecg{fill:none;stroke:var(--au-color);stroke-width:2;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.2s ease-out forwards;}
+  .vitals path.growth{fill:none;stroke:var(--mint);stroke-width:2.5;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.2s ease-out 1.4s forwards;}
+  .vitals circle{fill:var(--gold);opacity:0;animation:pop .4s ease-out 3.6s forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @keyframes pop{to{opacity:1;}}
+  @media (prefers-reduced-motion: reduce){ .vitals path,.vitals circle{animation:none !important;stroke-dashoffset:0 !important;opacity:1 !important;} }
+
+  .hero-stats{display:flex;gap:0;border-top:1px solid var(--line);padding-top:28px;}
+  .stat{flex:1;padding-right:24px;}
+  .stat + .stat{border-left:1px solid var(--line);padding-left:24px;}
+  .stat .num{font-family:'Fraunces',serif;font-weight:700;font-size:32px;color:var(--ink);}
+  .stat .num.accent{color:var(--mint);}
+  .stat .label{font-size:12.5px;color:var(--slate);margin-top:4px;letter-spacing:0.01em;}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+  .num-marker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:0.1em;}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:2px 0 6px;color:var(--ink);}
+  .section-intro{color:var(--slate);font-size:15px;max-width:680px;line-height:1.65;margin-bottom:28px;}
+
+  .team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:8px;max-width:600px;}
+  .team-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 20px 18px;}
+  .team-card .role{font-weight:600;font-size:15px;color:var(--ink);}
+  .team-card .level{font-size:12px;color:var(--mint);font-family:'IBM Plex Mono',monospace;margin:4px 0 10px;text-transform:uppercase;letter-spacing:0.06em;}
+  .team-card .count{font-family:'Fraunces',serif;font-size:28px;font-weight:700;}
+  .team-card .count-label{font-size:11.5px;color:var(--slate);}
+
+  .chart-panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 24px 8px;margin-bottom:14px;}
+  .chart-row{display:flex;gap:16px;flex-wrap:wrap;}
+  .chart-row .chart-panel{flex:1;min-width:260px;}
+  .chart-box{position:relative;width:100%;}
+  .legend-row{display:flex;gap:22px;margin-bottom:14px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--slate);}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+  .explain{font-size:14px;color:var(--slate);line-height:1.65;margin-top:14px;max-width:720px;}
+  .explain strong{color:var(--ink);}
+
+  .chart-svg{width:100%;height:auto;display:block;}
+  .chart-svg .cat-label{font-family:'Inter',sans-serif;font-size:11.5px;fill:var(--slate);}
+  .chart-svg .val-label{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:var(--ink);font-weight:600;}
+  .chart-svg .gauge-num{font-family:'Fraunces',serif;font-weight:700;}
+  .donut-legend{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:10px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
+  th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--slate);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);}
+  td{padding:12px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+  tr:last-child td{border-bottom:none;}
+  td.num,th.num{text-align:right;font-family:'IBM Plex Mono',monospace;}
+  tr.total td{font-weight:700;color:var(--ink);border-top:2px solid var(--ink);}
+  .save-pos{color:var(--mint);font-weight:600;}
+
+  .callout{background:var(--mint-soft);border:1px solid #DCD2F5;border-radius:12px;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:20px;}
+  .callout .big{font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--ink);}
+  .callout .small{font-size:13px;color:var(--slate);max-width:420px;}
+
+  .assumptions{font-size:12.5px;color:var(--slate);background:var(--gold-soft);border:1px solid #F5D9B8;border-radius:10px;padding:16px 18px;line-height:1.6;margin-top:18px;}
+  .assumptions strong{color:var(--ink);}
+
+  footer{padding:40px 0 60px;}
+  .foot-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+  .foot-logo{font-family:'Fraunces',serif;font-weight:700;font-size:18px;}
+  .foot-note{font-size:12px;color:var(--slate);max-width:460px;line-height:1.6;}
+
+  @media (max-width:720px){
+    h1{font-size:30px;}
+    .hero-stats{flex-wrap:wrap;}
+    .stat{flex:0 0 50%;margin-bottom:16px;}
+    .chart-row{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="nav"><div class="wrap">
+  <div class="logo">Dime<span>Republic</span></div>
+  <div class="tag">Client Case Study</div>
+</div></div>
+
+<div class="wrap">
+  <section class="hero" style="border-bottom:none;">
+    <div class="eyebrow">Infinitex Trade Syndicate · Spain · 6-Month Review</div>
+    <h1>Eight offshore acquisition and closing specialists, one disciplined sales engine, six months of compounding savings.</h1>
+    <p class="hero-sub">A look at what changed when Infinitex Trade Syndicate moved customer acquisition and high-ticket sales closing to a dedicated remote team built and managed by DimeRepublic.</p>
+
+    <svg class="vitals" viewBox="0 0 1000 150" preserveAspectRatio="none">
+      <line x1="0" y1="75" x2="1000" y2="75" stroke="#E3DEF0" stroke-width="1"/>
+      <path class="ecg" d="M0,90 L40,90 L60,60 L80,100 L100,70 L120,95 L150,55 L180,95 L210,65 L240,90 L270,50 L300,90 L330,68 L360,90 L400,75 L440,80 L480,75 L520,78 L560,75" />
+      <path class="growth" d="M560,75 C 630,75 655,105 700,90 C 750,73 780,45 850,28 C 900,17 940,12 1000,9" />
+      <circle cx="1000" cy="9" r="5"/>
+    </svg>
+
+    <div class="hero-stats">
+      <div class="stat"><div class="num accent">€312,600</div><div class="label">EUR saved over 6 months vs. hiring the same 8 roles in Australia</div></div>
+      <div class="stat"><div class="num">85.7%</div><div class="label">Average reduction in monthly staffing cost across the engagement</div></div>
+      <div class="stat"><div class="num">8</div><div class="label">Remote acquisition &amp; closing specialists, fully managed by DimeRepublic</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="num-marker">01 — The Engagement</span></div>
+    <h2>The team we built for Infinitex Trade Syndicate</h2>
+    <p class="section-intro">Over the last six months, Infinitex Trade Syndicate moved its front-end sales function offshore under a single point of management. Here's who makes up the team today.</p>
+    <div class="team-grid">
+      <div class="team-card"><div class="role">Customer Acquisition</div><div class="level">Mid-level</div><div class="count">5</div><div class="count-label">agents</div></div>
+      <div class="team-card"><div class="role">High-Ticket Sales Closer</div><div class="level">Mid/Senior</div><div class="count">3</div><div class="count-label">closers</div></div>
+    </div>
+  </section>
+
+  <!-- COST PER HIRE: DUMBBELL CHART -->
+  <section>
+    <div class="section-head"><span class="num-marker">02 — Per-Role Cost</span></div>
+    <h2>What each role costs in Australia vs. with DimeRepublic</h2>
+    <p class="section-intro">Each line shows the gap between the going Australian market rate and what Infinitex Trade Syndicate actually pays per hire through DimeRepublic — the shorter the reach to the teal dot, the bigger the saving.</p>
+    <div class="chart-panel">
+      <div class="legend-row">
+        <div class="legend-item"><span class="swatch" style="background:var(--au-color)"></span>Australian market rate</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--dr-color)"></span>DimeRepublic rate</div>
+      </div>
+      <div class="chart-box"><div id="dumbbellChart"></div></div>
+    </div>
+    <p class="explain">Infinitex pays <strong>85.9% less</strong> per Customer Acquisition hire and <strong>85.4% less</strong> per High-Ticket Sales Closer than the equivalent Australian rate, while every seat is filled full-time and performance-managed by DimeRepublic.</p>
+  </section>
+
+  <!-- TOTAL SAVINGS: WATERFALL + GAUGE -->
+  <section>
+    <div class="section-head"><span class="num-marker">03 — Total Monthly Savings</span></div>
+    <h2>How the monthly number breaks down</h2>
+    <p class="section-intro">Starting from what the team would cost in Australia, here's what's actually spent through DimeRepublic — and what's left over as savings.</p>
+
+    <div class="chart-row">
+      <div class="chart-panel" style="flex:2;">
+        <div class="chart-box"><div id="waterfallChart"></div></div>
+      </div>
+      <div class="chart-panel" style="flex:1;">
+        <div class="chart-box"><div id="gaugeChart"></div></div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th></tr></thead>
+      <tbody>
+        <tr><td>Customer Acquisition — Mid</td><td class="num">5</td><td class="num">€32,000</td><td class="num">€4,500</td><td class="num save-pos">€27,500</td></tr>
+        <tr><td>High-Ticket Sales Closer</td><td class="num">3</td><td class="num">€28,800</td><td class="num">€4,200</td><td class="num save-pos">€24,600</td></tr>
+        <tr class="total"><td>Total</td><td class="num">8</td><td class="num">€60,800</td><td class="num">€8,700</td><td class="num save-pos">€52,100</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div><div class="big">€52,100 EUR / month</div><div class="small">saved across the 8-person sales team — an 85.7% reduction on what the equivalent Australian hires would cost.</div></div>
+    </div>
+  </section>
+
+  <!-- 6 MONTH VIEW: STACKED AREA -->
+  <section>
+    <div class="section-head"><span class="num-marker">04 — Six Months In</span></div>
+    <h2>How the saving has compounded since onboarding</h2>
+    <p class="section-intro">The stacked area shows the Australian-equivalent cost split into what's actually spent (teal) and what's saved (gold) each month, running since onboarding.</p>
+    <div class="chart-panel">
+      <div class="legend-row">
+        <div class="legend-item"><span class="swatch" style="background:var(--dr-color)"></span>Cumulative DimeRepublic spend</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--gold)"></span>Cumulative savings</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--au-color)"></span>AU-equivalent total (spend + savings)</div>
+      </div>
+      <div class="chart-box"><div id="stackedAreaChart"></div></div>
+    </div>
+    <p class="explain">By the end of Month 6, Infinitex Trade Syndicate has spent <strong>€52,200</strong> through DimeRepublic against a modelled <strong>€364,800</strong> it would have cost to staff the same 8 positions locally — a running saving of <strong>€312,600 EUR</strong>, reinvested in the business rather than spent on payroll.</p>
+  </section>
+
+  <!-- TEAM COMPOSITION: SEGMENTED BAR -->
+  <section>
+    <div class="section-head"><span class="num-marker">05 — Team Composition</span></div>
+    <h2>Where the 8 seats sit today</h2>
+    <p class="section-intro">Customer Acquisition makes up the larger share of the team, feeding a smaller, more senior High-Ticket Closer bench.</p>
+    <div class="chart-panel">
+      <div class="chart-box"><div id="segmentedBar"></div></div>
+    </div>
+    <p class="explain">Every seat is managed end-to-end by DimeRepublic — recruiting, onboarding, attendance, and performance oversight — so Infinitex Trade Syndicate's leadership stays focused on strategy and product, not on running a second HR department.</p>
+  </section>
+
+  <section style="padding-bottom:24px;">
+    <div class="assumptions">
+      <strong>Notes on this report.</strong> Australian benchmark rates are drawn from DimeRepublic's standard Australian BPO rate comparison (160 hrs/month). Customer Acquisition Agent (Mid) and High-Ticket Sales Closer aren't yet distinct line items on the standard rate card, so they were benchmarked against the closest comparable functions — Cold Calling Mid and Cold Calling Senior respectively — reflecting similar outbound sales and closing skill levels. Six-month figures assume a stable 8-person team across the period. This report covers cost comparison only — sales performance metrics (conversion rate, deals closed, revenue generated, pipeline value) can be layered in once tracked data is available.
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-logo">Dime<span style="color:var(--mint);">Republic</span></div>
+      <div class="foot-note">Prepared for Infinitex Trade Syndicate — a 6-month review of the remote sales team built and managed by DimeRepublic. Figures reflect negotiated engagement rates and standard Australian market benchmarks as of this report's preparation.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const fmt = (v) => '€' + Math.round(v).toLocaleString();
+const NS = "http://www.w3.org/2000/svg";
+function makeSVG(w,h){ const el=document.createElementNS(NS,'svg'); el.setAttribute('viewBox','0 0 '+w+' '+h); el.setAttribute('class','chart-svg'); return el; }
+function rect(x,y,w,h,fill,rx){ const r=document.createElementNS(NS,'rect'); r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',Math.max(w,0)); r.setAttribute('height',Math.max(h,0)); r.setAttribute('fill',fill); r.setAttribute('rx',rx||3); return r; }
+function text(x,y,str,cls,anchor,fill){ const t=document.createElementNS(NS,'text'); t.setAttribute('x',x); t.setAttribute('y',y); t.setAttribute('class',cls||''); t.setAttribute('text-anchor',anchor||'middle'); if(fill) t.setAttribute('fill',fill); t.textContent=str; return t; }
+function lineEl(x1,y1,x2,y2,stroke,w,dash){ const l=document.createElementNS(NS,'line'); l.setAttribute('x1',x1); l.setAttribute('y1',y1); l.setAttribute('x2',x2); l.setAttribute('y2',y2); l.setAttribute('stroke',stroke); l.setAttribute('stroke-width',w||2); if(dash) l.setAttribute('stroke-dasharray',dash); return l; }
+function circle(cx,cy,r,fill,stroke,sw){ const c=document.createElementNS(NS,'circle'); c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r); c.setAttribute('fill',fill||'#fff'); if(stroke) c.setAttribute('stroke',stroke); c.setAttribute('stroke-width',sw||2); return c; }
+function polygon(points, fill, opacity){ const p=document.createElementNS(NS,'polygon'); p.setAttribute('points', points.map(pt=>pt.join(',')).join(' ')); p.setAttribute('fill',fill); if(opacity) p.setAttribute('opacity',opacity); return p; }
+function polyline(points,stroke,w,dash){ const p=document.createElementNS(NS,'polyline'); p.setAttribute('points', points.map(pt=>pt.join(',')).join(' ')); p.setAttribute('fill','none'); p.setAttribute('stroke',stroke); p.setAttribute('stroke-width',w||2.5); p.setAttribute('stroke-linejoin','round'); p.setAttribute('stroke-linecap','round'); if(dash) p.setAttribute('stroke-dasharray',dash); return p; }
+function arcPath(cx,cy,r,startAngle,endAngle){
+  const sx = cx + r*Math.cos(startAngle), sy = cy + r*Math.sin(startAngle);
+  const ex = cx + r*Math.cos(endAngle), ey = cy + r*Math.sin(endAngle);
+  const large = (endAngle-startAngle) > Math.PI ? 1 : 0;
+  return 'M '+sx+' '+sy+' A '+r+' '+r+' 0 '+large+' 1 '+ex+' '+ey;
+}
+
+/* ---- Dumbbell chart ---- */
+function dumbbellChart(containerId, labels, valuesA, valuesB, colorA, colorB){
+  const W=800, rowH=70, leftPad=210, rightPad=70, top=20;
+  const H = top*2 + labels.length*rowH;
+  const maxVal = Math.max(...valuesA, ...valuesB);
+  const plotW = W-leftPad-rightPad;
+  const svg = makeSVG(W,H);
+  labels.forEach((lab,i)=>{
+    const y = top + i*rowH + rowH/2;
+    const xA = leftPad + (valuesA[i]/maxVal)*plotW;
+    const xB = leftPad + (valuesB[i]/maxVal)*plotW;
+    svg.appendChild(text(leftPad-16, y+4, lab, 'cat-label', 'end'));
+    svg.appendChild(lineEl(leftPad, y, W-rightPad, y, '#EDE9F5', 1));
+    svg.appendChild(lineEl(Math.min(xA,xB), y, Math.max(xA,xB), y, '#C7BFE0', 3));
+    svg.appendChild(circle(xA, y, 8, colorA));
+    svg.appendChild(circle(xB, y, 8, colorB));
+    svg.appendChild(text(xA, y-16, fmt(valuesA[i]), 'val-label', 'middle', colorA));
+    svg.appendChild(text(xB, y+26, fmt(valuesB[i]), 'val-label', 'middle', colorB));
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Waterfall chart ---- */
+function waterfallChart(containerId, steps){
+  // steps: [{label, from, to, color, isTotal}]
+  const W=560,H=300, top=30, base=250, plotH=base-top, leftPad=20, rightPad=20;
+  const maxVal = Math.max(...steps.map(s=>Math.max(s.from,s.to)));
+  const barW = (W-leftPad-rightPad)/steps.length*0.55;
+  const slotW = (W-leftPad-rightPad)/steps.length;
+  const svg = makeSVG(W,H);
+  svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
+  steps.forEach((s,i)=>{
+    const cx = leftPad + slotW*i + slotW/2;
+    const yFrom = base - (s.from/maxVal)*plotH;
+    const yTo = base - (s.to/maxVal)*plotH;
+    const yTop = Math.min(yFrom,yTo), h = Math.abs(yFrom-yTo);
+    svg.appendChild(rect(cx-barW/2, yTop, barW, h, s.color, 5));
+    svg.appendChild(text(cx, yTop-8, fmt(Math.abs(s.to-s.from)), 'val-label', 'middle', s.color));
+    svg.appendChild(text(cx, base+22, s.label, 'cat-label'));
+    if(i < steps.length-1){
+      svg.appendChild(lineEl(cx+barW/2, yTo, cx+slotW-barW/2, yTo, '#C7BFE0', 1, '3,3'));
+    }
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Radial gauge ---- */
+function radialGauge(containerId, percent, label, sublabel, color){
+  const size=260, cx=size/2, cy=size/2-10, r=90, sw=22;
+  const startAngle = Math.PI*0.8, endAngle = Math.PI*2.2; // 252 degree sweep
+  const svg = makeSVG(size,size-10);
+  const track = document.createElementNS(NS,'path');
+  track.setAttribute('d', arcPath(cx,cy,r,startAngle,endAngle));
+  track.setAttribute('fill','none'); track.setAttribute('stroke','#EDE9F5'); track.setAttribute('stroke-width',sw); track.setAttribute('stroke-linecap','round');
+  svg.appendChild(track);
+  const valueAngle = startAngle + (endAngle-startAngle)*(percent/100);
+  const fillArc = document.createElementNS(NS,'path');
+  fillArc.setAttribute('d', arcPath(cx,cy,r,startAngle,valueAngle));
+  fillArc.setAttribute('fill','none'); fillArc.setAttribute('stroke',color); fillArc.setAttribute('stroke-width',sw); fillArc.setAttribute('stroke-linecap','round');
+  svg.appendChild(fillArc);
+  const numEl = text(cx, cy+2, percent+'%', 'gauge-num', 'middle', '#1F1B2E');
+  numEl.style.fontSize='40px';
+  svg.appendChild(numEl);
+  svg.appendChild(text(cx, cy+26, label, 'cat-label', 'middle', '#5B5570'));
+  svg.appendChild(text(cx, cy+42, sublabel, 'cat-label', 'middle', '#7A6E99'));
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Stacked area chart ---- */
+function stackedAreaChart(containerId, labels, bottomSeries, topSeries, totalSeries, bottomColor, topColor, totalColor){
+  const W=800,H=300, top=30, base=248, plotH=base-top, leftPad=44, rightPad=44;
+  const maxVal = Math.max(...totalSeries);
+  const stepX = (W-leftPad-rightPad)/(labels.length-1);
+  const svg = makeSVG(W,H);
+  svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
+  const yOf = (v) => base - (v/maxVal)*plotH;
+  const bottomPts = bottomSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+  const topPts = topSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+  const baseline = bottomSeries.map((v,i)=>[leftPad+i*stepX, base]);
+  // bottom area (0 to bottomSeries)
+  svg.appendChild(polygon([...baseline, ...bottomPts.slice().reverse()], bottomColor, 0.85));
+  // top area (bottomSeries to topSeries)
+  svg.appendChild(polygon([...bottomPts, ...topPts.slice().reverse()], topColor, 0.85));
+  // total line (AU equivalent)
+  const totalPts = totalSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+  svg.appendChild(polyline(totalPts, totalColor, 2.5, '5,4'));
+  totalPts.forEach((pt,i)=>{
+    if(i===0||i===totalPts.length-1){
+      svg.appendChild(circle(pt[0],pt[1],3.5,'#fff',totalColor));
+      svg.appendChild(text(pt[0], pt[1]-10, '€'+Math.round(totalSeries[i]/1000)+'k', 'val-label', 'middle', totalColor));
+    }
+  });
+  labels.forEach((lab,i)=>{ svg.appendChild(text(leftPad+i*stepX, base+22, lab, 'cat-label')); });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Segmented proportional bar ---- */
+function segmentedBar(containerId, labels, values, colors){
+  const W=800,H=110, barY=30, barH=44, leftPad=20, rightPad=20;
+  const total = values.reduce((a,b)=>a+b,0);
+  const plotW = W-leftPad-rightPad;
+  const svg = makeSVG(W,H);
+  let x = leftPad;
+  values.forEach((v,i)=>{
+    const w = (v/total)*plotW;
+    svg.appendChild(rect(x, barY, w, barH, colors[i], 0));
+    const pct = Math.round((v/total)*100);
+    const pctLabel = text(x+w/2, barY+barH/2+5, pct+'%', '', 'middle', '#FFFFFF');
+    pctLabel.style.fontWeight='700'; pctLabel.style.fontSize='14px';
+    svg.appendChild(pctLabel);
+    svg.appendChild(text(x+w/2, barY+barH+22, labels[i], 'cat-label'));
+    x += w;
+  });
+  document.getElementById(containerId).appendChild(svg);
+}
+
+/* ---- Build charts ---- */
+dumbbellChart('dumbbellChart', ['Customer Acquisition Mid','High-Ticket Closer'], [6400,9600], [900,1400], '#7A6E99', '#6D4AFF');
+
+waterfallChart('waterfallChart', [
+  { label:'AU Cost', from:0, to:60800, color:'#7A6E99' },
+  { label:'DimeRepublic Spend', from:60800, to:52100, color:'#6D4AFF' },
+  { label:'Net Savings', from:0, to:52100, color:'#F2994A' }
+]);
+
+radialGauge('gaugeChart', 86, 'avg. cost reduction', 'vs Australian market', '#6D4AFF');
+
+stackedAreaChart('stackedAreaChart',
+  ['Mo 1','Mo 2','Mo 3','Mo 4','Mo 5','Mo 6'],
+  [8700,17400,26100,34800,43500,52200],
+  [60800,121600,182400,243200,304000,364800],
+  [60800,121600,182400,243200,304000,364800],
+  '#6D4AFF', '#F2994A', '#7A6E99'
+);
+
+segmentedBar('segmentedBar', ['Customer Acquisition (5)','High-Ticket Closer (3)'], [5,3], ['#6D4AFF','#F2994A']);
+</script>
+
+</body>
+</html>
