@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DimeRepublic | Elite Remote Talent at Lower Costs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+</head>
+<body x-data="{ mobileMenuOpen: false }" class="bg-white">
+
+  <!-- ============ HEADER ============ -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-navy/5">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+          <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="leading-tight">
+          <span class="block font-display text-lg font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden items-center gap-8 text-sm font-medium text-navy-700 lg:flex">
+        <a href="#" class="hover:text-accent">Solutions</a>
+        <a href="#" class="hover:text-accent">Roles</a>
+        <a href="#" class="hover:text-accent">Industries</a>
+        <a href="#pricing" class="hover:text-accent">Pricing</a>
+        <a href="#case-studies" class="hover:text-accent">Resources</a>
+        <a href="#" class="hover:text-accent">Company</a>
+      </nav>
+
+      <div class="hidden lg:block">
+        <a href="#" class="btn-primary">Build My Team</a>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-navy" aria-label="Toggle menu">
+        <svg x-show="!mobileMenuOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg x-show="mobileMenuOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" x-cloak><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div x-show="mobileMenuOpen" x-cloak x-transition class="lg:hidden border-t border-navy/5 bg-white px-6 py-4">
+      <nav class="flex flex-col gap-4 text-sm font-medium text-navy-700">
+        <a href="#" @click="mobileMenuOpen=false">Solutions</a>
+        <a href="#" @click="mobileMenuOpen=false">Roles</a>
+        <a href="#" @click="mobileMenuOpen=false">Industries</a>
+        <a href="#pricing" @click="mobileMenuOpen=false">Pricing</a>
+        <a href="#case-studies" @click="mobileMenuOpen=false">Resources</a>
+        <a href="#" @click="mobileMenuOpen=false">Company</a>
+        <a href="#" class="btn-primary mt-2 w-full">Build My Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="overflow-hidden bg-white">
+    <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:px-8 lg:py-24">
+      <!-- Left -->
+      <div>
+        <p class="section-eyebrow mb-4">GLOBAL TALENT. MASSIVE IMPACT.</p>
+        <h1 class="font-display text-4xl font-bold leading-tight text-navy sm:text-5xl">
+          Elite Talent.<br />
+          Lower Costs.<br />
+          <span class="text-accent">Bigger Impact.</span>
+        </h1>
+        <p class="mt-6 max-w-md text-base leading-relaxed text-navy-400">
+          Hire dedicated professionals from Pakistan for as low as <strong class="text-navy">$900/month</strong> and scale your business without limits.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#" class="btn-primary">Build My Team</a>
+          <a href="#" class="btn-outline">Book Free Consultation</a>
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-sm text-navy-700">
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><path d="M12 8v4l3 3" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>
+            24/7 Operations
+          </div>
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke-linecap="round"/><path d="M16 10a3 3 0 100-6 3 3 0 000 6z"/></svg>
+            Top 1% Talent
+          </div>
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Secure &amp; Compliant
+          </div>
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3" stroke-linecap="round"/></svg>
+            Hire in <span class="font-semibold text-navy">72 Hours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: hero collage -->
+      <div class="relative mx-auto h-[420px] w-full max-w-md lg:h-[460px]">
+        <div class="absolute inset-0 rounded-full bg-accent-50"></div>
+        <div class="absolute right-0 top-0 h-80 w-64 overflow-hidden rounded-3xl shadow-floating sm:h-96 sm:w-72">
+          <img src="https://i.pravatar.cc/500?img=47" alt="Customer support agent wearing a headset" class="h-full w-full object-cover" />
+        </div>
+        <div class="absolute left-0 top-6 h-28 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-32 sm:w-28">
+          <img src="https://i.pravatar.cc/300?img=12" alt="Remote developer working at a laptop" class="h-full w-full object-cover" />
+        </div>
+        <div class="absolute bottom-4 right-4 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-28 sm:w-28">
+          <img src="https://i.pravatar.cc/300?img=13" alt="Remote team member smiling" class="h-full w-full object-cover" />
+        </div>
+        <div class="absolute left-2 top-40 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-floating sm:left-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span>
+            <span class="block text-sm font-semibold text-navy">Live Chat</span>
+            <span class="block text-xs text-navy-400">98% Satisfaction</span>
+          </span>
+        </div>
+        <div class="absolute bottom-24 left-0 w-48 rounded-xl bg-white p-4 shadow-floating sm:-left-6">
+          <p class="text-xs font-medium text-navy-400">Cost Savings</p>
+          <p class="font-display text-2xl font-bold text-navy">$126K <span class="text-xs font-normal text-navy-400">Annual Savings</span></p>
+          <svg class="mt-2" width="100%" height="36" viewBox="0 0 160 36" fill="none">
+            <polyline points="0,28 25,22 50,26 75,14 100,18 125,6 160,10" stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUSTED BY ============ -->
+  <section class="bg-navy-50/60 py-10">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <p class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-navy-400">Trusted by Ambitious Companies</p>
+      <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-navy-700">
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M12 2l9 18H3z"/></svg>Apexion</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="9"/></svg>Clarivo</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#2563EB"><rect x="4" y="4" width="16" height="16" rx="6"/></svg>Nimbus</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M12 2l4 20-4-4-4 4z"/></svg>Veridian</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><rect x="3" y="10" width="4" height="10"/><rect x="10" y="4" width="4" height="16"/><rect x="17" y="7" width="4" height="13"/></svg>Lumenix</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Pivotal</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M4 12a8 8 0 0113-6M20 12a8 8 0 01-13 6"/></svg>Coreza</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>InfinitexHome</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><circle cx="12" cy="12" r="9"/></svg>Burraq Spinning</span>
+        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M3 12l9-9 9 9-9 9z"/></svg>Titan Anaesthesia</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPANY STATISTICS ============ -->
+  <section class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-5">
+        <div class="text-center">
+          <p class="font-display text-4xl font-bold text-navy">500+</p>
+          <p class="mt-2 text-sm text-navy-400">Professionals Ready to Hire</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-4xl font-bold text-navy">98%</p>
+          <p class="mt-2 text-sm text-navy-400">Client Satisfaction</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-4xl font-bold text-navy">72h</p>
+          <p class="mt-2 text-sm text-navy-400">Average Hire Time</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-4xl font-bold text-navy">3x</p>
+          <p class="mt-2 text-sm text-navy-400">Faster Hiring Than Traditional</p>
+        </div>
+        <div class="text-center">
+          <p class="font-display text-4xl font-bold text-navy">78%</p>
+          <p class="mt-2 text-sm text-navy-400">Average Cost Savings</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOLUTIONS ============ -->
+  <section class="bg-navy-50/60 py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-bold text-navy">Solutions That Drive Growth</h2>
+        <p class="mt-3 text-navy-400">Build Your Offshore Dream Team</p>
+      </div>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M4 13a8 8 0 0116 0" stroke-linecap="round"/><rect x="2" y="13" width="4" height="6" rx="1"/><rect x="18" y="13" width="4" height="6" rx="1"/><path d="M20 19a4 4 0 01-4 4h-2" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">Customer Support</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• Live Chat Support</li>
+            <li>• Email Support</li>
+            <li>• Phone Support</li>
+            <li>• Technical Support</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">Developers</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• Frontend Developers</li>
+            <li>• Backend Developers</li>
+            <li>• Full Stack Developers</li>
+            <li>• Mobile Developers</li>
+            <li>• QA Engineers</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-violet-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">DevOps</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• AWS / Azure</li>
+            <li>• Docker &amp; Kubernetes</li>
+            <li>• CI/CD Pipelines</li>
+            <li>• Infrastructure</li>
+            <li>• Monitoring</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-pink-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2"><path d="M3 11v2a2 2 0 002 2h1l3 4v-4h2l6-4V7l-6-4H8v4H5a2 2 0 00-2 2z" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">Marketing</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• SEO Specialists</li>
+            <li>• Google Ads Experts</li>
+            <li>• Social Media Managers</li>
+            <li>• Content Writers</li>
+            <li>• Graphic Designers</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-orange-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D6A34D" stroke-width="2"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 011-1h4a1 1 0 011 1v1M9 10h6M9 14h6M9 18h3" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">Virtual Assistants</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• Executive Assistants</li>
+            <li>• Data Entry</li>
+            <li>• Research</li>
+            <li>• Scheduling</li>
+            <li>• Admin Support</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display text-base font-semibold text-navy">Recruiting</h3>
+          <ul class="mt-3 space-y-2 text-sm text-navy-400">
+            <li>• Technical Recruiters</li>
+            <li>• Talent Acquisition</li>
+            <li>• Sourcing Specialists</li>
+            <li>• HR Assistants</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <a href="#" class="btn-primary">Explore All Roles</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COST COMPARISON ============ -->
+  <section id="pricing" class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-bold text-navy">Same Role. Massive Savings.</h2>
+        <p class="mt-3 text-navy-400">Top-tier talent at a fraction of the cost.</p>
+        <p class="mt-2 text-lg font-semibold text-accent">Save up to 80% on operational costs.</p>
+      </div>
+
+      <!-- Savings Calculator -->
+      <div class="mt-14 rounded-2xl bg-navy-50/60 p-8" id="calculator">
+        <h3 class="font-display text-xl font-bold text-navy text-center">Annual Savings Calculator</h3>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-6">
+          <div class="text-center">
+            <label class="text-sm text-navy-400 block mb-2">Number of Employees</label>
+            <div class="flex items-center gap-3">
+              <button onclick="updateCalc(-1)" class="h-10 w-10 rounded-full bg-white border border-navy/10 text-navy font-bold text-lg hover:bg-accent hover:text-white transition">−</button>
+              <span id="employeeCount" class="font-display text-2xl font-bold text-navy w-12 text-center">10</span>
+              <button onclick="updateCalc(1)" class="h-10 w-10 rounded-full bg-white border border-navy/10 text-navy font-bold text-lg hover:bg-accent hover:text-white transition">+</button>
+            </div>
+          </div>
+          <div class="text-center">
+            <label class="text-sm text-navy-400 block mb-2">Average Monthly Cost</label>
+            <select id="avgCost" onchange="updateCalc(0)" class="rounded-lg border border-navy/10 bg-white px-4 py-2 text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-accent">
+              <option value="900">$900 / month</option>
+              <option value="1100">$1,100 / month</option>
+              <option value="1500">$1,500 / month</option>
+              <option value="1700">$1,700 / month</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-8 text-center">
+          <p class="text-sm text-navy-400">Estimated Annual Savings:</p>
+          <p id="savingsAmount" class="mt-2 font-display text-5xl font-bold text-accent">$108,000</p>
+          <div class="mt-4 flex items-center justify-center gap-4 text-sm">
+            <span class="text-navy-400">DimeRepublic Cost:</span>
+            <span id="drCost" class="font-semibold text-navy">$108,000 / year</span>
+            <span class="text-navy-400">vs</span>
+            <span class="text-navy-400">USA Cost:</span>
+            <span id="usaCost" class="font-semibold text-navy">$540,000 / year</span>
+          </div>
+          <!-- Visual bar -->
+          <div class="mt-6 max-w-lg mx-auto">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs text-navy-400 w-20 text-right">DimeRepublic</span>
+              <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
+                <div id="drBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 20%"></div>
+              </div>
+              <span id="drBarLabel" class="text-xs font-semibold text-accent w-16">20%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-navy-400 w-20 text-right">USA Average</span>
+              <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
+                <div class="h-full bg-navy/20 rounded-full" style="width: 100%"></div>
+              </div>
+              <span class="text-xs font-semibold text-navy/40 w-16">100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="mt-14 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead>
+            <tr class="border-b border-navy/10">
+              <th class="py-4 font-semibold text-navy">Role</th>
+              <th class="py-4 text-right font-semibold text-navy">USA (Avg. Cost)</th>
+              <th class="py-4 text-right font-semibold text-navy">DimeRepublic (Pakistan)</th>
+              <th class="py-4 text-right font-semibold text-navy">You Save</th>
+            </tr>
+          </thead>
+          <tbody class="text-navy-700">
+            <tr class="border-b border-navy/5">
+              <td class="py-4">Customer Support Agent</td>
+              <td class="py-4 text-right">$4,500</td>
+              <td class="py-4 text-right">$900</td>
+              <td class="py-4 text-right font-semibold text-accent">80%</td>
+            </tr>
+            <tr class="border-b border-navy/5">
+              <td class="py-4">Marketing Manager</td>
+              <td class="py-4 text-right">$6,000</td>
+              <td class="py-4 text-right">$1,100</td>
+              <td class="py-4 text-right font-semibold text-accent">82%</td>
+            </tr>
+            <tr class="border-b border-navy/5">
+              <td class="py-4">Software Developer</td>
+              <td class="py-4 text-right">$8,000</td>
+              <td class="py-4 text-right">$1,500</td>
+              <td class="py-4 text-right font-semibold text-accent">81%</td>
+            </tr>
+            <tr class="border-b border-navy/5">
+              <td class="py-4">DevOps Engineer</td>
+              <td class="py-4 text-right">$9,000</td>
+              <td class="py-4 text-right">$1,700</td>
+              <td class="py-4 text-right font-semibold text-accent">81%</td>
+            </tr>
+            <tr>
+              <td class="py-4">Technical Recruiter</td>
+              <td class="py-4 text-right">$5,000</td>
+              <td class="py-4 text-right">$900</td>
+              <td class="py-4 text-right font-semibold text-accent">82%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASE STUDIES ============ -->
+  <section id="case-studies" class="bg-navy-50/60 py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-bold text-navy">Client Success Stories</h2>
+        <p class="mt-3 text-navy-400">Real Results. Real Impact.</p>
+      </div>
+
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        <!-- iGate -->
+        <a href="igate-dimerepublic-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#D6303F" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="font-display font-bold text-navy">Dime<span class="text-red-500">Republic</span></span>
+          </div>
+          <p class="text-xs font-bold uppercase tracking-widest text-red-500">2-Month Review</p>
+          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">iGate Softwares</h3>
+          <p class="mt-2 text-sm text-navy-400">15 IT specialists & sales closers. 81.9% cost reduction.</p>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Savings</p>
+              <p class="font-display text-lg font-bold text-accent">A$199K</p>
+            </div>
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Team Size</p>
+              <p class="font-display text-lg font-bold text-navy">15</p>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+        </a>
+
+        <!-- Infinitex -->
+        <a href="infinitex-trade-syndicate-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#6D4AFF" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="font-display font-bold text-navy">Dime<span class="text-violet-500">Republic</span></span>
+          </div>
+          <p class="text-xs font-bold uppercase tracking-widest text-violet-500">6-Month Review</p>
+          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">Infinitex Trade Syndicate</h3>
+          <p class="mt-2 text-sm text-navy-400">8 acquisition & closing specialists. 85.7% cost reduction.</p>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Savings</p>
+              <p class="font-display text-lg font-bold text-violet-500">€312K</p>
+            </div>
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Team Size</p>
+              <p class="font-display text-lg font-bold text-navy">8</p>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+        </a>
+
+        <!-- Titan -->
+        <a href="titan-anaesthesia-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
+          <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="font-display font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
+          </div>
+          <p class="text-xs font-bold uppercase tracking-widest text-accent">90-Day Review</p>
+          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">Titan Anaesthesia</h3>
+          <p class="mt-2 text-sm text-navy-400">14 specialists across 6 functions. 86% cost reduction.</p>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Savings</p>
+              <p class="font-display text-lg font-bold text-accent">$283K</p>
+            </div>
+            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
+              <p class="text-xs text-navy-400">Team Size</p>
+              <p class="font-display text-lg font-bold text-navy">14</p>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUR PROVEN PROCESS ============ -->
+  <section id="how-it-works" class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-bold text-navy">From Hiring to High Performance in 7 Simple Steps</h2>
+      </div>
+
+      <div class="mt-14 grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-7 lg:gap-x-4">
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .7 3a2 2 0 01-.5 2.1L8 10.1a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c1 .4 2 .6 3 .7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 1</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Discovery Call</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We understand your goals and requirements.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 2</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Shortlist</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We find and shortlist the best candidates.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 3</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Interview</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">You interview and select your team.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke-linecap="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 4</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Onboarding</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We handle onboarding, payroll &amp; compliance.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M4 5h16v10H9l-5 4z" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 5</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Kickoff</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Your dedicated team starts working.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6M21 7h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 6</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Scale</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Scale your team as your business grows.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 7</span>
+          <h3 class="mt-1 font-display text-base font-semibold text-navy">Succeed</h3>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We ensure performance and long-term success.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="bg-navy py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center lg:px-8">
+      <h2 class="font-display text-3xl font-bold text-white sm:text-4xl">Ready to Build Your Dream Team Without Breaking the Bank?</h2>
+      <p class="mt-4 text-navy-100/70">Book a free consultation with our experts and get a custom plan.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="#" class="btn-primary bg-accent hover:bg-accent-600">Book Free Consultation</a>
+        <a href="#" class="btn-outline border-white/30 text-white hover:bg-white/10">View Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bg-navy text-navy-100">
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-6 lg:px-8">
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a href="#" class="flex items-center gap-2">
+          <svg width="30" height="30" viewBox="0 0 34 34" fill="none">
+            <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+            <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span class="leading-tight">
+            <span class="block font-display text-lg font-bold text-white">Dime<span class="text-accent">Republic</span></span>
+          </span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm text-navy-100/70">Global talent.<br/>Local impact.</p>
+        <p class="mt-2 max-w-xs text-sm text-navy-100/70">Let's build the future together.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#" aria-label="LinkedIn" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 hover:bg-white/10">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v6.32h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96v5.7H9z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 hover:bg-white/10">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" aria-label="X (Twitter)" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 hover:bg-white/10">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.6-2.3.7a4 4 0 001.8-2.2c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7 3.7A11.6 11.6 0 013 4.9a4.1 4.1 0 001.3 5.5c-.6 0-1.2-.2-1.8-.5v.1a4.1 4.1 0 003.3 4 4.2 4.2 0 01-1.8.1 4.1 4.1 0 003.8 2.9A8.3 8.3 0 012 18.6a11.6 11.6 0 006.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 hover:bg-white/10">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Solutions -->
+      <div>
+        <h4 class="font-display text-sm font-semibold text-white">Solutions</h4>
+        <ul class="mt-4 space-y-3 text-sm text-navy-100/70">
+          <li><a href="#" class="hover:text-white">Customer Support</a></li>
+          <li><a href="#" class="hover:text-white">Developers</a></li>
+          <li><a href="#" class="hover:text-white">DevOps</a></li>
+          <li><a href="#" class="hover:text-white">Marketing</a></li>
+          <li><a href="#" class="hover:text-white">Virtual Assistants</a></li>
+          <li><a href="#" class="hover:text-white">Recruiting</a></li>
+          <li><a href="#" class="hover:text-white">Sales Teams</a></li>
+        </ul>
+      </div>
+
+      <!-- Roles -->
+      <div>
+        <h4 class="font-display text-sm font-semibold text-white">Roles</h4>
+        <ul class="mt-4 space-y-3 text-sm text-navy-100/70">
+          <li><a href="#" class="hover:text-white">Support Agents</a></li>
+          <li><a href="#" class="hover:text-white">Developers</a></li>
+          <li><a href="#" class="hover:text-white">DevOps Engineers</a></li>
+          <li><a href="#" class="hover:text-white">Marketing Experts</a></li>
+          <li><a href="#" class="hover:text-white">Virtual Assistants</a></li>
+          <li><a href="#" class="hover:text-white">Recruiters</a></li>
+          <li><a href="#" class="hover:text-white">Finance &amp; Accounting</a></li>
+        </ul>
+      </div>
+
+      <!-- Industries -->
+      <div>
+        <h4 class="font-display text-sm font-semibold text-white">Industries</h4>
+        <ul class="mt-4 space-y-3 text-sm text-navy-100/70">
+          <li><a href="#" class="hover:text-white">SaaS</a></li>
+          <li><a href="#" class="hover:text-white">E-commerce</a></li>
+          <li><a href="#" class="hover:text-white">Healthcare</a></li>
+          <li><a href="#" class="hover:text-white">Real Estate</a></li>
+          <li><a href="#" class="hover:text-white">Finance</a></li>
+          <li><a href="#" class="hover:text-white">Education</a></li>
+          <li><a href="#" class="hover:text-white">Logistics</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources & Company -->
+      <div>
+        <h4 class="font-display text-sm font-semibold text-white">Resources</h4>
+        <ul class="mt-4 space-y-3 text-sm text-navy-100/70">
+          <li><a href="#case-studies" class="hover:text-white">Case Studies</a></li>
+          <li><a href="#" class="hover:text-white">Blog</a></li>
+          <li><a href="#" class="hover:text-white">Guides</a></li>
+          <li><a href="#" class="hover:text-white">FAQs</a></li>
+          <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
+        </ul>
+        <h4 class="mt-6 font-display text-sm font-semibold text-white">Company</h4>
+        <ul class="mt-4 space-y-3 text-sm text-navy-100/70">
+          <li><a href="#" class="hover:text-white">About Us</a></li>
+          <li><a href="#" class="hover:text-white">Careers</a></li>
+          <li><a href="#" class="hover:text-white">Contact Us</a></li>
+          <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contact Bar -->
+    <div class="border-t border-white/10 py-6">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 text-sm text-navy-100/70 sm:flex-row lg:px-8">
+        <div class="flex flex-wrap items-center gap-6">
+          <a href="mailto:hello@dimerepublic.com" class="hover:text-white">hello@dimerepublic.com</a>
+          <a href="tel:+14705550198" class="hover:text-white">+1 (470) 555-0198</a>
+          <a href="http://www.dimerepublic.com" class="hover:text-white">www.dimerepublic.com</a>
+        </div>
+        <p class="text-xs text-navy-100/60">&copy; 2025 DimeRepublic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let employees = 10;
+    const avgCosts = { '900': 4500, '1100': 6000, '1500': 8000, '1700': 9000 };
+
+    function updateCalc(delta) {
+      employees = Math.max(1, Math.min(50, employees + delta));
+      document.getElementById('employeeCount').textContent = employees;
+      recalc();
+    }
+
+    function recalc() {
+      const avgMonthly = parseInt(document.getElementById('avgCost').value);
+      const usaMonthly = avgCosts[avgMonthly] || 4500;
+      const drAnnual = employees * avgMonthly * 12;
+      const usaAnnual = employees * usaMonthly * 12;
+      const saved = usaAnnual - drAnnual;
+      const pct = Math.round((drAnnual / usaAnnual) * 100);
+
+      document.getElementById('savingsAmount').textContent = '$' + saved.toLocaleString();
+      document.getElementById('drCost').textContent = '$' + drAnnual.toLocaleString() + ' / year';
+      document.getElementById('usaCost').textContent = '$' + usaAnnual.toLocaleString() + ' / year';
+      document.getElementById('drBar').style.width = pct + '%';
+      document.getElementById('drBarLabel').textContent = pct + '%';
+    }
+
+    recalc();
+  </script>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
