@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <style>
   :root{
     --ink:#1F1B2E; --ink-soft:#332C4D; --paper:#F6F4F9; --panel:#FFFFFF;
@@ -74,6 +75,7 @@
   .chart-svg .gauge-num{font-family:'Fraunces',serif;font-weight:700;}
   .donut-legend{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:10px;}
 
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
   th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--slate);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);}
   td{padding:12px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
@@ -95,14 +97,52 @@
   .foot-note{font-size:12px;color:var(--slate);max-width:460px;line-height:1.6;}
 
   @media (max-width:720px){
+    .wrap{padding:0 16px;}
     h1{font-size:30px;}
-    .hero-stats{flex-wrap:wrap;}
+    .hero{padding:40px 0 24px;}
+    .hero-sub{font-size:15px;margin-bottom:24px;}
+    .hero-stats{flex-wrap:wrap;padding-top:18px;}
     .stat{flex:0 0 50%;margin-bottom:16px;}
+    .stat .num{font-size:26px;}
+    section{padding:36px 0;}
+    h2{font-size:22px;}
+    .section-intro{font-size:14px;}
     .chart-row{flex-direction:column;}
+    .chart-panel{padding:16px 16px 4px;}
+    .team-grid{grid-template-columns:1fr;}
+    .callout{padding:16px 18px;}
+    .callout .big{font-size:22px;}
+    .assumptions{font-size:11.5px;padding:12px 14px;}
+    .explain{font-size:13px;}
+    table{font-size:12px;}
+    th,td{padding:8px 8px;}
+    .foot-row{flex-direction:column;align-items:flex-start;}
+    .nav{padding:20px 0;}
+  }
+  @media (max-width:480px){
+    h1{font-size:24px;}
+    .hero{padding:28px 0 18px;}
+    .hero-sub{font-size:14px;}
+    .hero-stats{padding-top:14px;}
+    .stat{flex:0 0 100%;margin-bottom:12px;padding-right:0;}
+    .stat + .stat{border-left:none;padding-left:0;}
+    .stat .num{font-size:22px;}
+    section{padding:28px 0;}
+    h2{font-size:19px;}
+    .section-intro{font-size:13px;margin-bottom:18px;}
+    .chart-panel{padding:12px 12px 4px;}
+    .team-grid{gap:10px;}
+    .team-card{padding:14px 14px 12px;}
+    .team-card .count{font-size:22px;}
+    .callout{padding:14px 14px;}
+    .callout .big{font-size:19px;}
+    .assumptions{padding:10px 12px;font-size:11px;}
+    .logo{font-size:17px;}
+    .tag{font-size:10px;padding:4px 10px;}
   }
 </style>
 </head>
-<body>
+<body x-data="pageState()" x-init="init()">
 
 <div class="nav"><div class="wrap">
   <div class="logo">Dime<span>Republic</span></div>
@@ -149,7 +189,7 @@
         <div class="legend-item"><span class="swatch" style="background:var(--au-color)"></span>Australian market rate</div>
         <div class="legend-item"><span class="swatch" style="background:var(--dr-color)"></span>DimeRepublic rate</div>
       </div>
-      <div class="chart-box"><div id="dumbbellChart"></div></div>
+      <div class="chart-box"><div x-data="dumbbellChart()" x-init="init()" id="dumbbellChart"></div></div>
     </div>
     <p class="explain">Infinitex pays <strong>85.9% less</strong> per Customer Acquisition hire and <strong>85.4% less</strong> per High-Ticket Sales Closer than the equivalent Australian rate, while every seat is filled full-time and performance-managed by DimeRepublic.</p>
   </section>
@@ -162,21 +202,23 @@
 
     <div class="chart-row">
       <div class="chart-panel" style="flex:2;">
-        <div class="chart-box"><div id="waterfallChart"></div></div>
+        <div class="chart-box"><div x-data="waterfallChart()" x-init="init()" id="waterfallChart"></div></div>
       </div>
       <div class="chart-panel" style="flex:1;">
-        <div class="chart-box"><div id="gaugeChart"></div></div>
+        <div class="chart-box"><div x-data="gaugeChart()" x-init="init()" id="gaugeChart"></div></div>
       </div>
     </div>
 
-    <table>
-      <thead><tr><th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th></tr></thead>
-      <tbody>
-        <tr><td>Customer Acquisition — Mid</td><td class="num">5</td><td class="num">€32,000</td><td class="num">€4,500</td><td class="num save-pos">€27,500</td></tr>
-        <tr><td>High-Ticket Sales Closer</td><td class="num">3</td><td class="num">€28,800</td><td class="num">€4,200</td><td class="num save-pos">€24,600</td></tr>
-        <tr class="total"><td>Total</td><td class="num">8</td><td class="num">€60,800</td><td class="num">€8,700</td><td class="num save-pos">€52,100</td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th></tr></thead>
+        <tbody>
+          <tr><td>Customer Acquisition — Mid</td><td class="num">5</td><td class="num">€32,000</td><td class="num">€4,500</td><td class="num save-pos">€27,500</td></tr>
+          <tr><td>High-Ticket Sales Closer</td><td class="num">3</td><td class="num">€28,800</td><td class="num">€4,200</td><td class="num save-pos">€24,600</td></tr>
+          <tr class="total"><td>Total</td><td class="num">8</td><td class="num">€60,800</td><td class="num">€8,700</td><td class="num save-pos">€52,100</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="callout">
       <div><div class="big">€52,100 EUR / month</div><div class="small">saved across the 8-person sales team — an 85.7% reduction on what the equivalent Australian hires would cost.</div></div>
@@ -194,7 +236,7 @@
         <div class="legend-item"><span class="swatch" style="background:var(--gold)"></span>Cumulative savings</div>
         <div class="legend-item"><span class="swatch" style="background:var(--au-color)"></span>AU-equivalent total (spend + savings)</div>
       </div>
-      <div class="chart-box"><div id="stackedAreaChart"></div></div>
+      <div class="chart-box"><div x-data="stackedAreaChart()" x-init="init()" id="stackedAreaChart"></div></div>
     </div>
     <p class="explain">By the end of Month 6, Infinitex Trade Syndicate has spent <strong>€52,200</strong> through DimeRepublic against a modelled <strong>€364,800</strong> it would have cost to staff the same 8 positions locally — a running saving of <strong>€312,600 EUR</strong>, reinvested in the business rather than spent on payroll.</p>
   </section>
@@ -205,7 +247,7 @@
     <h2>Where the 8 seats sit today</h2>
     <p class="section-intro">Customer Acquisition makes up the larger share of the team, feeding a smaller, more senior High-Ticket Closer bench.</p>
     <div class="chart-panel">
-      <div class="chart-box"><div id="segmentedBar"></div></div>
+      <div class="chart-box"><div x-data="segmentedBarChart()" x-init="init()" id="segmentedBar"></div></div>
     </div>
     <p class="explain">Every seat is managed end-to-end by DimeRepublic — recruiting, onboarding, attendance, and performance oversight — so Infinitex Trade Syndicate's leadership stays focused on strategy and product, not on running a second HR department.</p>
   </section>
@@ -243,142 +285,170 @@ function arcPath(cx,cy,r,startAngle,endAngle){
   return 'M '+sx+' '+sy+' A '+r+' '+r+' 0 '+large+' 1 '+ex+' '+ey;
 }
 
-/* ---- Dumbbell chart ---- */
-function dumbbellChart(containerId, labels, valuesA, valuesB, colorA, colorB){
-  const W=800, rowH=70, leftPad=210, rightPad=70, top=20;
-  const H = top*2 + labels.length*rowH;
-  const maxVal = Math.max(...valuesA, ...valuesB);
-  const plotW = W-leftPad-rightPad;
-  const svg = makeSVG(W,H);
-  labels.forEach((lab,i)=>{
-    const y = top + i*rowH + rowH/2;
-    const xA = leftPad + (valuesA[i]/maxVal)*plotW;
-    const xB = leftPad + (valuesB[i]/maxVal)*plotW;
-    svg.appendChild(text(leftPad-16, y+4, lab, 'cat-label', 'end'));
-    svg.appendChild(lineEl(leftPad, y, W-rightPad, y, '#EDE9F5', 1));
-    svg.appendChild(lineEl(Math.min(xA,xB), y, Math.max(xA,xB), y, '#C7BFE0', 3));
-    svg.appendChild(circle(xA, y, 8, colorA));
-    svg.appendChild(circle(xB, y, 8, colorB));
-    svg.appendChild(text(xA, y-16, fmt(valuesA[i]), 'val-label', 'middle', colorA));
-    svg.appendChild(text(xB, y+26, fmt(valuesB[i]), 'val-label', 'middle', colorB));
-  });
-  document.getElementById(containerId).appendChild(svg);
-}
-
-/* ---- Waterfall chart ---- */
-function waterfallChart(containerId, steps){
-  // steps: [{label, from, to, color, isTotal}]
-  const W=560,H=300, top=30, base=250, plotH=base-top, leftPad=20, rightPad=20;
-  const maxVal = Math.max(...steps.map(s=>Math.max(s.from,s.to)));
-  const barW = (W-leftPad-rightPad)/steps.length*0.55;
-  const slotW = (W-leftPad-rightPad)/steps.length;
-  const svg = makeSVG(W,H);
-  svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
-  steps.forEach((s,i)=>{
-    const cx = leftPad + slotW*i + slotW/2;
-    const yFrom = base - (s.from/maxVal)*plotH;
-    const yTo = base - (s.to/maxVal)*plotH;
-    const yTop = Math.min(yFrom,yTo), h = Math.abs(yFrom-yTo);
-    svg.appendChild(rect(cx-barW/2, yTop, barW, h, s.color, 5));
-    svg.appendChild(text(cx, yTop-8, fmt(Math.abs(s.to-s.from)), 'val-label', 'middle', s.color));
-    svg.appendChild(text(cx, base+22, s.label, 'cat-label'));
-    if(i < steps.length-1){
-      svg.appendChild(lineEl(cx+barW/2, yTo, cx+slotW-barW/2, yTo, '#C7BFE0', 1, '3,3'));
+/* ---- Alpine.js page state ---- */
+function pageState() {
+  return {
+    screenWidth: window.innerWidth,
+    init() {
+      this.$watch('screenWidth', (val) => {
+        /* responsive adjustments handled by CSS */
+      });
+      window.addEventListener('resize', () => {
+        this.screenWidth = window.innerWidth;
+      });
     }
-  });
-  document.getElementById(containerId).appendChild(svg);
+  };
 }
 
-/* ---- Radial gauge ---- */
-function radialGauge(containerId, percent, label, sublabel, color){
-  const size=260, cx=size/2, cy=size/2-10, r=90, sw=22;
-  const startAngle = Math.PI*0.8, endAngle = Math.PI*2.2; // 252 degree sweep
-  const svg = makeSVG(size,size-10);
-  const track = document.createElementNS(NS,'path');
-  track.setAttribute('d', arcPath(cx,cy,r,startAngle,endAngle));
-  track.setAttribute('fill','none'); track.setAttribute('stroke','#EDE9F5'); track.setAttribute('stroke-width',sw); track.setAttribute('stroke-linecap','round');
-  svg.appendChild(track);
-  const valueAngle = startAngle + (endAngle-startAngle)*(percent/100);
-  const fillArc = document.createElementNS(NS,'path');
-  fillArc.setAttribute('d', arcPath(cx,cy,r,startAngle,valueAngle));
-  fillArc.setAttribute('fill','none'); fillArc.setAttribute('stroke',color); fillArc.setAttribute('stroke-width',sw); fillArc.setAttribute('stroke-linecap','round');
-  svg.appendChild(fillArc);
-  const numEl = text(cx, cy+2, percent+'%', 'gauge-num', 'middle', '#1F1B2E');
-  numEl.style.fontSize='40px';
-  svg.appendChild(numEl);
-  svg.appendChild(text(cx, cy+26, label, 'cat-label', 'middle', '#5B5570'));
-  svg.appendChild(text(cx, cy+42, sublabel, 'cat-label', 'middle', '#7A6E99'));
-  document.getElementById(containerId).appendChild(svg);
-}
-
-/* ---- Stacked area chart ---- */
-function stackedAreaChart(containerId, labels, bottomSeries, topSeries, totalSeries, bottomColor, topColor, totalColor){
-  const W=800,H=300, top=30, base=248, plotH=base-top, leftPad=44, rightPad=44;
-  const maxVal = Math.max(...totalSeries);
-  const stepX = (W-leftPad-rightPad)/(labels.length-1);
-  const svg = makeSVG(W,H);
-  svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
-  const yOf = (v) => base - (v/maxVal)*plotH;
-  const bottomPts = bottomSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
-  const topPts = topSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
-  const baseline = bottomSeries.map((v,i)=>[leftPad+i*stepX, base]);
-  // bottom area (0 to bottomSeries)
-  svg.appendChild(polygon([...baseline, ...bottomPts.slice().reverse()], bottomColor, 0.85));
-  // top area (bottomSeries to topSeries)
-  svg.appendChild(polygon([...bottomPts, ...topPts.slice().reverse()], topColor, 0.85));
-  // total line (AU equivalent)
-  const totalPts = totalSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
-  svg.appendChild(polyline(totalPts, totalColor, 2.5, '5,4'));
-  totalPts.forEach((pt,i)=>{
-    if(i===0||i===totalPts.length-1){
-      svg.appendChild(circle(pt[0],pt[1],3.5,'#fff',totalColor));
-      svg.appendChild(text(pt[0], pt[1]-10, '€'+Math.round(totalSeries[i]/1000)+'k', 'val-label', 'middle', totalColor));
+/* ---- Alpine.js chart components ---- */
+function dumbbellChart() {
+  return {
+    init() {
+      const container = this.$el;
+      const labels = ['Customer Acquisition Mid','High-Ticket Closer'];
+      const valuesA = [6400,9600], valuesB = [900,1400];
+      const colorA = '#7A6E99', colorB = '#6D4AFF';
+      const W=800, rowH=70, leftPad=210, rightPad=70, top=20;
+      const H = top*2 + labels.length*rowH;
+      const maxVal = Math.max(...valuesA, ...valuesB);
+      const plotW = W-leftPad-rightPad;
+      const svg = makeSVG(W,H);
+      labels.forEach((lab,i)=>{
+        const y = top + i*rowH + rowH/2;
+        const xA = leftPad + (valuesA[i]/maxVal)*plotW;
+        const xB = leftPad + (valuesB[i]/maxVal)*plotW;
+        svg.appendChild(text(leftPad-16, y+4, lab, 'cat-label', 'end'));
+        svg.appendChild(lineEl(leftPad, y, W-rightPad, y, '#EDE9F5', 1));
+        svg.appendChild(lineEl(Math.min(xA,xB), y, Math.max(xA,xB), y, '#C7BFE0', 3));
+        svg.appendChild(circle(xA, y, 8, colorA));
+        svg.appendChild(circle(xB, y, 8, colorB));
+        svg.appendChild(text(xA, y-16, fmt(valuesA[i]), 'val-label', 'middle', colorA));
+        svg.appendChild(text(xB, y+26, fmt(valuesB[i]), 'val-label', 'middle', colorB));
+      });
+      container.appendChild(svg);
     }
-  });
-  labels.forEach((lab,i)=>{ svg.appendChild(text(leftPad+i*stepX, base+22, lab, 'cat-label')); });
-  document.getElementById(containerId).appendChild(svg);
+  };
 }
 
-/* ---- Segmented proportional bar ---- */
-function segmentedBar(containerId, labels, values, colors){
-  const W=800,H=110, barY=30, barH=44, leftPad=20, rightPad=20;
-  const total = values.reduce((a,b)=>a+b,0);
-  const plotW = W-leftPad-rightPad;
-  const svg = makeSVG(W,H);
-  let x = leftPad;
-  values.forEach((v,i)=>{
-    const w = (v/total)*plotW;
-    svg.appendChild(rect(x, barY, w, barH, colors[i], 0));
-    const pct = Math.round((v/total)*100);
-    const pctLabel = text(x+w/2, barY+barH/2+5, pct+'%', '', 'middle', '#FFFFFF');
-    pctLabel.style.fontWeight='700'; pctLabel.style.fontSize='14px';
-    svg.appendChild(pctLabel);
-    svg.appendChild(text(x+w/2, barY+barH+22, labels[i], 'cat-label'));
-    x += w;
-  });
-  document.getElementById(containerId).appendChild(svg);
+function waterfallChart() {
+  return {
+    init() {
+      const container = this.$el;
+      const steps = [
+        { label:'AU Cost', from:0, to:60800, color:'#7A6E99' },
+        { label:'DimeRepublic Spend', from:60800, to:52100, color:'#6D4AFF' },
+        { label:'Net Savings', from:0, to:52100, color:'#F2994A' }
+      ];
+      const W=560,H=300, top=30, base=250, plotH=base-top, leftPad=20, rightPad=20;
+      const maxVal = Math.max(...steps.map(s=>Math.max(s.from,s.to)));
+      const barW = (W-leftPad-rightPad)/steps.length*0.55;
+      const slotW = (W-leftPad-rightPad)/steps.length;
+      const svg = makeSVG(W,H);
+      svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
+      steps.forEach((s,i)=>{
+        const cx = leftPad + slotW*i + slotW/2;
+        const yFrom = base - (s.from/maxVal)*plotH;
+        const yTo = base - (s.to/maxVal)*plotH;
+        const yTop = Math.min(yFrom,yTo), h = Math.abs(yFrom-yTo);
+        svg.appendChild(rect(cx-barW/2, yTop, barW, h, s.color, 5));
+        svg.appendChild(text(cx, yTop-8, fmt(Math.abs(s.to-s.from)), 'val-label', 'middle', s.color));
+        svg.appendChild(text(cx, base+22, s.label, 'cat-label'));
+        if(i < steps.length-1){
+          svg.appendChild(lineEl(cx+barW/2, yTo, cx+slotW-barW/2, yTo, '#C7BFE0', 1, '3,3'));
+        }
+      });
+      container.appendChild(svg);
+    }
+  };
 }
 
-/* ---- Build charts ---- */
-dumbbellChart('dumbbellChart', ['Customer Acquisition Mid','High-Ticket Closer'], [6400,9600], [900,1400], '#7A6E99', '#6D4AFF');
+function gaugeChart() {
+  return {
+    init() {
+      const container = this.$el;
+      const percent=86, label='avg. cost reduction', sublabel='vs Australian market', color='#6D4AFF';
+      const size=260, cx=size/2, cy=size/2-10, r=90, sw=22;
+      const startAngle = Math.PI*0.8, endAngle = Math.PI*2.2;
+      const svg = makeSVG(size,size-10);
+      const track = document.createElementNS(NS,'path');
+      track.setAttribute('d', arcPath(cx,cy,r,startAngle,endAngle));
+      track.setAttribute('fill','none'); track.setAttribute('stroke','#EDE9F5'); track.setAttribute('stroke-width',sw); track.setAttribute('stroke-linecap','round');
+      svg.appendChild(track);
+      const valueAngle = startAngle + (endAngle-startAngle)*(percent/100);
+      const fillArc = document.createElementNS(NS,'path');
+      fillArc.setAttribute('d', arcPath(cx,cy,r,startAngle,valueAngle));
+      fillArc.setAttribute('fill','none'); fillArc.setAttribute('stroke',color); fillArc.setAttribute('stroke-width',sw); fillArc.setAttribute('stroke-linecap','round');
+      svg.appendChild(fillArc);
+      const numEl = text(cx, cy+2, percent+'%', 'gauge-num', 'middle', '#1F1B2E');
+      numEl.style.fontSize='40px';
+      svg.appendChild(numEl);
+      svg.appendChild(text(cx, cy+26, label, 'cat-label', 'middle', '#5B5570'));
+      svg.appendChild(text(cx, cy+42, sublabel, 'cat-label', 'middle', '#7A6E99'));
+      container.appendChild(svg);
+    }
+  };
+}
 
-waterfallChart('waterfallChart', [
-  { label:'AU Cost', from:0, to:60800, color:'#7A6E99' },
-  { label:'DimeRepublic Spend', from:60800, to:52100, color:'#6D4AFF' },
-  { label:'Net Savings', from:0, to:52100, color:'#F2994A' }
-]);
+function stackedAreaChart() {
+  return {
+    init() {
+      const container = this.$el;
+      const labels = ['Mo 1','Mo 2','Mo 3','Mo 4','Mo 5','Mo 6'];
+      const bottomSeries = [8700,17400,26100,34800,43500,52200];
+      const topSeries = [60800,121600,182400,243200,304000,364800];
+      const totalSeries = [60800,121600,182400,243200,304000,364800];
+      const bottomColor='#6D4AFF', topColor='#F2994A', totalColor='#7A6E99';
+      const W=800,H=300, top=30, base=248, plotH=base-top, leftPad=44, rightPad=44;
+      const maxVal = Math.max(...totalSeries);
+      const stepX = (W-leftPad-rightPad)/(labels.length-1);
+      const svg = makeSVG(W,H);
+      svg.appendChild(lineEl(leftPad, base, W-rightPad, base, '#E3DEF0', 1));
+      const yOf = (v) => base - (v/maxVal)*plotH;
+      const bottomPts = bottomSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+      const topPts = topSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+      const baseline = bottomSeries.map((v,i)=>[leftPad+i*stepX, base]);
+      svg.appendChild(polygon([...baseline, ...bottomPts.slice().reverse()], bottomColor, 0.85));
+      svg.appendChild(polygon([...bottomPts, ...topPts.slice().reverse()], topColor, 0.85));
+      const totalPts = totalSeries.map((v,i)=>[leftPad+i*stepX, yOf(v)]);
+      svg.appendChild(polyline(totalPts, totalColor, 2.5, '5,4'));
+      totalPts.forEach((pt,i)=>{
+        if(i===0||i===totalPts.length-1){
+          svg.appendChild(circle(pt[0],pt[1],3.5,'#fff',totalColor));
+          svg.appendChild(text(pt[0], pt[1]-10, '€'+Math.round(totalSeries[i]/1000)+'k', 'val-label', 'middle', totalColor));
+        }
+      });
+      labels.forEach((lab,i)=>{ svg.appendChild(text(leftPad+i*stepX, base+22, lab, 'cat-label')); });
+      container.appendChild(svg);
+    }
+  };
+}
 
-radialGauge('gaugeChart', 86, 'avg. cost reduction', 'vs Australian market', '#6D4AFF');
-
-stackedAreaChart('stackedAreaChart',
-  ['Mo 1','Mo 2','Mo 3','Mo 4','Mo 5','Mo 6'],
-  [8700,17400,26100,34800,43500,52200],
-  [60800,121600,182400,243200,304000,364800],
-  [60800,121600,182400,243200,304000,364800],
-  '#6D4AFF', '#F2994A', '#7A6E99'
-);
-
-segmentedBar('segmentedBar', ['Customer Acquisition (5)','High-Ticket Closer (3)'], [5,3], ['#6D4AFF','#F2994A']);
+function segmentedBarChart() {
+  return {
+    init() {
+      const container = this.$el;
+      const labels = ['Customer Acquisition (5)','High-Ticket Closer (3)'];
+      const values = [5,3];
+      const colors = ['#6D4AFF','#F2994A'];
+      const W=800,H=110, barY=30, barH=44, leftPad=20, rightPad=20;
+      const total = values.reduce((a,b)=>a+b,0);
+      const plotW = W-leftPad-rightPad;
+      const svg = makeSVG(W,H);
+      let x = leftPad;
+      values.forEach((v,i)=>{
+        const w = (v/total)*plotW;
+        svg.appendChild(rect(x, barY, w, barH, colors[i], 0));
+        const pct = Math.round((v/total)*100);
+        const pctLabel = text(x+w/2, barY+barH/2+5, pct+'%', '', 'middle', '#FFFFFF');
+        pctLabel.style.fontWeight='700'; pctLabel.style.fontSize='14px';
+        svg.appendChild(pctLabel);
+        svg.appendChild(text(x+w/2, barY+barH+22, labels[i], 'cat-label'));
+        x += w;
+      });
+      container.appendChild(svg);
+    }
+  };
+}
 </script>
 
 </body>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>DimeRepublic × Titan Anaesthesia — 90-Day Case Study</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -105,7 +106,8 @@
     background:var(--panel);border:1px solid var(--line);border-radius:12px;
     padding:24px 24px 8px;margin-bottom:14px;
   }
-  .chart-box{position:relative;width:100%;}
+  .chart-box{position:relative;width:100%;overflow-x:auto;}
+  .chart-box svg.chart-svg{min-width:600px;}
   .legend-row{display:flex;gap:22px;margin-bottom:14px;flex-wrap:wrap;}
   .legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--slate);}
   .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;}
@@ -120,7 +122,8 @@
   .donut-legend .legend-item{font-size:12.5px;color:var(--slate);}
 
   /* savings table */
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;min-width:520px;}
   th{
     text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;
     text-transform:uppercase;color:var(--slate);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);
@@ -150,10 +153,34 @@
   .foot-note{font-size:12px;color:var(--slate);max-width:460px;line-height:1.6;}
 
   @media (max-width:720px){
+    .wrap{padding:0 20px;}
     h1{font-size:32px;}
-    .team-grid{grid-template-columns:repeat(2,1fr);}
+    .hero{padding:40px 0 28px;}
+    .hero-sub{font-size:15px;}
     .hero-stats{flex-wrap:wrap;}
-    .stat{flex:0 0 50%;margin-bottom:16px;}
+    .stat{flex:0 0 50%;margin-bottom:16px;padding-right:16px;}
+    .stat + .stat{padding-left:16px;}
+    .stat .num{font-size:26px;}
+    .team-grid{grid-template-columns:repeat(2,1fr);}
+    section{padding:36px 0;}
+    h2{font-size:22px;}
+    .chart-panel{padding:16px 16px 8px;}
+    .chart-box svg.chart-svg{min-width:480px;}
+    table{min-width:440px;font-size:12.5px;}
+    .callout .big{font-size:24px;}
+    .callout{padding:18px 20px;}
+    .nav{padding:20px 0;}
+    .logo{font-size:18px;}
+  }
+  @media (max-width:480px){
+    .wrap{padding:0 16px;}
+    h1{font-size:26px;}
+    .stat{flex:0 0 100%;padding-right:0;}
+    .stat + .stat{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:16px;}
+    .team-grid{grid-template-columns:1fr;}
+    .chart-box svg.chart-svg{min-width:360px;}
+    h2{font-size:20px;}
+    .eyebrow{font-size:10px;}
   }
 </style>
 </head>
@@ -210,7 +237,7 @@
   </section>
 
   <!-- COST PER HIRE -->
-  <section>
+  <section x-data="dumbbellChart()" x-init="init">
     <div class="section-head"><span class="num-marker">02 — Per-Role Cost</span></div>
     <h2>What each role costs in Australia vs. with DimeRepublic</h2>
     <p class="section-intro">Same job, same output standard — a very different monthly number. This compares the going Australian market rate per hire against the rate Titan Anaesthesia pays through DimeRepublic.</p>
@@ -221,40 +248,42 @@
         <div class="legend-item"><span class="swatch" style="background:var(--dr-color)"></span>DimeRepublic rate (per hire / month)</div>
       </div>
       <div class="chart-box">
-        <div id="perHireChart"></div>
+        <div id="perHireChart" x-html="svg"></div>
       </div>
     </div>
     <p class="explain">Across every role, Titan Anaesthesia pays a fraction of the local Australian rate per hire — from <strong>80.5% less</strong> on junior customer support to <strong>95.3% less</strong> on senior graphic design — while the role is filled full-time and managed day-to-day by DimeRepublic.</p>
   </section>
 
   <!-- TOTAL SAVINGS -->
-  <section>
+  <section x-data="savingsChart()" x-init="init">
     <div class="section-head"><span class="num-marker">03 — Total Monthly Savings</span></div>
     <h2>Where the savings come from, by function</h2>
     <p class="section-intro">Multiplying each role's saving by headcount shows exactly which functions are doing the most work for the budget.</p>
 
     <div class="chart-panel">
       <div class="chart-box">
-        <div id="savingsBarChart"></div>
+        <div id="savingsBarChart" x-html="svg"></div>
       </div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Customer Support — Junior</td><td class="num">2</td><td class="num">$8,960</td><td class="num">$1,750</td><td class="num save-pos">$7,210</td></tr>
-        <tr><td>Bookkeeper — Mid</td><td class="num">3</td><td class="num">$28,800</td><td class="num">$4,650</td><td class="num save-pos">$24,150</td></tr>
-        <tr><td>Digital Marketer — Mid</td><td class="num">1</td><td class="num">$9,600</td><td class="num">$1,200</td><td class="num save-pos">$8,400</td></tr>
-        <tr><td>VFX Editor — Junior</td><td class="num">2</td><td class="num">$11,200</td><td class="num">$1,800</td><td class="num save-pos">$9,400</td></tr>
-        <tr><td>Graphic Designer — Senior</td><td class="num">1</td><td class="num">$19,200</td><td class="num">$900</td><td class="num save-pos">$18,300</td></tr>
-        <tr><td>Cold Calling — Mid</td><td class="num">5</td><td class="num">$32,000</td><td class="num">$5,000</td><td class="num save-pos">$27,000</td></tr>
-        <tr class="total"><td>Total</td><td class="num">14</td><td class="num">$109,760</td><td class="num">$15,300</td><td class="num save-pos">$94,460</td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th><th class="num">Headcount</th><th class="num">AU Cost / mo</th><th class="num">DimeRepublic / mo</th><th class="num">Saved / mo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Customer Support — Junior</td><td class="num">2</td><td class="num">$8,960</td><td class="num">$1,750</td><td class="num save-pos">$7,210</td></tr>
+          <tr><td>Bookkeeper — Mid</td><td class="num">3</td><td class="num">$28,800</td><td class="num">$4,650</td><td class="num save-pos">$24,150</td></tr>
+          <tr><td>Digital Marketer — Mid</td><td class="num">1</td><td class="num">$9,600</td><td class="num">$1,200</td><td class="num save-pos">$8,400</td></tr>
+          <tr><td>VFX Editor — Junior</td><td class="num">2</td><td class="num">$11,200</td><td class="num">$1,800</td><td class="num save-pos">$9,400</td></tr>
+          <tr><td>Graphic Designer — Senior</td><td class="num">1</td><td class="num">$19,200</td><td class="num">$900</td><td class="num save-pos">$18,300</td></tr>
+          <tr><td>Cold Calling — Mid</td><td class="num">5</td><td class="num">$32,000</td><td class="num">$5,000</td><td class="num save-pos">$27,000</td></tr>
+          <tr class="total"><td>Total</td><td class="num">14</td><td class="num">$109,760</td><td class="num">$15,300</td><td class="num save-pos">$94,460</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="callout">
       <div>
@@ -265,7 +294,7 @@
   </section>
 
   <!-- 3 MONTH VIEW -->
-  <section>
+  <section x-data="costBreakdownChart()" x-init="init">
     <div class="section-head"><span class="num-marker">04 — Three Months In</span></div>
     <h2>How the saving has compounded since onboarding</h2>
     <p class="section-intro">At a stable 14-person team, the monthly saving compounds fast. This is the running total since the engagement began.</p>
@@ -277,22 +306,22 @@
         <div class="legend-item"><span class="swatch" style="background:var(--gold)"></span>Cumulative savings</div>
       </div>
       <div class="chart-box">
-        <div id="cumulativeChart"></div>
+        <div id="cumulativeChart" x-html="svg"></div>
       </div>
     </div>
     <p class="explain">By the end of Month 3, Titan Anaesthesia has spent <strong>$45,900</strong> through DimeRepublic against a modelled <strong>$329,280</strong> it would have cost to staff the same 14 positions locally — a running saving of <strong>$283,380 AUD</strong>, money that's stayed in the business rather than gone to payroll.</p>
   </section>
 
   <!-- TEAM COMPOSITION -->
-  <section>
+  <section x-data="compositionChart()" x-init="init">
     <div class="section-head"><span class="num-marker">05 — Team Composition</span></div>
     <h2>Where the 14 seats sit today</h2>
     <p class="section-intro">Cold calling and bookkeeping make up the largest share of the team, reflecting where Titan Anaesthesia needed the most consistent, ongoing coverage.</p>
 
     <div class="chart-panel">
       <div class="chart-box" style="max-width:420px;margin:0 auto;">
-        <div id="compositionChart"></div>
-        <div id="compositionLegend" class="donut-legend"></div>
+        <div id="compositionChart" x-html="svg"></div>
+        <div id="compositionLegend" class="donut-legend" x-html="legendHtml"></div>
       </div>
     </div>
     <p class="explain">Every seat is managed end-to-end by DimeRepublic — recruiting, onboarding, attendance, and performance oversight — so Titan Anaesthesia's leadership stays focused on the clinic, not on running a second HR department.</p>
@@ -316,175 +345,195 @@
 </footer>
 
 <script>
-const fmt = (v) => '$' + Math.round(v).toLocaleString();
-const svgns = "http://www.w3.org/2000/svg";
-const NS = svgns;
+document.addEventListener('alpine:init', () => {
+  const fmt = (v) => '$' + Math.round(v).toLocaleString();
+  const NS = "http://www.w3.org/2000/svg";
 
-function makeSVG(w, h){
-  const el = document.createElementNS(NS,'svg');
-  el.setAttribute('viewBox', '0 0 '+w+' '+h);
-  el.setAttribute('class','chart-svg');
-  return el;
-}
-function rect(x,y,w,h,fill,rx){
-  const r = document.createElementNS(NS,'rect');
-  r.setAttribute('x',x); r.setAttribute('y',y);
-  r.setAttribute('width',Math.max(w,0)); r.setAttribute('height',Math.max(h,0));
-  r.setAttribute('fill',fill); r.setAttribute('rx', rx||3);
-  return r;
-}
-function text(x,y,str,cls,anchor,fill){
-  const t = document.createElementNS(NS,'text');
-  t.setAttribute('x',x); t.setAttribute('y',y);
-  t.setAttribute('class',cls||''); t.setAttribute('text-anchor',anchor||'middle');
-  if(fill) t.setAttribute('fill',fill);
-  t.textContent = str;
-  return t;
-}
-function line(x1,y1,x2,y2,stroke,w,dash){
-  const l = document.createElementNS(NS,'line');
-  l.setAttribute('x1',x1); l.setAttribute('y1',y1); l.setAttribute('x2',x2); l.setAttribute('y2',y2);
-  l.setAttribute('stroke',stroke); l.setAttribute('stroke-width',w||2);
-  if(dash) l.setAttribute('stroke-dasharray',dash);
-  return l;
-}
-function polyline(points,stroke,w,dash,fillArea){
-  const p = document.createElementNS(NS,'polyline');
-  p.setAttribute('points', points.map(pt=>pt.join(',')).join(' '));
-  p.setAttribute('fill','none'); p.setAttribute('stroke',stroke);
-  p.setAttribute('stroke-width',w||2.5); p.setAttribute('stroke-linejoin','round'); p.setAttribute('stroke-linecap','round');
-  if(dash) p.setAttribute('stroke-dasharray',dash);
-  return p;
-}
-function circle(cx,cy,r,fill,stroke){
-  const c = document.createElementNS(NS,'circle');
-  c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r);
-  c.setAttribute('fill',fill||'#fff'); if(stroke) c.setAttribute('stroke',stroke);
-  c.setAttribute('stroke-width',2);
-  return c;
-}
+  function makeSVG(w, h) {
+    const el = document.createElementNS(NS, 'svg');
+    el.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    el.setAttribute('class', 'chart-svg');
+    return el;
+  }
 
-/* ---- 1. Grouped vertical bar chart ---- */
-function groupedBarChart(containerId, labels, seriesA, seriesB, colorA, colorB){
-  const W=800,H=310, top=26, base=250, plotH=base-top, leftPad=30, rightPad=30;
-  const maxVal = Math.max(...seriesA, ...seriesB);
-  const groupW = (W-leftPad-rightPad)/labels.length;
-  const barW = Math.min(32, groupW*0.32);
-  const gap = 8;
-  const svg = makeSVG(W,H);
-  svg.appendChild(line(leftPad, base, W-rightPad, base, '#DEE4E1', 1));
-  labels.forEach((lab,i)=>{
-    const gx = leftPad + i*groupW + groupW/2;
-    const ax = gx - barW - gap/2;
-    const bx = gx + gap/2;
-    const ah = (seriesA[i]/maxVal)*plotH;
-    const bh = (seriesB[i]/maxVal)*plotH;
-    svg.appendChild(rect(ax, base-ah, barW, ah, colorA));
-    svg.appendChild(rect(bx, base-bh, barW, bh, colorB));
-    svg.appendChild(text(ax+barW/2, base-ah-6, fmt(seriesA[i]), 'val-label'));
-    svg.appendChild(text(bx+barW/2, base-bh-6, fmt(seriesB[i]), 'val-label', 'middle', '#1E8F74'));
-    svg.appendChild(text(gx, base+20, lab, 'cat-label'));
-  });
-  document.getElementById(containerId).appendChild(svg);
-}
+  function rectEl(x, y, w, h, fill, rx) {
+    const r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', x); r.setAttribute('y', y);
+    r.setAttribute('width', Math.max(w, 0)); r.setAttribute('height', Math.max(h, 0));
+    r.setAttribute('fill', fill); r.setAttribute('rx', rx || 3);
+    return r;
+  }
 
-/* ---- 2. Horizontal bar chart ---- */
-function horizontalBarChart(containerId, labels, values, color){
-  const W=800, rowH=40, gap=12, leftPad=178, rightPad=70, top=14;
-  const H = top*2 + labels.length*(rowH+gap)-gap;
-  const maxVal = Math.max(...values);
-  const plotW = W-leftPad-rightPad;
-  const svg = makeSVG(W,H);
-  labels.forEach((lab,i)=>{
-    const y = top + i*(rowH+gap);
-    const w = (values[i]/maxVal)*plotW;
-    svg.appendChild(text(leftPad-14, y+rowH*0.64, lab, 'cat-label', 'end'));
-    svg.appendChild(rect(leftPad, y, w, rowH*0.62, color, 5));
-    svg.appendChild(text(leftPad+w+10, y+rowH*0.42, fmt(values[i]), 'val-label', 'start'));
-  });
-  document.getElementById(containerId).appendChild(svg);
-}
+  function textEl(x, y, str, cls, anchor, fill) {
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('class', cls || ''); t.setAttribute('text-anchor', anchor || 'middle');
+    if (fill) t.setAttribute('fill', fill);
+    t.textContent = str;
+    return t;
+  }
 
-/* ---- 3. Multi-series line chart ---- */
-function lineChart(containerId, labels, series){
-  const W=800,H=300, top=30, base=250, plotH=base-top, leftPad=40, rightPad=40;
-  const allVals = series.flatMap(s=>s.data);
-  const maxVal = Math.max(...allVals);
-  const stepX = (W-leftPad-rightPad)/(labels.length-1);
-  const svg = makeSVG(W,H);
-  svg.appendChild(line(leftPad, base, W-rightPad, base, '#DEE4E1', 1));
-  series.forEach(s=>{
-    const pts = s.data.map((v,i)=>[leftPad+i*stepX, base-(v/maxVal)*plotH]);
-    svg.appendChild(polyline(pts, s.color, 2.5, s.dash));
-    pts.forEach((pt,i)=>{
-      svg.appendChild(circle(pt[0], pt[1], 4, '#fff', s.color));
-      const dy = s.labelAbove ? -10 : 16;
-      svg.appendChild(text(pt[0], pt[1]+dy, '$'+Math.round(s.data[i]/1000)+'k', 'val-label', 'middle', s.color));
-    });
-  });
-  labels.forEach((lab,i)=>{
-    svg.appendChild(text(leftPad+i*stepX, base+24, lab, 'cat-label'));
-  });
-  document.getElementById(containerId).appendChild(svg);
-}
+  function lineEl(x1, y1, x2, y2, stroke, w, dash) {
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+    l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', stroke); l.setAttribute('stroke-width', w || 2);
+    if (dash) l.setAttribute('stroke-dasharray', dash);
+    return l;
+  }
 
-/* ---- 4. Donut chart ---- */
-function donutChart(containerId, legendId, labels, values, colors){
-  const size=240, r=78, cx=size/2, cy=size/2, sw=32;
-  const total = values.reduce((a,b)=>a+b,0);
-  const circumference = 2*Math.PI*r;
-  const svg = makeSVG(size,size);
-  const grp = document.createElementNS(NS,'g');
-  grp.setAttribute('transform','rotate(-90 '+cx+' '+cy+')');
-  let offset = 0;
-  values.forEach((v,i)=>{
-    const frac = v/total;
-    const dash = frac*circumference;
-    const c = document.createElementNS(NS,'circle');
-    c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r);
-    c.setAttribute('fill','none'); c.setAttribute('stroke',colors[i]);
-    c.setAttribute('stroke-width',sw);
-    c.setAttribute('stroke-dasharray', dash+' '+(circumference-dash));
-    c.setAttribute('stroke-dashoffset', -offset);
-    grp.appendChild(c);
-    offset += dash;
-  });
-  svg.appendChild(grp);
-  const centerNum = text(cx, cy-2, String(total), '', 'middle', '#0F2438');
-  centerNum.style.fontSize='30px'; centerNum.style.fontFamily="'Fraunces',serif"; centerNum.style.fontWeight='700';
-  svg.appendChild(centerNum);
-  svg.appendChild(text(cx, cy+18, 'total seats', 'cat-label', 'middle', '#445064'));
-  document.getElementById(containerId).appendChild(svg);
+  function polylineEl(points, stroke, w, dash) {
+    const p = document.createElementNS(NS, 'polyline');
+    p.setAttribute('points', points.map(pt => pt.join(',')).join(' '));
+    p.setAttribute('fill', 'none'); p.setAttribute('stroke', stroke);
+    p.setAttribute('stroke-width', w || 2.5);
+    p.setAttribute('stroke-linejoin', 'round'); p.setAttribute('stroke-linecap', 'round');
+    if (dash) p.setAttribute('stroke-dasharray', dash);
+    return p;
+  }
 
-  const legend = document.getElementById(legendId);
-  labels.forEach((lab,i)=>{
-    const item = document.createElement('div');
-    item.className='legend-item';
-    item.innerHTML = '<span class="swatch" style="background:'+colors[i]+';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;"></span>'+lab;
-    legend.appendChild(item);
-  });
-}
+  function circleEl(cx, cy, r, fill, stroke) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+    c.setAttribute('fill', fill || '#fff'); if (stroke) c.setAttribute('stroke', stroke);
+    c.setAttribute('stroke-width', 2);
+    return c;
+  }
 
-/* ---- Build all charts ---- */
-const roles = ['CS Junior','Bookkeeper Mid','Digital Mktr','VFX Junior','Graphic Design Sr','Cold Calling Mid'];
-const auPerHire = [4480, 9600, 9600, 5600, 19200, 6400];
-const drPerHire = [875, 1550, 1200, 900, 900, 1000];
-groupedBarChart('perHireChart', roles, auPerHire, drPerHire, '#8A97A8', '#1E8F74');
+  const roles = ['CS Junior', 'Bookkeeper Mid', 'Digital Mktr', 'VFX Junior', 'Graphic Design Sr', 'Cold Calling Mid'];
+  const auPerHire = [4480, 9600, 9600, 5600, 19200, 6400];
+  const drPerHire = [875, 1550, 1200, 900, 900, 1000];
+  const savingsTotals = [7210, 24150, 8400, 9400, 18300, 27000];
 
-const savingsTotals = [7210, 24150, 8400, 9400, 18300, 27000];
-horizontalBarChart('savingsBarChart', roles, savingsTotals, '#D6A34D');
+  Alpine.data('dumbbellChart', () => ({
+    svg: '',
+    init() {
+      this.build();
+    },
+    build() {
+      const W = 800, H = 310, top = 26, base = 250, plotH = base - top, leftPad = 30, rightPad = 30;
+      const maxVal = Math.max(...auPerHire, ...drPerHire);
+      const groupW = (W - leftPad - rightPad) / roles.length;
+      const barW = Math.min(32, groupW * 0.32);
+      const gap = 8;
+      const svg = makeSVG(W, H);
+      svg.appendChild(lineEl(leftPad, base, W - rightPad, base, '#DEE4E1', 1));
+      roles.forEach((lab, i) => {
+        const gx = leftPad + i * groupW + groupW / 2;
+        const ax = gx - barW - gap / 2;
+        const bx = gx + gap / 2;
+        const ah = (auPerHire[i] / maxVal) * plotH;
+        const bh = (drPerHire[i] / maxVal) * plotH;
+        svg.appendChild(rectEl(ax, base - ah, barW, ah, '#8A97A8'));
+        svg.appendChild(rectEl(bx, base - bh, barW, bh, '#1E8F74'));
+        svg.appendChild(textEl(ax + barW / 2, base - ah - 6, fmt(auPerHire[i]), 'val-label'));
+        svg.appendChild(textEl(bx + barW / 2, base - bh - 6, fmt(drPerHire[i]), 'val-label', 'middle', '#1E8F74'));
+        svg.appendChild(textEl(gx, base + 20, lab, 'cat-label'));
+      });
+      this.svg = svg.outerHTML;
+    }
+  }));
 
-lineChart('cumulativeChart', ['Month 1','Month 2','Month 3'], [
-  { data:[109760,219520,329280], color:'#8A97A8', labelAbove:true },
-  { data:[15300,30600,45900], color:'#1E8F74', labelAbove:false },
-  { data:[94460,188920,283380], color:'#D6A34D', dash:'5,4', labelAbove:true }
-]);
+  Alpine.data('savingsChart', () => ({
+    svg: '',
+    init() {
+      this.build();
+    },
+    build() {
+      const W = 800, rowH = 40, gap = 12, leftPad = 178, rightPad = 70, top = 14;
+      const H = top * 2 + roles.length * (rowH + gap) - gap;
+      const maxVal = Math.max(...savingsTotals);
+      const plotW = W - leftPad - rightPad;
+      const svg = makeSVG(W, H);
+      roles.forEach((lab, i) => {
+        const y = top + i * (rowH + gap);
+        const w = (savingsTotals[i] / maxVal) * plotW;
+        svg.appendChild(textEl(leftPad - 14, y + rowH * 0.64, lab, 'cat-label', 'end'));
+        svg.appendChild(rectEl(leftPad, y, w, rowH * 0.62, '#D6A34D', 5));
+        svg.appendChild(textEl(leftPad + w + 10, y + rowH * 0.42, fmt(savingsTotals[i]), 'val-label', 'start'));
+      });
+      this.svg = svg.outerHTML;
+    }
+  }));
 
-donutChart('compositionChart','compositionLegend',
-  ['Cold Calling (5)','Bookkeeping (3)','Customer Support (2)','VFX Editing (2)','Digital Marketing (1)','Graphic Design (1)'],
-  [5,3,2,2,1,1],
-  ['#1E8F74','#2FA98A','#63C0A6','#9AD3C0','#D6A34D','#E7C583']
-);
+  Alpine.data('costBreakdownChart', () => ({
+    svg: '',
+    init() {
+      this.build();
+    },
+    build() {
+      const labels = ['Month 1', 'Month 2', 'Month 3'];
+      const series = [
+        { data: [109760, 219520, 329280], color: '#8A97A8', labelAbove: true },
+        { data: [15300, 30600, 45900], color: '#1E8F74', labelAbove: false },
+        { data: [94460, 188920, 283380], color: '#D6A34D', dash: '5,4', labelAbove: true }
+      ];
+      const W = 800, H = 300, top = 30, base = 250, plotH = base - top, leftPad = 40, rightPad = 40;
+      const allVals = series.flatMap(s => s.data);
+      const maxVal = Math.max(...allVals);
+      const stepX = (W - leftPad - rightPad) / (labels.length - 1);
+      const svg = makeSVG(W, H);
+      svg.appendChild(lineEl(leftPad, base, W - rightPad, base, '#DEE4E1', 1));
+      series.forEach(s => {
+        const pts = s.data.map((v, i) => [leftPad + i * stepX, base - (v / maxVal) * plotH]);
+        svg.appendChild(polylineEl(pts, s.color, 2.5, s.dash));
+        pts.forEach((pt, i) => {
+          svg.appendChild(circleEl(pt[0], pt[1], 4, '#fff', s.color));
+          const dy = s.labelAbove ? -10 : 16;
+          svg.appendChild(textEl(pt[0], pt[1] + dy, '$' + Math.round(s.data[i] / 1000) + 'k', 'val-label', 'middle', s.color));
+        });
+      });
+      labels.forEach((lab, i) => {
+        svg.appendChild(textEl(leftPad + i * stepX, base + 24, lab, 'cat-label'));
+      });
+      this.svg = svg.outerHTML;
+    }
+  }));
+
+  Alpine.data('compositionChart', () => ({
+    svg: '',
+    legendHtml: '',
+    init() {
+      this.build();
+    },
+    build() {
+      const labels = ['Cold Calling (5)', 'Bookkeeping (3)', 'Customer Support (2)', 'VFX Editing (2)', 'Digital Marketing (1)', 'Graphic Design (1)'];
+      const values = [5, 3, 2, 2, 1, 1];
+      const colors = ['#1E8F74', '#2FA98A', '#63C0A6', '#9AD3C0', '#D6A34D', '#E7C583'];
+      const size = 240, r = 78, cx = size / 2, cy = size / 2, sw = 32;
+      const total = values.reduce((a, b) => a + b, 0);
+      const circumference = 2 * Math.PI * r;
+      const svg = makeSVG(size, size);
+      const grp = document.createElementNS(NS, 'g');
+      grp.setAttribute('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
+      let offset = 0;
+      values.forEach((v, i) => {
+        const frac = v / total;
+        const dash = frac * circumference;
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r);
+        c.setAttribute('fill', 'none'); c.setAttribute('stroke', colors[i]);
+        c.setAttribute('stroke-width', sw);
+        c.setAttribute('stroke-dasharray', dash + ' ' + (circumference - dash));
+        c.setAttribute('stroke-dashoffset', -offset);
+        grp.appendChild(c);
+        offset += dash;
+      });
+      svg.appendChild(grp);
+      const centerNum = textEl(cx, cy - 2, String(total), '', 'middle', '#0F2438');
+      centerNum.style.fontSize = '30px'; centerNum.style.fontFamily = "'Fraunces',serif"; centerNum.style.fontWeight = '700';
+      svg.appendChild(centerNum);
+      svg.appendChild(textEl(cx, cy + 18, 'total seats', 'cat-label', 'middle', '#445064'));
+      this.svg = svg.outerHTML;
+
+      let leg = '';
+      labels.forEach((lab, i) => {
+        leg += '<div class="legend-item"><span class="swatch" style="background:' + colors[i] + ';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;"></span>' + lab + '</div>';
+      });
+      this.legendHtml = leg;
+    }
+  }));
+});
 </script>
 
 </body>

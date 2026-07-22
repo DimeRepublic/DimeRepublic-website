@@ -16,6 +16,13 @@ export default defineConfig({
         infinitex: resolve(__dirname, 'infinitex-trade-syndicate-case-study.html'),
         titan: resolve(__dirname, 'titan-anaesthesia-case-study.html'),
       },
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name.endsWith('.css')) return 'assets/main.css';
+          if (assetInfo.name.endsWith('.js')) return 'assets/main.js';
+          return 'assets/[name][extname]';
+        },
+      },
     },
   },
 });
