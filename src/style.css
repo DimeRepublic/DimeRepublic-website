@@ -7,7 +7,8 @@ html {
 }
 
 body {
-  @apply font-sans text-navy-700 antialiased;
+  @apply font-sans text-navy-400 antialiased;
+  background: #F5F7F5;
 }
 
 h1, h2, h3, .heading-font {
@@ -23,5 +24,5 @@ h1, h2, h3, .heading-font {
 }
 
 .section-eyebrow {
-  @apply text-xs font-bold uppercase tracking-widest text-accent;
+  @apply font-mono text-xs uppercase tracking-[0.16em] text-accent;
 }
