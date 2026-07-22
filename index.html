@@ -296,10 +296,11 @@
           <div class="text-center">
             <label class="text-sm text-navy-400 block mb-2">Average Monthly Cost</label>
             <select id="avgCost" onchange="updateCalc(0)" class="rounded-lg border border-navy/10 bg-white px-4 py-2 text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-accent">
-              <option value="100">$100 / month</option>
               <option value="850">$850 / month</option>
               <option value="875">$875 / month</option>
+              <option value="875">$875 / month</option>
               <option value="950">$950 / month</option>
+              <option value="1000">$1,000 / month</option>
               <option value="1400">$1,400 / month</option>
               <option value="1550">$1,550 / month</option>
             </select>
@@ -392,8 +393,8 @@
             <tr class="border-b border-navy/5">
               <td class="py-4">VFX Artist</td>
               <td class="py-4 text-right">$4,500</td>
-              <td class="py-4 text-right">$100</td>
-              <td class="py-4 text-right font-semibold text-accent">98%</td>
+              <td class="py-4 text-right">$1,000</td>
+              <td class="py-4 text-right font-semibold text-accent">78%</td>
             </tr>
             <tr class="border-b border-navy/5">
               <td class="py-4">Virtual Assistant</td>
@@ -701,7 +702,7 @@
 
   <script>
     let employees = 10;
-    const avgCosts = { '100': 4500, '850': 5500, '875': 4800, '950': 6000, '1400': 7200, '1550': 8500 };
+    const avgCosts = { '850': 5500, '875': 4800, '950': 6000, '1000': 4500, '1400': 7200, '1550': 8500 };
 
     function updateCalc(delta) {
       employees = Math.max(1, Math.min(50, employees + delta));
