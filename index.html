@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DimeRepublic | Elite Remote Talent at Lower Costs</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>img{max-width:100%;height:auto;}@media(max-width:480px){h2{font-size:1.5rem!important;}}</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
 </head>
 <body x-data="{ mobileMenuOpen: false }" class="bg-white">
 
@@ -16,6 +16,10 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
       <!-- Logo -->
       <a href="#" class="flex items-center gap-2">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+          <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+        </svg>
         <span class="leading-tight">
           <span class="block font-display text-lg font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
         </span>
@@ -58,7 +62,7 @@
 
   <!-- ============ HERO ============ -->
   <section class="overflow-hidden bg-white">
-    <div class="mx-auto grid max-w-7xl items-center gap-8 px-6 py-12 sm:grid-cols-2 sm:gap-10 sm:py-16 lg:gap-12 lg:px-8 lg:py-24">
+    <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:px-8 lg:py-24">
       <!-- Left -->
       <div>
         <p class="section-eyebrow mb-4">GLOBAL TALENT. MASSIVE IMPACT.</p>
@@ -97,29 +101,29 @@
       </div>
 
       <!-- Right: hero collage -->
-      <div class="relative mx-auto h-[300px] w-full max-w-xs sm:h-[380px] sm:max-w-sm lg:h-[460px] lg:max-w-md">
+      <div class="relative mx-auto h-[420px] w-full max-w-md lg:h-[460px]">
         <div class="absolute inset-0 rounded-full bg-accent-50"></div>
-        <div class="absolute right-0 top-0 h-44 w-36 overflow-hidden rounded-3xl shadow-floating sm:h-72 sm:w-56 lg:h-80 lg:w-64">
+        <div class="absolute right-0 top-0 h-80 w-64 overflow-hidden rounded-3xl shadow-floating sm:h-96 sm:w-72">
           <img src="https://i.pravatar.cc/500?img=47" alt="Customer support agent wearing a headset" class="h-full w-full object-cover" />
         </div>
-        <div class="absolute left-0 top-3 h-16 w-16 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:top-6 sm:h-28 sm:w-24">
+        <div class="absolute left-0 top-6 h-28 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-32 sm:w-28">
           <img src="https://i.pravatar.cc/300?img=12" alt="Remote developer working at a laptop" class="h-full w-full object-cover" />
         </div>
-        <div class="absolute bottom-20 right-3 h-14 w-14 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:bottom-6 sm:h-24 sm:w-24">
+        <div class="absolute bottom-4 right-4 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-28 sm:w-28">
           <img src="https://i.pravatar.cc/300?img=13" alt="Remote team member smiling" class="h-full w-full object-cover" />
         </div>
-        <div class="absolute left-0 top-24 flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-floating sm:left-2 sm:top-36 sm:gap-3 sm:px-4 sm:py-3">
-          <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 sm:h-8 sm:w-8">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="sm:w-4 sm:h-4"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="absolute left-2 top-40 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-floating sm:left-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
           <span>
             <span class="block text-sm font-semibold text-navy">Live Chat</span>
             <span class="block text-xs text-navy-400">98% Satisfaction</span>
           </span>
         </div>
-        <div class="absolute bottom-6 left-0 w-36 rounded-xl bg-white p-3 shadow-floating sm:bottom-4 sm:w-44 sm:p-4 lg:bottom-12 lg:-left-4 lg:w-48">
+        <div class="absolute bottom-24 left-0 w-48 rounded-xl bg-white p-4 shadow-floating sm:-left-6">
           <p class="text-xs font-medium text-navy-400">Cost Savings</p>
-          <p class="font-display text-xl font-bold text-navy sm:text-2xl">$126K <span class="text-xs font-normal text-navy-400">Annual Savings</span></p>
+          <p class="font-display text-2xl font-bold text-navy">$126K <span class="text-xs font-normal text-navy-400">Annual Savings</span></p>
           <svg class="mt-2" width="100%" height="36" viewBox="0 0 160 36" fill="none">
             <polyline points="0,28 25,22 50,26 75,14 100,18 125,6 160,10" stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -302,7 +306,7 @@
         <div class="mt-8 text-center">
           <p class="text-sm text-navy-400">Estimated Annual Savings:</p>
           <p id="savingsAmount" class="mt-2 font-display text-5xl font-bold text-accent">$108,000</p>
-          <div class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm">
+          <div class="mt-4 flex items-center justify-center gap-4 text-sm">
             <span class="text-navy-400">DimeRepublic Cost:</span>
             <span id="drCost" class="font-semibold text-navy">$108,000 / year</span>
             <span class="text-navy-400">vs</span>
@@ -389,6 +393,10 @@
         <!-- iGate -->
         <a href="igate-dimerepublic-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
           <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#D6303F" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
             <span class="font-display font-bold text-navy">Dime<span class="text-red-500">Republic</span></span>
           </div>
           <p class="text-xs font-bold uppercase tracking-widest text-red-500">2-Month Review</p>
@@ -410,6 +418,10 @@
         <!-- Infinitex -->
         <a href="infinitex-trade-syndicate-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
           <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#6D4AFF" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
             <span class="font-display font-bold text-navy">Dime<span class="text-violet-500">Republic</span></span>
           </div>
           <p class="text-xs font-bold uppercase tracking-widest text-violet-500">6-Month Review</p>
@@ -431,6 +443,10 @@
         <!-- Titan -->
         <a href="titan-anaesthesia-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
           <div class="flex items-center gap-2 mb-4">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
+            </svg>
             <span class="font-display font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
           </div>
           <p class="text-xs font-bold uppercase tracking-widest text-accent">90-Day Review</p>
@@ -466,7 +482,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 1</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Discovery Call</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">We understand your goals and requirements.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We understand your goals and requirements.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -474,7 +490,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 2</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Shortlist</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">We find and shortlist the best candidates.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We find and shortlist the best candidates.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -482,7 +498,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 3</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Interview</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">You interview and select your team.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">You interview and select your team.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -490,7 +506,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 4</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Onboarding</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">We handle onboarding, payroll &amp; compliance.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We handle onboarding, payroll &amp; compliance.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -498,7 +514,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 5</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Kickoff</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">Your dedicated team starts working.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Your dedicated team starts working.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -506,7 +522,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 6</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Scale</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">Scale your team as your business grows.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Scale your team as your business grows.</p>
         </div>
         <div class="flex flex-col items-center text-center">
           <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
@@ -514,7 +530,7 @@
           </div>
           <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 7</span>
           <h3 class="mt-1 font-display text-base font-semibold text-navy">Succeed</h3>
-          <p class="mt-2 max-w-[200px] sm:max-w-none text-sm text-navy-400">We ensure performance and long-term success.</p>
+          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We ensure performance and long-term success.</p>
         </div>
       </div>
     </div>
@@ -538,6 +554,10 @@
       <!-- Brand -->
       <div class="lg:col-span-2">
         <a href="#" class="flex items-center gap-2">
+          <svg width="30" height="30" viewBox="0 0 34 34" fill="none">
+            <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+            <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+          </svg>
           <span class="leading-tight">
             <span class="block font-display text-lg font-bold text-white">Dime<span class="text-accent">Republic</span></span>
           </span>
