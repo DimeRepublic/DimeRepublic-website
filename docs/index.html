@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/main-CiHehdYh.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-9qVnQXNu.css">
+  <script type="module" crossorigin src="./assets/main-DvoJeUx-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-B66mOK36.css">
 </head>
 <body x-data="{ mobileMenuOpen: false }" class="bg-white">
 
@@ -285,50 +285,35 @@
 
       <!-- Savings Calculator -->
       <div class="mt-14 rounded-2xl bg-navy-50/60 p-8" id="calculator">
-        <h3 class="font-display text-xl font-bold text-navy text-center">Annual Savings Calculator</h3>
-        <div class="mt-6 flex flex-wrap items-center justify-center gap-6">
-          <div class="text-center">
-            <label class="text-sm text-navy-400 block mb-2">Number of Employees</label>
-            <div class="flex items-center gap-3">
-              <button onclick="updateCalc(-1)" class="h-10 w-10 rounded-full bg-white border border-navy/10 text-navy font-bold text-lg hover:bg-accent hover:text-white transition">−</button>
-              <span id="employeeCount" class="font-display text-2xl font-bold text-navy w-12 text-center">10</span>
-              <button onclick="updateCalc(1)" class="h-10 w-10 rounded-full bg-white border border-navy/10 text-navy font-bold text-lg hover:bg-accent hover:text-white transition">+</button>
-            </div>
-          </div>
-          <div class="text-center">
-            <label class="text-sm text-navy-400 block mb-2">Job Title</label>
-            <select id="avgCost" onchange="recalc()" class="rounded-lg border border-navy/10 bg-white px-4 py-2 text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-accent">
-              <option value="875-4800">Customer Support Agent</option>
-              <option value="1400-7200">Marketing Manager</option>
-              <option value="1550-8000">Software Developer</option>
-              <option value="1550-9000">DevOps Engineer</option>
-              <option value="950-5600">Virtual Assistant</option>
-              <option value="1000-4500">VFX Artist</option>
-              <option value="850-8000">Book Keeper</option>
-              <option value="850-3000">Graphic Designer</option>
-              <option value="950-6400">Cold Calling Agent</option>
-              <option value="900-5000">Technical Recruiter</option>
-            </select>
-          </div>
+        <h3 class="font-display text-xl font-bold text-navy text-center">Build Your Team</h3>
+        <p class="mt-2 text-center text-sm text-navy-400">Add roles and quantities to estimate your annual savings.</p>
+
+        <div id="teamRows" class="mt-6 space-y-4">
+          <!-- Rows inserted by JS -->
         </div>
-        <div class="mt-8 text-center">
+
+        <div class="mt-4 text-center">
+          <button onclick="addRow()" class="text-sm font-semibold text-accent hover:text-accent-600 transition">+ Add Another Role</button>
+        </div>
+
+        <div class="mt-8 border-t border-navy/10 pt-6 text-center">
           <p class="text-sm text-navy-400">Estimated Annual Savings:</p>
-          <p id="savingsAmount" class="mt-2 font-display text-5xl font-bold text-accent">$108,000</p>
+          <p id="savingsAmount" class="mt-2 font-display text-5xl font-bold text-accent">$0</p>
           <div class="mt-4 flex items-center justify-center gap-4 text-sm">
             <span class="text-navy-400">DimeRepublic Cost:</span>
-            <span id="drCost" class="font-semibold text-navy">$108,000 / year</span>
+            <span id="drCost" class="font-semibold text-navy">$0 / year</span>
             <span class="text-navy-400">vs</span>
             <span class="text-navy-400">USA Cost:</span>
-            <span id="usaCost" class="font-semibold text-navy">$540,000 / year</span>
+            <span id="usaCost" class="font-semibold text-navy">$0 / year</span>
           </div>
           <!-- Visual bar -->
           <div class="mt-6 max-w-lg mx-auto">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-xs text-navy-400 w-20 text-right">You Save</span>
               <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
-                <div id="drBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 20%"></div>
+                <div id="drBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
-              <span id="drBarLabel" class="text-xs font-semibold text-accent w-16">20%</span>
+              <span id="drBarLabel" class="text-xs font-semibold text-accent w-16">0%</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-xs text-navy-400 w-20 text-right">USA Average</span>
@@ -706,32 +691,103 @@
   </footer>
 
   <script>
-    let employees = 10;
+    const roles = [
+      { name: 'Customer Support Agent', dr: 875, usa: 4800 },
+      { name: 'Marketing Manager', dr: 1400, usa: 7200 },
+      { name: 'Software Developer', dr: 1550, usa: 8000 },
+      { name: 'DevOps Engineer', dr: 1550, usa: 9000 },
+      { name: 'Virtual Assistant', dr: 950, usa: 5600 },
+      { name: 'VFX Artist', dr: 1000, usa: 4500 },
+      { name: 'Book Keeper', dr: 850, usa: 8000 },
+      { name: 'Graphic Designer', dr: 850, usa: 3000 },
+      { name: 'Cold Calling Agent', dr: 950, usa: 6400 },
+      { name: 'Technical Recruiter', dr: 900, usa: 5000 },
+    ];
 
-    function updateCalc(delta) {
-      employees = Math.max(1, Math.min(50, employees + delta));
-      document.getElementById('employeeCount').textContent = employees;
+    let rowCount = 0;
+
+    function roleOptions(selected) {
+      return roles.map((r, i) =>
+        '<option value="' + i + '"' + (i === selected ? ' selected' : '') + '>' + r.name + '</option>'
+      ).join('');
+    }
+
+    function addRow() {
+      const container = document.getElementById('teamRows');
+      const idx = rowCount++;
+      const div = document.createElement('div');
+      div.className = 'flex flex-wrap items-end gap-3 p-4 bg-white rounded-xl border border-navy/5';
+      div.id = 'row-' + idx;
+      div.innerHTML =
+        '<div class="flex-1 min-w-[180px]">' +
+          '<label class="text-xs text-navy-400 block mb-1">Role</label>' +
+          '<select onchange="recalc()" class="role-select w-full rounded-lg border border-navy/10 bg-white px-3 py-2 text-sm text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-accent">' + roleOptions(0) + '</select>' +
+        '</div>' +
+        '<div class="text-center">' +
+          '<label class="text-xs text-navy-400 block mb-1">Qty</label>' +
+          '<div class="flex items-center gap-2">' +
+            '<button onclick="qtyChange(' + idx + ',-1)" class="h-8 w-8 rounded-full bg-white border border-navy/10 text-navy font-bold hover:bg-accent hover:text-white transition">−</button>' +
+            '<span id="qty-' + idx + '" class="font-display text-lg font-bold text-navy w-8 text-center">1</span>' +
+            '<button onclick="qtyChange(' + idx + ',1)" class="h-8 w-8 rounded-full bg-white border border-navy/10 text-navy font-bold hover:bg-accent hover:text-white transition">+</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="text-center min-w-[100px]">' +
+          '<label class="text-xs text-navy-400 block mb-1">DR Cost</label>' +
+          '<span id="drSub-' + idx + '" class="font-display text-lg font-bold text-accent">$10,500</span>' +
+        '</div>' +
+        '<div class="text-center min-w-[100px]">' +
+          '<label class="text-xs text-navy-400 block mb-1">USA Cost</label>' +
+          '<span id="usaSub-' + idx + '" class="font-display text-lg font-bold text-navy">$57,600</span>' +
+        '</div>' +
+        '<button onclick="removeRow(' + idx + ')" class="h-8 w-8 flex items-center justify-center rounded-full border border-red-200 text-red-400 hover:bg-red-50 hover:text-red-600 transition" title="Remove">✕</button>';
+      container.appendChild(div);
+      recalc();
+    }
+
+    function qtyChange(idx, delta) {
+      const span = document.getElementById('qty-' + idx);
+      let qty = parseInt(span.textContent) + delta;
+      if (qty < 1) qty = 1;
+      if (qty > 50) qty = 50;
+      span.textContent = qty;
+      recalc();
+    }
+
+    function removeRow(idx) {
+      const row = document.getElementById('row-' + idx);
+      if (row) row.remove();
       recalc();
     }
 
     function recalc() {
-      const parts = document.getElementById('avgCost').value.split('-').map(Number);
-      const drMonthly = parts[0];
-      const usaMonthly = parts[1];
-      const drAnnual = employees * drMonthly * 12;
-      const usaAnnual = employees * usaMonthly * 12;
-      const saved = usaAnnual - drAnnual;
-      const costPct = Math.round((drAnnual / usaAnnual) * 100);
-      const savePct = 100 - costPct;
+      const rows = document.querySelectorAll('#teamRows > div');
+      let totalDr = 0, totalUsa = 0;
+
+      rows.forEach(function(row) {
+        const sel = row.querySelector('.role-select');
+        const qty = parseInt(row.querySelector('[id^="qty-"]').textContent);
+        const role = roles[parseInt(sel.value)];
+        const drSub = role.dr * qty * 12;
+        const usaSub = role.usa * qty * 12;
+        totalDr += drSub;
+        totalUsa += usaSub;
+        row.querySelector('[id^="drSub-"]').textContent = '$' + drSub.toLocaleString();
+        row.querySelector('[id^="usaSub-"]').textContent = '$' + usaSub.toLocaleString();
+      });
+
+      const saved = totalUsa - totalDr;
+      const pct = totalUsa > 0 ? Math.round((totalDr / totalUsa) * 100) : 0;
+      const savePct = 100 - pct;
 
       document.getElementById('savingsAmount').textContent = '$' + saved.toLocaleString();
-      document.getElementById('drCost').textContent = '$' + drAnnual.toLocaleString() + ' / year';
-      document.getElementById('usaCost').textContent = '$' + usaAnnual.toLocaleString() + ' / year';
+      document.getElementById('drCost').textContent = '$' + totalDr.toLocaleString() + ' / year';
+      document.getElementById('usaCost').textContent = '$' + totalUsa.toLocaleString() + ' / year';
       document.getElementById('drBar').style.width = savePct + '%';
       document.getElementById('drBarLabel').textContent = 'Save ' + savePct + '%';
     }
 
-    recalc();
+    addRow();
+    addRow();
   </script>
 
 </body>
