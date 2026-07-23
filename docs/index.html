@@ -535,7 +535,7 @@
           <span class="sep"></span>
           <input type="text" class="coupon-input" id="couponInput" placeholder="Coupon code" maxlength="10" oninput="couponChanged(this);recalc()" />
           <span class="applied" id="couponStatus"></span>
-          <span class="disc-note" id="discNote">(max 15% for 5+ roles)</span>
+          <span class="disc-note" id="discNote">(max 15% off)</span>
         </div>
 
         <div class="calc-total">
@@ -1080,16 +1080,9 @@
 
       var discountEl = document.getElementById('discountRow');
       var discount = 0;
-      if (rows.length >= 5) {
-        discountEl.classList.add('show');
-        discount = parseInt(document.getElementById('discountPct').value) || 0;
-        if (discount > 15) discount = 15;
-      } else {
-        discountEl.classList.remove('show');
-        document.getElementById('discountPct').value = 0;
-        document.getElementById('couponInput').value = '';
-        document.getElementById('couponStatus').textContent = '';
-      }
+      discountEl.classList.add('show');
+      discount = parseInt(document.getElementById('discountPct').value) || 0;
+      if (discount > 15) discount = 15;
 
       rows.forEach(function(row) {
         const search = row.querySelector('.role-search');
