@@ -127,6 +127,16 @@
     .calc-row label{display:block;font-size:11px;color:var(--slate);margin-bottom:4px;}
     .calc-row select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;color:var(--ink);background:#fff;outline:none;}
     .calc-row select:focus{border-color:var(--mint);}
+    .role-search-wrap{position:relative;}
+    .role-search{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;color:var(--ink);background:#fff;outline:none;box-sizing:border-box;}
+    .role-search:focus{border-color:var(--mint);}
+    .role-search::placeholder{color:#bbb;}
+    .role-dropdown{position:absolute;top:100%;left:0;right:0;z-index:20;background:#fff;border:1px solid var(--line);border-radius:0 0 8px 8px;max-height:220px;overflow-y:auto;display:none;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+    .role-dropdown.open{display:block;}
+    .role-item{padding:7px 10px;font-size:12.5px;cursor:pointer;border-bottom:1px solid #f0f0f0;transition:background .15s;}
+    .role-item:last-child{border-bottom:none;}
+    .role-item:hover,.role-item.hl{background:var(--mint-soft);color:var(--ink);}
+    .role-item.sel{background:var(--mint);color:#fff;}
     .qty-ctl{display:flex;align-items:center;gap:6px;}
     .qty-ctl button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
     .qty-ctl button:hover{background:var(--mint);color:#fff;border-color:var(--mint);}
@@ -921,10 +931,47 @@
 
     let rowCount = 0;
 
-    function roleOptions(selected) {
-      return roles.map((r, i) =>
-        '<option value="' + i + '"' + (i === selected ? ' selected' : '') + '>' + r.name + '</option>'
-      ).join('');
+    function roleSearchHTML(idx, selected) {
+      const sel = roles[selected];
+      const val = sel ? sel.name : '';
+      return '<div class="role-search-wrap">' +
+        '<input type="text" class="role-search" id="search-' + idx + '" value="' + val + '" ' +
+        'placeholder="Type to search 64 roles..." autocomplete="off" ' +
+        'oninput="filterRoles(' + idx + ')" ' +
+        'onfocus="openDropdown(' + idx + ')" ' +
+        'onblur="setTimeout(function(){closeDropdown(' + idx + ')},200)" />' +
+        '<div class="role-dropdown" id="dropdown-' + idx + '">' +
+        roles.map(function(r, i) {
+          return '<div class="role-item' + (i === selected ? ' sel' : '') + '" ' +
+            'onmousedown="selectRole(' + idx + ',' + i + ')">' + r.name + '</div>';
+        }).join('') +
+        '</div></div>';
+    }
+
+    function filterRoles(idx) {
+      const q = document.getElementById('search-' + idx).value.toLowerCase();
+      const dd = document.getElementById('dropdown-' + idx);
+      dd.innerHTML = roles
+        .filter(function(r) { return r.name.toLowerCase().includes(q); })
+        .map(function(r, i) {
+          return '<div class="role-item" onmousedown="selectRole(' + idx + ',' + i + ')">' + r.name + '</div>';
+        }).join('');
+      dd.classList.add('open');
+    }
+
+    function openDropdown(idx) {
+      document.getElementById('dropdown-' + idx).classList.add('open');
+    }
+
+    function closeDropdown(idx) {
+      document.getElementById('dropdown-' + idx).classList.remove('open');
+    }
+
+    function selectRole(idx, roleIdx) {
+      document.getElementById('search-' + idx).value = roles[roleIdx].name;
+      document.getElementById('search-' + idx).dataset.roleIdx = roleIdx;
+      closeDropdown(idx);
+      recalc();
     }
 
     function addRow() {
@@ -936,7 +983,7 @@
       div.innerHTML =
         '<div class="field">' +
           '<label>Role</label>' +
-          '<select onchange="recalc()" class="role-select">' + roleOptions(0) + '</select>' +
+          roleSearchHTML(idx, 0) +
         '</div>' +
         '<div>' +
           '<label>Qty</label>' +
@@ -977,9 +1024,10 @@
       let totalDr = 0, totalUsa = 0;
 
       rows.forEach(function(row) {
-        const sel = row.querySelector('.role-select');
+        const search = row.querySelector('.role-search');
+        const idx = parseInt(search.dataset.roleIdx);
         const qty = parseInt(row.querySelector('[id^="qty-"]').textContent);
-        const role = roles[parseInt(sel.value)];
+        const role = roles[idx] || roles[0];
         const drSub = role.dr * qty * 12;
         const usaSub = role.usa * qty * 12;
         totalDr += drSub;
