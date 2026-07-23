@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && find . -maxdepth 1 -name '*.html' ! -name 'index.html' ! -name '*case-study*' -exec cp {} docs/ \\;",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -7,392 +7,527 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>html{scroll-behavior:smooth}</style>
+  <style>
+    :root{
+      --ink:#0F2438;
+      --ink-soft:#1B3550;
+      --paper:#F5F7F5;
+      --panel:#FFFFFF;
+      --mint:#1E8F74;
+      --mint-soft:#DCEFE9;
+      --gold:#D6A34D;
+      --gold-soft:#F6E9D2;
+      --slate:#445064;
+      --line:#DEE4E1;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth}
+    html,body{margin:0;padding:0;}
+    body{
+      background:var(--paper);
+      color:var(--ink);
+      font-family:'Inter',sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+    .mono{font-family:'IBM Plex Mono',monospace;}
+
+    /* ---- NAV ---- */
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:20px 0;background:#fff;border-bottom:1px solid var(--line);
+    }
+    .nav .wrap{display:flex;justify-content:space-between;align-items:center;width:100%;}
+    .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:20px;letter-spacing:0.01em;color:var(--ink);text-decoration:none;}
+    .logo svg{flex-shrink:0;}
+    .logo span{color:var(--mint);}
+
+    .nav-links{display:flex;align-items:center;gap:28px;}
+    .nav-links a{font-size:14px;font-weight:500;color:var(--slate);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--mint);}
+
+    .btn-link{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#fff;background:var(--mint);padding:10px 22px;border-radius:8px;text-decoration:none;transition:background .2s;}
+    .btn-link:hover{background:#17806a;}
+    .nav-links .btn-link{color:#fff;background:var(--mint);}
+    .mobile-menu .btn-link{font-size:14px;display:inline-block;text-align:center;}
+
+    .mobile-btn{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--ink);}
+    .mobile-menu{display:none;}
+    .mobile-menu.open{display:flex;flex-direction:column;gap:16px;padding:16px 24px 20px;border-top:1px solid var(--line);}
+
+    /* ---- HERO ---- */
+    .hero{padding:64px 0 40px;border-bottom:1px solid var(--line);}
+    .eyebrow{
+      font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.16em;
+      text-transform:uppercase;color:var(--mint);margin-bottom:18px;display:flex;align-items:center;gap:10px;
+    }
+    .eyebrow::before{content:"";width:22px;height:1px;background:var(--mint);display:inline-block;}
+    h1{
+      font-family:'Fraunces',serif;font-weight:600;font-size:44px;line-height:1.12;
+      margin:0 0 20px;max-width:760px;letter-spacing:-0.01em;
+    }
+    .hero-sub{font-size:17px;color:var(--slate);max-width:620px;line-height:1.6;margin-bottom:36px;}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:44px;}
+    .hero-badges{display:flex;flex-wrap:wrap;gap-x:24px;gap-y:12px;}
+    .hero-badge{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slate);}
+    .hero-badge svg{flex-shrink:0;}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+    .hero-visual{position:relative;width:100%;aspect-ratio:1/1;max-width:520px;margin:0 auto;}
+    .hero-img-main{width:100%;height:100%;object-fit:cover;border-radius:20px;}
+    .hero-img-sm{position:absolute;border-radius:12px;border:4px solid #fff;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,.08);}
+    .hero-card{position:absolute;background:#fff;border-radius:12px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08);border:1px solid var(--line);}
+    .hero-card .label{font-size:11px;color:var(--slate);font-weight:500;}
+    .hero-card .value{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--ink);}
+
+    .hero-stats{display:flex;gap:0;border-top:1px solid var(--line);padding-top:28px;}
+    .stat{flex:1;padding-right:24px;}
+    .stat + .stat{border-left:1px solid var(--line);padding-left:24px;}
+    .stat .num{font-family:'Fraunces',serif;font-weight:700;font-size:32px;color:var(--ink);}
+    .stat .num.accent{color:var(--mint);}
+    .stat .label{font-size:12.5px;color:var(--slate);margin-top:4px;letter-spacing:0.01em;}
+
+    /* ---- SECTIONS ---- */
+    section{padding:56px 0;border-bottom:1px solid var(--line);}
+    section:last-of-type{border-bottom:none;}
+    .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+    .num-marker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:0.1em;}
+    h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:2px 0 6px;color:var(--ink);letter-spacing:-0.01em;}
+    .section-intro{color:var(--slate);font-size:15px;max-width:680px;line-height:1.65;margin-bottom:28px;}
+
+    /* ---- STATS BAR ---- */
+    .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+    .stat-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 16px;text-align:center;}
+    .stat-card .num{font-family:'Fraunces',serif;font-weight:700;font-size:30px;color:var(--ink);}
+    .stat-card .num.accent{color:var(--mint);}
+    .stat-card .label{font-size:12px;color:var(--slate);margin-top:4px;line-height:1.4;}
+
+    /* ---- SOLUTIONS GRID ---- */
+    .solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .sol-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;transition:translate .2s,box-shadow .2s;}
+    .sol-card:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(0,0,0,.06);}
+    .sol-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .sol-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);margin:0 0 10px;}
+    .sol-card ul{margin:0;padding:0;list-style:none;}
+    .sol-card li{font-size:13px;color:var(--slate);padding:2px 0;}
+
+    /* ---- TRUSTED BY ---- */
+    .trusted-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:22px 36px;}
+    .trusted-name{display:flex;align-items:center;gap:8px;font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--slate);}
+
+    /* ---- CALCULATOR ---- */
+    .calc-panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;}
+    .calc-panel h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--ink);margin:0 0 4px;text-align:center;}
+    .calc-sub{text-align:center;font-size:13px;color:var(--slate);margin-bottom:20px;}
+    .calc-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;padding:14px 18px;background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;}
+    .calc-row .field{flex:1;min-width:160px;}
+    .calc-row label{display:block;font-size:11px;color:var(--slate);margin-bottom:4px;}
+    .calc-row select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;color:var(--ink);background:#fff;outline:none;}
+    .calc-row select:focus{border-color:var(--mint);}
+    .qty-ctl{display:flex;align-items:center;gap:6px;}
+    .qty-ctl button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+    .qty-ctl button:hover{background:var(--mint);color:#fff;border-color:var(--mint);}
+    .qty-ctl span{font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:var(--ink);min-width:28px;text-align:center;}
+    .calc-subtotal{text-align:center;min-width:90px;}
+    .calc-subtotal .dr-val{font-family:'Fraunces',serif;font-weight:700;font-size:16px;color:var(--mint);}
+    .calc-subtotal .usa-val{font-family:'Fraunces',serif;font-weight:700;font-size:16px;color:var(--ink);}
+    .calc-subtotal .lab{font-size:10px;color:var(--slate);}
+    .calc-remove{width:30px;height:30px;border-radius:50%;border:1px solid #f0d0d0;background:none;color:#d66;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+    .calc-remove:hover{background:#fef0f0;}
+    .calc-add{text-align:center;margin-top:8px;}
+    .calc-add button{font-size:13px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;transition:color .2s;}
+    .calc-add button:hover{color:#17806a;}
+
+    .calc-total{border-top:1px solid var(--line);padding-top:20px;margin-top:16px;text-align:center;}
+    .calc-total .tot-lab{font-size:13px;color:var(--slate);}
+    .calc-total .tot-val{font-family:'Fraunces',serif;font-weight:700;font-size:40px;color:var(--mint);margin:4px 0;}
+    .calc-totals-row{display:flex;justify-content:center;gap:20px;font-size:13px;color:var(--slate);margin-top:8px;}
+    .calc-totals-row strong{color:var(--ink);}
+    .calc-bar-wrap{max-width:480px;margin:16px auto 0;}
+    .calc-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+    .calc-bar-row .bar-lab{font-size:11px;color:var(--slate);width:70px;text-align:right;flex-shrink:0;}
+    .calc-bar-track{flex:1;height:22px;background:var(--line);border-radius:20px;overflow:hidden;}
+    .calc-bar-fill{height:100%;background:var(--mint);border-radius:20px;transition:width .4s;}
+    .calc-bar-pct{font-size:11px;font-weight:600;color:var(--mint);width:50px;flex-shrink:0;}
+    .calc-bar-full .calc-bar-fill{background:var(--line);}
+    .calc-bar-full .calc-bar-pct{color:var(--slate);}
+
+    /* ---- TABLE ---- */
+    .table-wrap{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;min-width:520px;}
+    th{
+      text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;
+      text-transform:uppercase;color:var(--slate);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line);
+    }
+    td{padding:12px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+    tr:last-child td{border-bottom:none;}
+    td.num,th.num{text-align:right;font-family:'IBM Plex Mono',monospace;}
+    .save-pos{color:var(--mint);font-weight:600;}
+
+    /* ---- SOP CARDS ---- */
+    .sop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .sop-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;}
+    .sop-step{width:36px;height:36px;border-radius:8px;background:var(--mint-soft);color:var(--mint);font-family:'Fraunces',serif;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+    .sop-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);margin:0 0 10px;}
+    .sop-card li{font-size:13px;color:var(--slate);padding:2px 0;}
+    .sop-card ul{margin:0;padding:0;list-style:none;}
+    .sop-card li::before{content:"✓ ";color:var(--mint);font-weight:600;}
+
+    /* ---- QUALIFICATIONS STRIP ---- */
+    .quals-panel{background:var(--ink);border-radius:12px;padding:36px 32px;margin-top:32px;}
+    .quals-panel h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:#fff;margin:0 0 4px;text-align:center;}
+    .quals-sub{text-align:center;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px;}
+    .quals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+    .quals-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:18px;}
+    .quals-card .val{font-family:'Fraunces',serif;font-weight:700;font-size:24px;color:var(--mint);}
+    .quals-card h4{font-size:13px;font-weight:600;color:#fff;margin:6px 0 2px;}
+    .quals-card p{font-size:11px;color:rgba(255,255,255,.5);margin:0;}
+
+    /* ---- CASE STUDY CARDS ---- */
+    .cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .cs-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;display:block;transition:translate .2s,box-shadow .2s;}
+    .cs-card:hover{translate:0 -2px;box-shadow:0 8px 20px rgba(0,0,0,.06);}
+    .cs-card .cs-brand{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+    .cs-card .cs-brand svg{flex-shrink:0;}
+    .cs-card .cs-brand-name{font-family:'Fraunces',serif;font-weight:700;font-size:14px;color:var(--ink);}
+    .cs-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;}
+    .cs-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--ink);margin:8px 0 6px;}
+    .cs-card .cs-desc{font-size:13px;color:var(--slate);margin:0 0 14px;line-height:1.5;}
+    .cs-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .cs-stat{background:var(--paper);border-radius:8px;padding:10px;text-align:center;}
+    .cs-stat .cs-stat-lab{font-size:10px;color:var(--slate);}
+    .cs-stat .cs-stat-val{font-family:'Fraunces',serif;font-weight:700;font-size:18px;}
+    .cs-cta{font-size:13px;font-weight:600;color:var(--mint);margin-top:14px;display:inline-block;}
+
+    /* ---- HOW IT WORKS ---- */
+    .hiw-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;}
+    .hiw-card{text-align:center;}
+    .hiw-icon{width:56px;height:56px;border-radius:50%;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+    .hiw-icon svg{color:var(--ink);}
+    .hiw-step{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--mint);text-transform:uppercase;margin-bottom:4px;}
+    .hiw-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--ink);margin:0 0 4px;}
+    .hiw-card p{font-size:12px;color:var(--slate);margin:0;line-height:1.4;max-width:120px;margin-left:auto;margin-right:auto;}
+
+    /* ---- FINAL CTA ---- */
+    .cta-section{background:var(--ink);padding:56px 0;}
+    .cta-wrap{max-width:640px;margin:0 auto;text-align:center;padding:0 32px;}
+    .cta-section h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;color:#fff;margin:0 0 10px;}
+    .cta-section .cta-sub{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:24px;}
+    .cta-section .cta-sub a{color:var(--mint);}
+    .cta-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+
+    /* ---- FOOTER ---- */
+    footer{background:var(--ink);padding:0;}
+    .foot-news{border-bottom:1px solid rgba(255,255,255,.1);padding:32px 0;}
+    .foot-news-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+    .foot-news h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:#fff;margin:0 0 2px;}
+    .foot-news p{font-size:12px;color:rgba(255,255,255,.5);margin:0;}
+    .foot-news-form{display:flex;gap:8px;}
+    .foot-news-form input{padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-size:13px;outline:none;min-width:220px;}
+    .foot-news-form input::placeholder{color:rgba(255,255,255,.35);}
+    .foot-news-form input:focus{border-color:var(--mint);}
+    .foot-news-form button{padding:8px 20px;border-radius:8px;background:var(--mint);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+    .foot-news-form button:hover{background:#17806a;}
+
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:40px;padding:40px 0 24px;}
+    .foot-brand .logo{color:#fff;}
+    .foot-brand .logo span{color:var(--mint);}
+    .foot-brand p{font-size:12px;color:rgba(255,255,255,.5);margin:12px 0 16px;line-height:1.6;max-width:280px;}
+    .foot-social{display:flex;gap:8px;}
+    .foot-social a{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);transition:all .2s;}
+    .foot-social a:hover{border-color:var(--mint);background:var(--mint);color:#fff;}
+    .foot-col h4{font-size:12px;font-weight:600;color:#fff;margin:0 0 12px;}
+    .foot-col ul{margin:0;padding:0;list-style:none;}
+    .foot-col li{margin-bottom:8px;}
+    .foot-col a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+    .foot-col a:hover{color:#fff;}
+
+    .foot-bar{border-top:1px solid rgba(255,255,255,.1);padding:16px 0;}
+    .foot-bar-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,.4);}
+    .foot-bar-inner a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+    .foot-bar-inner a:hover{color:#fff;}
+    .foot-links{display:flex;gap:16px;}
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width:960px){
+      .hero-grid{grid-template-columns:1fr;}
+      .hero-visual{display:none;}
+      .solutions-grid,.sop-grid,.quals-grid,.cs-grid,.stats-grid{grid-template-columns:repeat(2,1fr);}
+      .hiw-grid{grid-template-columns:repeat(4,1fr);}
+      .foot-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media (max-width:720px){
+      .wrap{padding:0 20px;}
+      h1{font-size:32px;}
+      .hero{padding:40px 0 28px;}
+      .hero-sub{font-size:15px;}
+      .hero-stats{flex-wrap:wrap;}
+      .stat{flex:0 0 50%;margin-bottom:16px;padding-right:16px;}
+      .stat + .stat{padding-left:16px;}
+      .stat .num{font-size:26px;}
+      .nav-links{display:none;}
+      .mobile-btn{display:block;}
+      .solutions-grid,.sop-grid,.cs-grid{grid-template-columns:1fr;}
+      .quals-grid,.stats-grid{grid-template-columns:repeat(2,1fr);}
+      .hiw-grid{grid-template-columns:repeat(2,1fr);}
+      section{padding:36px 0;}
+      h2{font-size:22px;}
+      .foot-grid{grid-template-columns:1fr;}
+      .calc-row{flex-direction:column;align-items:stretch;}
+      .calc-row .field{min-width:0;}
+    }
+    @media (max-width:480px){
+      .wrap{padding:0 16px;}
+      h1{font-size:26px;}
+      .stat{flex:0 0 100%;padding-right:0;}
+      .stat + .stat{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:16px;}
+      .stats-grid,.quals-grid{grid-template-columns:1fr;}
+      h2{font-size:20px;}
+      .eyebrow{font-size:10px;}
+    }
+  </style>
 </head>
-<body x-data="{ mobileMenuOpen: false }" class="bg-[#F5F7F5]">
+<body>
 
   <!-- ============ HEADER ============ -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-navy/5">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-      <!-- Logo -->
-      <a href="index.html" class="flex items-center gap-2">
-        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
-          <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <span class="leading-tight">
-          <span class="block font-display text-lg font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
-        </span>
-      </a>
-
-      <!-- Desktop Nav -->
-      <nav class="hidden items-center gap-8 text-sm font-medium text-navy-700 lg:flex">
-        <a href="#pricing" class="hover:text-accent">Pricing</a>
-        <a href="#sop" class="hover:text-accent">Our Process</a>
-        <a href="#case-studies" class="hover:text-accent">Case Studies</a>
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="hover:text-accent">Contact</a>
-      </nav>
-
-      <div class="hidden lg:block">
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-primary">Build My Team</a>
-      </div>
-
-      <!-- Mobile toggle -->
-      <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-navy" aria-label="Toggle menu">
-        <svg x-show="!mobileMenuOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg x-show="mobileMenuOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" x-cloak><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
+  <div class="nav"><div class="wrap">
+    <a href="index.html" class="logo">
+      <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+        <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+        <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#0F2438" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Dime<span>Republic</span>
+    </a>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="#sop">Our Process</a>
+      <a href="#case-studies">Case Studies</a>
+      <a href="https://calendly.com/dimerepublic30/30min" target="_blank">Contact</a>
+      <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link">Build My Team</a>
     </div>
+    <button class="mobile-btn" onclick="document.getElementById('mobMenu').classList.toggle('open')" aria-label="Toggle menu">
+      <svg id="mobIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div></div>
+  <div id="mobMenu" class="mobile-menu wrap">
+    <a href="#pricing" onclick="document.getElementById('mobMenu').classList.remove('open')">Pricing</a>
+    <a href="#sop" onclick="document.getElementById('mobMenu').classList.remove('open')">Our Process</a>
+    <a href="#case-studies" onclick="document.getElementById('mobMenu').classList.remove('open')">Case Studies</a>
+    <a href="https://calendly.com/dimerepublic30/30min" target="_blank" onclick="document.getElementById('mobMenu').classList.remove('open')">Contact</a>
+    <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link" onclick="document.getElementById('mobMenu').classList.remove('open')">Build My Team</a>
+  </div>
 
-    <!-- Mobile Nav -->
-    <div x-show="mobileMenuOpen" x-cloak x-transition class="lg:hidden border-t border-navy/5 bg-white px-6 py-4">
-      <nav class="flex flex-col gap-4 text-sm font-medium text-navy-700">
-        <a href="#pricing" @click="mobileMenuOpen=false">Pricing</a>
-        <a href="#sop" @click="mobileMenuOpen=false">Our Process</a>
-        <a href="#case-studies" @click="mobileMenuOpen=false">Case Studies</a>
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" @click="mobileMenuOpen=false">Contact</a>
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-primary mt-2 w-full">Build My Team</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- ============ HERO ============ -->
-  <section id="hero" class="overflow-hidden bg-white">
-    <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:px-8 lg:py-24">
-      <!-- Left -->
-      <div>
-        <p class="section-eyebrow mb-4">GLOBAL TALENT. MASSIVE IMPACT.</p>
-        <h1 class="font-display text-display-1 text-navy">
-          Elite Talent.<br />
-          Lower Costs.<br />
-          <span class="text-accent">Bigger Impact.</span>
-        </h1>
-        <p class="mt-6 max-w-md text-base leading-relaxed text-navy-400">
-          Hire dedicated professionals from Pakistan for as low as <strong class="text-navy">$875/month</strong> and scale your business without limits.
-        </p>
-
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-primary">Build My Team</a>
-          <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-outline">Book Free Consultation</a>
+  <div class="wrap">
+    <!-- ============ HERO ============ -->
+    <section class="hero" style="border-bottom:none;padding-bottom:32px;">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Global Talent. Massive Impact.</div>
+          <h1>Elite Talent.<br/>Lower Costs.<br/><span style="color:var(--mint);">Bigger Impact.</span></h1>
+          <p class="hero-sub">Hire dedicated professionals from Pakistan for as low as <strong style="color:var(--ink);">$875/month</strong> and scale your business without limits.</p>
+          <div class="hero-actions">
+            <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link" style="padding:12px 28px;font-size:14px;">Build My Team</a>
+            <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link" style="padding:12px 28px;font-size:14px;background:transparent;color:var(--ink);border:1px solid var(--line);">Book Free Consultation</a>
+          </div>
+          <div class="hero-badges">
+            <div class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M12 8v4l3 3" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>24/7 Operations</div>
+            <div class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke-linecap="round"/><path d="M16 10a3 3 0 100-6 3 3 0 000 6z"/></svg>Top 1% Talent</div>
+            <div class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linecap="round" stroke-linejoin="round"/></svg>Secure &amp; Compliant</div>
+            <div class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3" stroke-linecap="round"/></svg>Hire in <strong style="color:var(--ink);">72 Hours</strong></div>
+          </div>
         </div>
-
-        <div class="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-sm text-navy-700">
-          <div class="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><path d="M12 8v4l3 3" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>
-            24/7 Operations
+        <div class="hero-visual">
+          <img src="hero.jpeg" alt="" class="hero-img-main" style="width:100%;height:100%;object-fit:cover;border-radius:20px;" />
+          <img src="developer.jpeg" alt="" class="hero-img-sm" style="width:110px;height:130px;top:20px;left:-10px;" />
+          <img src="team-member.jpeg" alt="" class="hero-img-sm" style="width:100px;height:100px;bottom:20px;right:10px;" />
+          <div class="hero-card" style="bottom:60px;left:-20px;">
+            <p class="label">Cost Savings</p>
+            <p class="value">$126K <span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:400;color:var(--slate);">Annual Savings</span></p>
+            <svg width="120" height="28" viewBox="0 0 120 28" fill="none"><polyline points="2,22 20,18 40,20 60,12 80,14 100,6 118,8" stroke="var(--mint)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div class="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke-linecap="round"/><path d="M16 10a3 3 0 100-6 3 3 0 000 6z"/></svg>
-            Top 1% Talent
-          </div>
-          <div class="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Secure &amp; Compliant
-          </div>
-          <div class="flex items-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3" stroke-linecap="round"/></svg>
-            Hire in <span class="font-semibold text-navy">72 Hours</span>
+          <div class="hero-card" style="top:20px;right:-10px;">
+            <span style="display:flex;align-items:center;gap:6px;"><span style="width:24px;height:24px;border-radius:50%;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><span class="label">Live Chat</span><span style="display:block;font-size:11px;color:var(--slate);">98% Satisfaction</span></span></span>
           </div>
         </div>
       </div>
 
-      <!-- Right: hero collage -->
-      <div class="relative mx-auto h-[400px] w-full max-w-md lg:h-[500px] lg:max-w-xl">
-        <div class="absolute inset-0 rounded-full bg-accent-50"></div>
-        <div class="absolute right-0 top-0 h-[270px] w-[270px] overflow-hidden rounded-3xl shadow-floating sm:h-[360px] sm:w-[360px]">
-          <img src="hero.jpeg" alt="Customer support agent wearing a headset" class="h-full w-full object-cover" />
+      <div class="hero-stats" style="margin-top:32px;">
+        <div class="stat">
+          <div class="num accent">500+</div>
+          <div class="label">Professionals Ready to Hire</div>
         </div>
-        <div class="absolute left-0 top-6 h-28 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-32 sm:w-28">
-          <img src="developer.jpeg" alt="Remote developer working at a laptop" class="h-full w-full object-cover" />
+        <div class="stat">
+          <div class="num accent">98%</div>
+          <div class="label">Client Satisfaction</div>
         </div>
-        <div class="absolute bottom-4 right-4 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-floating sm:h-28 sm:w-28">
-          <img src="team-member.jpeg" alt="Remote team member smiling" class="h-full w-full object-cover" />
+        <div class="stat">
+          <div class="num">72h</div>
+          <div class="label">Average Hire Time</div>
         </div>
-        <div class="absolute left-2 top-40 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-floating sm:left-4">
-          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span>
-            <span class="block text-sm font-semibold text-navy">Live Chat</span>
-            <span class="block text-xs text-navy-400">98% Satisfaction</span>
-          </span>
+        <div class="stat">
+          <div class="num">3x</div>
+          <div class="label">Faster Hiring Than Traditional</div>
         </div>
-        <div class="absolute bottom-24 left-0 w-48 rounded-xl bg-white p-4 shadow-floating sm:-left-6">
-          <p class="text-xs font-medium text-navy-400">Cost Savings</p>
-          <p class="font-display text-2xl font-bold text-navy">$126K <span class="text-xs font-normal text-navy-400">Annual Savings</span></p>
-          <svg class="mt-2" width="100%" height="36" viewBox="0 0 160 36" fill="none">
-            <polyline points="0,28 25,22 50,26 75,14 100,18 125,6 160,10" stroke="#22C55E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="stat">
+          <div class="num accent">78%</div>
+          <div class="label">Average Cost Savings</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ TRUSTED BY ============ -->
-  <section class="bg-white py-10 border-b border-line">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <p class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-navy-400">Trusted by Ambitious Companies</p>
-      <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-navy-700">
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M12 2l9 18H3z"/></svg>Apexion</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="9"/></svg>Clarivo</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#2563EB"><rect x="4" y="4" width="16" height="16" rx="6"/></svg>Nimbus</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M12 2l4 20-4-4-4 4z"/></svg>Veridian</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><rect x="3" y="10" width="4" height="10"/><rect x="10" y="4" width="4" height="16"/><rect x="17" y="7" width="4" height="13"/></svg>Lumenix</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Pivotal</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M4 12a8 8 0 0113-6M20 12a8 8 0 01-13 6"/></svg>Coreza</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>InfinitexHome</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><circle cx="12" cy="12" r="9"/></svg>Burraq Spinning</span>
-        <span class="flex items-center gap-2 font-display font-semibold"><svg width="18" height="18" viewBox="0 0 24 24" fill="#101A34"><path d="M3 12l9-9 9 9-9 9z"/></svg>Titan Anaesthesia</span>
+    <!-- ============ TRUSTED BY ============ -->
+    <section style="padding:28px 0;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);text-align:center;margin:0 0 16px;">Trusted by Ambitious Companies</p>
+      <div class="trusted-row">
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><path d="M12 2l9 18H3z"/></svg>Apexion</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="9"/></svg>Clarivo</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#2563EB"><rect x="4" y="4" width="16" height="16" rx="6"/></svg>Nimbus</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><path d="M12 2l4 20-4-4-4 4z"/></svg>Veridian</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><rect x="3" y="10" width="4" height="10"/><rect x="10" y="4" width="4" height="16"/><rect x="17" y="7" width="4" height="13"/></svg>Lumenix</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F2438" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Pivotal</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F2438" stroke-width="2"><path d="M4 12a8 8 0 0113-6M20 12a8 8 0 01-13 6"/></svg>Coreza</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>InfinitexHome</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><circle cx="12" cy="12" r="9"/></svg>Burraq Spinning</span>
+        <span class="trusted-name"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0F2438"><path d="M3 12l9-9 9 9-9 9z"/></svg>Titan Anaesthesia</span>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ COMPANY STATISTICS ============ -->
-  <section class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-5">
-        <div class="text-center">
-          <p class="font-display text-4xl font-bold text-navy">500+</p>
-          <p class="mt-2 text-sm text-navy-400">Professionals Ready to Hire</p>
-        </div>
-        <div class="text-center">
-          <p class="font-display text-4xl font-bold text-navy">98%</p>
-          <p class="mt-2 text-sm text-navy-400">Client Satisfaction</p>
-        </div>
-        <div class="text-center">
-          <p class="font-display text-4xl font-bold text-navy">72h</p>
-          <p class="mt-2 text-sm text-navy-400">Average Hire Time</p>
-        </div>
-        <div class="text-center">
-          <p class="font-display text-4xl font-bold text-navy">3x</p>
-          <p class="mt-2 text-sm text-navy-400">Faster Hiring Than Traditional</p>
-        </div>
-        <div class="text-center">
-          <p class="font-display text-4xl font-bold text-navy">78%</p>
-          <p class="mt-2 text-sm text-navy-400">Average Cost Savings</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- ============ SOLUTIONS ============ -->
-  <section class="bg-navy-50/60 py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="font-display text-display-2 text-navy">Solutions That Drive Growth</h2>
-        <p class="mt-3 text-navy-400">Build Your Offshore Dream Team</p>
-      </div>
+  <section style="background:#fff;">
+    <div class="wrap">
+      <div class="section-head"><span class="num-marker">01 — Solutions</span></div>
+      <h2>Solutions That Drive Growth</h2>
+      <p class="section-intro">Build Your Offshore Dream Team</p>
 
-      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M4 13a8 8 0 0116 0" stroke-linecap="round"/><rect x="2" y="13" width="4" height="6" rx="1"/><rect x="18" y="13" width="4" height="6" rx="1"/><path d="M20 19a4 4 0 01-4 4h-2" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">Customer Support</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• Live Chat Support</li>
-            <li>• Email Support</li>
-            <li>• Phone Support</li>
-            <li>• Technical Support</li>
+      <div class="solutions-grid">
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#ecf5ff;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M4 13a8 8 0 0116 0" stroke-linecap="round"/><rect x="2" y="13" width="4" height="6" rx="1"/><rect x="18" y="13" width="4" height="6" rx="1"/><path d="M20 19a4 4 0 01-4 4h-2" stroke-linecap="round"/></svg></div>
+          <h3>Customer Support</h3>
+          <ul>
+            <li>Live Chat Support</li>
+            <li>Email Support</li>
+            <li>Phone Support</li>
+            <li>Technical Support</li>
           </ul>
         </div>
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">Developers</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• Frontend Developers</li>
-            <li>• Backend Developers</li>
-            <li>• Full Stack Developers</li>
-            <li>• Mobile Developers</li>
-            <li>• QA Engineers</li>
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#e8f8ee;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Developers</h3>
+          <ul>
+            <li>Frontend Developers</li>
+            <li>Backend Developers</li>
+            <li>Full Stack Developers</li>
+            <li>Mobile Developers</li>
+            <li>QA Engineers</li>
           </ul>
         </div>
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-violet-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">DevOps</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• AWS / Azure</li>
-            <li>• Docker &amp; Kubernetes</li>
-            <li>• CI/CD Pipelines</li>
-            <li>• Infrastructure</li>
-            <li>• Monitoring</li>
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#f2eaff;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>DevOps</h3>
+          <ul>
+            <li>AWS / Azure</li>
+            <li>Docker &amp; Kubernetes</li>
+            <li>CI/CD Pipelines</li>
+            <li>Infrastructure</li>
+            <li>Monitoring</li>
           </ul>
         </div>
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-pink-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2"><path d="M3 11v2a2 2 0 002 2h1l3 4v-4h2l6-4V7l-6-4H8v4H5a2 2 0 00-2 2z" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">Marketing</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• SEO Specialists</li>
-            <li>• Google Ads Experts</li>
-            <li>• Social Media Managers</li>
-            <li>• Content Writers</li>
-            <li>• Graphic Designers</li>
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#feeaf2;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2"><path d="M3 11v2a2 2 0 002 2h1l3 4v-4h2l6-4V7l-6-4H8v4H5a2 2 0 00-2 2z" stroke-linejoin="round"/></svg></div>
+          <h3>Marketing</h3>
+          <ul>
+            <li>SEO Specialists</li>
+            <li>Google Ads Experts</li>
+            <li>Social Media Managers</li>
+            <li>Content Writers</li>
+            <li>Graphic Designers</li>
           </ul>
         </div>
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-orange-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D6A34D" stroke-width="2"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 011-1h4a1 1 0 011 1v1M9 10h6M9 14h6M9 18h3" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">Virtual Assistants</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• Executive Assistants</li>
-            <li>• Data Entry</li>
-            <li>• Research</li>
-            <li>• Scheduling</li>
-            <li>• Admin Support</li>
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#fef3e6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D6A34D" stroke-width="2"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 011-1h4a1 1 0 011 1v1M9 10h6M9 14h6M9 18h3" stroke-linecap="round"/></svg></div>
+          <h3>Virtual Assistants</h3>
+          <ul>
+            <li>Executive Assistants</li>
+            <li>Data Entry</li>
+            <li>Research</li>
+            <li>Scheduling</li>
+            <li>Admin Support</li>
           </ul>
         </div>
-        <div class="rounded-2xl border border-navy/5 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="font-display text-base font-semibold text-navy">Recruiting</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li>• Technical Recruiters</li>
-            <li>• Talent Acquisition</li>
-            <li>• Sourcing Specialists</li>
-            <li>• HR Assistants</li>
+        <div class="sol-card">
+          <div class="sol-icon" style="background:#e6fffa;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg></div>
+          <h3>Recruiting</h3>
+          <ul>
+            <li>Technical Recruiters</li>
+            <li>Talent Acquisition</li>
+            <li>Sourcing Specialists</li>
+            <li>HR Assistants</li>
           </ul>
         </div>
       </div>
 
-      <div class="mt-10 text-center">
-        <a href="developers-role.html" class="btn-primary">Explore All Roles</a>
+      <div style="text-align:center;margin-top:28px;">
+        <a href="developers-role.html" class="btn-link" style="display:inline-block;">Explore All Roles</a>
       </div>
     </div>
   </section>
 
   <!-- ============ COST COMPARISON ============ -->
-  <section id="pricing" class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="font-display text-display-2 text-navy">Same Role. Massive Savings.</h2>
-        <p class="mt-3 text-navy-400">Top-tier talent at a fraction of the cost.</p>
-        <p class="mt-2 text-lg font-semibold text-accent">Save up to 80% on operational costs.</p>
-      </div>
+  <section id="pricing" style="background:#fff;">
+    <div class="wrap">
+      <div class="section-head"><span class="num-marker">02 — Pricing</span></div>
+      <h2>Same Role. Massive Savings.</h2>
+      <p class="section-intro">Top-tier talent at a fraction of the cost. <strong style="color:var(--mint);">Save up to 80% on operational costs.</strong></p>
 
-      <!-- Savings Calculator -->
-      <div class="mt-14 rounded-2xl bg-navy-50/60 p-8" id="calculator">
-        <h3 class="font-display text-xl font-bold text-navy text-center">Build Your Team</h3>
-        <p class="mt-2 text-center text-sm text-navy-400">Add roles and quantities to estimate your annual savings.</p>
+      <div class="calc-panel" id="calculator">
+        <h3>Build Your Team</h3>
+        <p class="calc-sub">Add roles and quantities to estimate your annual savings.</p>
+        <div id="teamRows"></div>
+        <div class="calc-add"><button onclick="addRow()">+ Add Another Role</button></div>
 
-        <div id="teamRows" class="mt-6 space-y-4">
-          <!-- Rows inserted by JS -->
-        </div>
-
-        <div class="mt-4 text-center">
-          <button onclick="addRow()" class="text-sm font-semibold text-accent hover:text-accent-600 transition">+ Add Another Role</button>
-        </div>
-
-        <div class="mt-8 border-t border-navy/10 pt-6 text-center">
-          <p class="text-sm text-navy-400">Estimated Annual Savings:</p>
-          <p id="savingsAmount" class="mt-2 font-display text-5xl font-bold text-accent">$0</p>
-          <div class="mt-4 flex items-center justify-center gap-4 text-sm">
-            <span class="text-navy-400">DimeRepublic Cost:</span>
-            <span id="drCost" class="font-semibold text-navy">$0 / year</span>
-            <span class="text-navy-400">vs</span>
-            <span class="text-navy-400">USA Cost:</span>
-            <span id="usaCost" class="font-semibold text-navy">$0 / year</span>
+        <div class="calc-total">
+          <p class="tot-lab">Estimated Annual Savings</p>
+          <p class="tot-val" id="savingsAmount">$0</p>
+          <div class="calc-totals-row">
+            <span>DimeRepublic Cost: <strong id="drCost">$0 / year</strong></span>
+            <span>vs</span>
+            <span>USA Cost: <strong id="usaCost">$0 / year</strong></span>
           </div>
-          <!-- Visual bar -->
-          <div class="mt-6 max-w-lg mx-auto">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs text-navy-400 w-20 text-right">You Save</span>
-              <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
-                <div id="drBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width: 0%"></div>
-              </div>
-              <span id="drBarLabel" class="text-xs font-semibold text-accent w-16">0%</span>
+          <div class="calc-bar-wrap">
+            <div class="calc-bar-row">
+              <span class="bar-lab">You Save</span>
+              <div class="calc-bar-track"><div class="calc-bar-fill" id="drBar" style="width:0%"></div></div>
+              <span class="calc-bar-pct" id="drBarLabel">Save 0%</span>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs text-navy-400 w-20 text-right">USA Average</span>
-              <div class="flex-1 h-6 bg-navy/5 rounded-full overflow-hidden">
-                <div class="h-full bg-navy/20 rounded-full" style="width: 100%"></div>
-              </div>
-              <span class="text-xs font-semibold text-navy/40 w-16">100%</span>
+            <div class="calc-bar-row calc-bar-full">
+              <span class="bar-lab">USA Average</span>
+              <div class="calc-bar-track"><div class="calc-bar-fill" style="width:100%"></div></div>
+              <span class="calc-bar-pct">100%</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Comparison Table -->
-      <div class="mt-14 overflow-x-auto">
-        <table class="w-full text-left text-sm">
+      <div class="table-wrap" style="margin-top:32px;">
+        <table>
           <thead>
-            <tr class="border-b border-navy/10">
-              <th class="py-4 font-semibold text-navy">Role</th>
-              <th class="py-4 text-right font-semibold text-navy">USA (Avg. Cost)</th>
-              <th class="py-4 text-right font-semibold text-navy">DimeRepublic</th>
-              <th class="py-4 text-right font-semibold text-navy">You Save</th>
+            <tr>
+              <th>Role</th><th class="num">USA (Avg. Cost)</th><th class="num">DimeRepublic</th><th class="num">You Save</th>
             </tr>
           </thead>
-          <tbody class="text-navy-700">
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Customer Support Agent</td>
-              <td class="py-4 text-right">$4,800</td>
-              <td class="py-4 text-right">$875</td>
-              <td class="py-4 text-right font-semibold text-accent">82%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Marketing Manager</td>
-              <td class="py-4 text-right">$7,200</td>
-              <td class="py-4 text-right">$1,400</td>
-              <td class="py-4 text-right font-semibold text-accent">81%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Software Developer</td>
-              <td class="py-4 text-right">$8,000</td>
-              <td class="py-4 text-right">$1,550</td>
-              <td class="py-4 text-right font-semibold text-accent">81%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">DevOps Engineer</td>
-              <td class="py-4 text-right">$9,000</td>
-              <td class="py-4 text-right">$1,550</td>
-              <td class="py-4 text-right font-semibold text-accent">83%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Cold Calling Agent</td>
-              <td class="py-4 text-right">$6,400</td>
-              <td class="py-4 text-right">$950</td>
-              <td class="py-4 text-right font-semibold text-accent">85%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Graphic Designer</td>
-              <td class="py-4 text-right">$3,000</td>
-              <td class="py-4 text-right">$850</td>
-              <td class="py-4 text-right font-semibold text-accent">72%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Book Keeper</td>
-              <td class="py-4 text-right">$8,000</td>
-              <td class="py-4 text-right">$850</td>
-              <td class="py-4 text-right font-semibold text-accent">89%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">VFX Artist</td>
-              <td class="py-4 text-right">$4,500</td>
-              <td class="py-4 text-right">$1,000</td>
-              <td class="py-4 text-right font-semibold text-accent">78%</td>
-            </tr>
-            <tr class="border-b border-navy/5">
-              <td class="py-4">Virtual Assistant</td>
-              <td class="py-4 text-right">$5,600</td>
-              <td class="py-4 text-right">$950</td>
-              <td class="py-4 text-right font-semibold text-accent">83%</td>
-            </tr>
-            <tr>
-              <td class="py-4">Technical Recruiter</td>
-              <td class="py-4 text-right">$5,000</td>
-              <td class="py-4 text-right">$900</td>
-              <td class="py-4 text-right font-semibold text-accent">82%</td>
-            </tr>
+          <tbody>
+            <tr><td>Customer Support Agent</td><td class="num">$4,800</td><td class="num">$875</td><td class="num save-pos">82%</td></tr>
+            <tr><td>Marketing Manager</td><td class="num">$7,200</td><td class="num">$1,400</td><td class="num save-pos">81%</td></tr>
+            <tr><td>Software Developer</td><td class="num">$8,000</td><td class="num">$1,550</td><td class="num save-pos">81%</td></tr>
+            <tr><td>DevOps Engineer</td><td class="num">$9,000</td><td class="num">$1,550</td><td class="num save-pos">83%</td></tr>
+            <tr><td>Cold Calling Agent</td><td class="num">$6,400</td><td class="num">$950</td><td class="num save-pos">85%</td></tr>
+            <tr><td>Graphic Designer</td><td class="num">$3,000</td><td class="num">$850</td><td class="num save-pos">72%</td></tr>
+            <tr><td>Book Keeper</td><td class="num">$8,000</td><td class="num">$850</td><td class="num save-pos">89%</td></tr>
+            <tr><td>VFX Artist</td><td class="num">$4,500</td><td class="num">$1,000</td><td class="num save-pos">78%</td></tr>
+            <tr><td>Virtual Assistant</td><td class="num">$5,600</td><td class="num">$950</td><td class="num save-pos">83%</td></tr>
+            <tr><td>Technical Recruiter</td><td class="num">$5,000</td><td class="num">$900</td><td class="num save-pos">82%</td></tr>
           </tbody>
         </table>
       </div>
@@ -400,369 +535,299 @@
   </section>
 
   <!-- ============ OUR SOP ============ -->
-  <section id="sop" class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="section-eyebrow">Our Standard Process</p>
-        <h2 class="font-display text-display-2 text-navy">How We Source &amp; Qualify Talent</h2>
-        <p class="mt-3 text-navy-400">Every candidate meets a rigorous bar before they ever speak to you.</p>
-      </div>
+  <section id="sop" style="background:#fff;">
+    <div class="wrap">
+      <div class="section-head"><span class="num-marker">03 — Our Process</span></div>
+      <h2>How We Source &amp; Qualify Talent</h2>
+      <p class="section-intro">Every candidate meets a rigorous bar before they ever speak to you.</p>
 
-      <div class="mt-14 grid gap-8 md:grid-cols-3">
-        <!-- Step 1 -->
-        <div class="rounded-xl border border-navy/5 bg-navy-50/40 p-6">
-          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-lg font-bold text-accent">01</div>
-          <h3 class="mt-4 font-display text-lg font-semibold text-navy">Sourcing &amp; Screening</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> We tap our pre-vetted network of 10,000+ Pakistani professionals</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Role-specific skill assessments &amp; portfolio review</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> English proficiency test (written &amp; verbal)</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Background &amp; reference checks</li>
+      <div class="sop-grid">
+        <div class="sop-card">
+          <div class="sop-step">01</div>
+          <h3>Sourcing &amp; Screening</h3>
+          <ul>
+            <li>We tap our pre-vetted network of 10,000+ Pakistani professionals</li>
+            <li>Role-specific skill assessments &amp; portfolio review</li>
+            <li>English proficiency test (written &amp; verbal)</li>
+            <li>Background &amp; reference checks</li>
           </ul>
         </div>
-
-        <!-- Step 2 -->
-        <div class="rounded-xl border border-navy/5 bg-navy-50/40 p-6">
-          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-lg font-bold text-accent">02</div>
-          <h3 class="mt-4 font-display text-lg font-semibold text-navy">Technical &amp; Domain Validation</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Hands-on technical test tailored to your stack</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Domain-specific case study or situational interview</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Soft-skills &amp; communication evaluation</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Culture-fit assessment with your team lead</li>
+        <div class="sop-card">
+          <div class="sop-step">02</div>
+          <h3>Technical &amp; Domain Validation</h3>
+          <ul>
+            <li>Hands-on technical test tailored to your stack</li>
+            <li>Domain-specific case study or situational interview</li>
+            <li>Soft-skills &amp; communication evaluation</li>
+            <li>Culture-fit assessment with your team lead</li>
           </ul>
         </div>
-
-        <!-- Step 3 -->
-        <div class="rounded-xl border border-navy/5 bg-navy-50/40 p-6">
-          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-lg font-bold text-accent">03</div>
-          <h3 class="mt-4 font-display text-lg font-semibold text-navy">Onboarding &amp; Quality Assurance</h3>
-          <ul class="mt-3 space-y-2 text-sm text-navy-400">
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Dedicated account manager for first 30 days</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Weekly performance reviews &amp; milestone tracking</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Instant replacement guarantee if expectations aren't met</li>
-            <li class="flex gap-2"><span class="mt-0.5 text-accent">✓</span> Ongoing training &amp; upskilling at no extra cost</li>
+        <div class="sop-card">
+          <div class="sop-step">03</div>
+          <h3>Onboarding &amp; Quality Assurance</h3>
+          <ul>
+            <li>Dedicated account manager for first 30 days</li>
+            <li>Weekly performance reviews &amp; milestone tracking</li>
+            <li>Instant replacement guarantee if expectations aren't met</li>
+            <li>Ongoing training &amp; upskilling at no extra cost</li>
           </ul>
         </div>
       </div>
 
-      <!-- Minimum Qualifications -->
-      <div class="mt-16 rounded-2xl bg-navy p-10 text-center">
-        <h3 class="font-display text-2xl font-bold text-white">Minimum Qualifications We Require</h3>
-        <p class="mt-2 text-sm text-navy-100/70">Every DimeRepublic professional meets these non-negotiable standards.</p>
-        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div class="rounded-xl bg-white/5 p-5 text-left">
-            <div class="text-2xl font-bold text-accent">4+</div>
-            <p class="mt-1 text-sm font-semibold text-white">Years Experience</p>
-            <p class="mt-1 text-xs text-navy-100/60">Industry-specific experience in their domain</p>
+      <div class="quals-panel">
+        <h3>Minimum Qualifications We Require</h3>
+        <p class="quals-sub">Every DimeRepublic professional meets these non-negotiable standards.</p>
+        <div class="quals-grid">
+          <div class="quals-card">
+            <div class="val">4+</div>
+            <h4>Years Experience</h4>
+            <p>Industry-specific experience in their domain</p>
           </div>
-          <div class="rounded-xl bg-white/5 p-5 text-left">
-            <div class="text-2xl font-bold text-accent">C1</div>
-            <p class="mt-1 text-sm font-semibold text-white">English Level</p>
-            <p class="mt-1 text-xs text-navy-100/60">Advanced written &amp; spoken English proficiency</p>
+          <div class="quals-card">
+            <div class="val">C1</div>
+            <h4>English Level</h4>
+            <p>Advanced written &amp; spoken English proficiency</p>
           </div>
-          <div class="rounded-xl bg-white/5 p-5 text-left">
-            <div class="text-2xl font-bold text-accent">97%</div>
-            <p class="mt-1 text-sm font-semibold text-white">Retention Rate</p>
-            <p class="mt-1 text-xs text-navy-100/60">Our talent stays — average tenure is 2+ years</p>
+          <div class="quals-card">
+            <div class="val">97%</div>
+            <h4>Retention Rate</h4>
+            <p>Our talent stays — average tenure is 2+ years</p>
           </div>
-          <div class="rounded-xl bg-white/5 p-5 text-left">
-            <div class="text-2xl font-bold text-accent">&lt;48h</div>
-            <p class="mt-1 text-sm font-semibold text-white">Match Time</p>
-            <p class="mt-1 text-xs text-navy-100/60">Average time from request to candidate shortlist</p>
+          <div class="quals-card">
+            <div class="val">&lt;48h</div>
+            <h4>Match Time</h4>
+            <p>Average time from request to candidate shortlist</p>
           </div>
         </div>
       </div>
 
-      <div class="mt-12 text-center">
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-primary">Submit a Hiring Request</a>
+      <div style="text-align:center;margin-top:28px;">
+        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link" style="display:inline-block;">Submit a Hiring Request</a>
       </div>
     </div>
   </section>
 
   <!-- ============ CASE STUDIES ============ -->
-  <section id="case-studies" class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="font-display text-display-2 text-navy">Client Success Stories</h2>
-        <p class="mt-3 text-navy-400">Real Results. Real Impact.</p>
-      </div>
+  <section id="case-studies" style="background:#fff;">
+    <div class="wrap">
+      <div class="section-head"><span class="num-marker">04 — Case Studies</span></div>
+      <h2>Client Success Stories</h2>
+      <p class="section-intro">Real Results. Real Impact.</p>
 
-      <div class="mt-14 grid gap-6 md:grid-cols-3">
-        <!-- iGate -->
-        <a href="igate-dimerepublic-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="flex items-center gap-2 mb-4">
-            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
-              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#D6303F" stroke-width="3" stroke-linecap="round"/>
-              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span class="font-display font-bold text-navy">Dime<span class="text-red-500">Republic</span></span>
+      <div class="cs-grid">
+        <a href="igate-dimerepublic-case-study.html" class="cs-card">
+          <div class="cs-brand">
+            <svg width="24" height="24" viewBox="0 0 34 34" fill="none"><path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#D6303F" stroke-width="3" stroke-linecap="round"/><path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#0F2438" stroke-width="3" stroke-linecap="round"/></svg>
+            <span class="cs-brand-name">Dime<span style="color:#D6303F;">Republic</span></span>
           </div>
-          <p class="text-xs font-bold uppercase tracking-widest text-red-500">2-Month Review</p>
-          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">iGate Softwares</h3>
-          <p class="mt-2 text-sm text-navy-400">15 IT specialists & sales closers. 81.9% cost reduction.</p>
-          <div class="mt-4 grid grid-cols-2 gap-3">
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Savings</p>
-              <p class="font-display text-lg font-bold text-accent">A$199K</p>
-            </div>
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Team Size</p>
-              <p class="font-display text-lg font-bold text-navy">15</p>
-            </div>
+          <p class="cs-tag" style="color:#D6303F;">2-Month Review</p>
+          <h3>iGate Softwares</h3>
+          <p class="cs-desc">15 IT specialists &amp; sales closers. 81.9% cost reduction.</p>
+          <div class="cs-stats">
+            <div class="cs-stat"><p class="cs-stat-lab">Savings</p><p class="cs-stat-val" style="color:var(--mint);">A$199K</p></div>
+            <div class="cs-stat"><p class="cs-stat-lab">Team Size</p><p class="cs-stat-val">15</p></div>
           </div>
-          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+          <span class="cs-cta">Read Case Study →</span>
         </a>
 
-        <!-- Infinitex -->
-        <a href="infinitex-trade-syndicate-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="flex items-center gap-2 mb-4">
-            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
-              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#6D4AFF" stroke-width="3" stroke-linecap="round"/>
-              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span class="font-display font-bold text-navy">Dime<span class="text-violet-500">Republic</span></span>
+        <a href="infinitex-trade-syndicate-case-study.html" class="cs-card">
+          <div class="cs-brand">
+            <svg width="24" height="24" viewBox="0 0 34 34" fill="none"><path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#6D4AFF" stroke-width="3" stroke-linecap="round"/><path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#0F2438" stroke-width="3" stroke-linecap="round"/></svg>
+            <span class="cs-brand-name">Dime<span style="color:#6D4AFF;">Republic</span></span>
           </div>
-          <p class="text-xs font-bold uppercase tracking-widest text-violet-500">6-Month Review</p>
-          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">Infinitex Trade Syndicate</h3>
-          <p class="mt-2 text-sm text-navy-400">8 acquisition & closing specialists. 85.7% cost reduction.</p>
-          <div class="mt-4 grid grid-cols-2 gap-3">
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Savings</p>
-              <p class="font-display text-lg font-bold text-violet-500">€312K</p>
-            </div>
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Team Size</p>
-              <p class="font-display text-lg font-bold text-navy">8</p>
-            </div>
+          <p class="cs-tag" style="color:#6D4AFF;">6-Month Review</p>
+          <h3>Infinitex Trade Syndicate</h3>
+          <p class="cs-desc">8 acquisition &amp; closing specialists. 85.7% cost reduction.</p>
+          <div class="cs-stats">
+            <div class="cs-stat"><p class="cs-stat-lab">Savings</p><p class="cs-stat-val" style="color:#6D4AFF;">€312K</p></div>
+            <div class="cs-stat"><p class="cs-stat-lab">Team Size</p><p class="cs-stat-val">8</p></div>
           </div>
-          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+          <span class="cs-cta">Read Case Study →</span>
         </a>
 
-        <!-- Titan -->
-        <a href="titan-anaesthesia-case-study.html" class="group rounded-2xl border border-navy/5 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-floating">
-          <div class="flex items-center gap-2 mb-4">
-            <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
-              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
-              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#101A34" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span class="font-display font-bold text-navy">Dime<span class="text-accent">Republic</span></span>
+        <a href="titan-anaesthesia-case-study.html" class="cs-card">
+          <div class="cs-brand">
+            <svg width="24" height="24" viewBox="0 0 34 34" fill="none"><path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/><path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#0F2438" stroke-width="3" stroke-linecap="round"/></svg>
+            <span class="cs-brand-name">Dime<span style="color:var(--mint);">Republic</span></span>
           </div>
-          <p class="text-xs font-bold uppercase tracking-widest text-accent">90-Day Review</p>
-          <h3 class="mt-3 font-display text-lg font-bold text-navy group-hover:text-accent transition">Titan Anaesthesia</h3>
-          <p class="mt-2 text-sm text-navy-400">14 specialists across 6 functions. 86% cost reduction.</p>
-          <div class="mt-4 grid grid-cols-2 gap-3">
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Savings</p>
-              <p class="font-display text-lg font-bold text-accent">$283K</p>
-            </div>
-            <div class="rounded-lg bg-navy-50/60 p-3 text-center">
-              <p class="text-xs text-navy-400">Team Size</p>
-              <p class="font-display text-lg font-bold text-navy">14</p>
-            </div>
+          <p class="cs-tag" style="color:var(--mint);">90-Day Review</p>
+          <h3>Titan Anaesthesia</h3>
+          <p class="cs-desc">14 specialists across 6 functions. 86% cost reduction.</p>
+          <div class="cs-stats">
+            <div class="cs-stat"><p class="cs-stat-lab">Savings</p><p class="cs-stat-val" style="color:var(--mint);">$283K</p></div>
+            <div class="cs-stat"><p class="cs-stat-lab">Team Size</p><p class="cs-stat-val">14</p></div>
           </div>
-          <p class="mt-4 text-sm text-accent font-semibold">Read Case Study →</p>
+          <span class="cs-cta">Read Case Study →</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ============ OUR PROVEN PROCESS ============ -->
-  <section id="how-it-works" class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="font-display text-display-2 text-navy">From Hiring to High Performance in 7 Simple Steps</h2>
-      </div>
+  <!-- ============ HOW IT WORKS ============ -->
+  <section style="background:#fff;">
+    <div class="wrap">
+      <div class="section-head"><span class="num-marker">05 — How It Works</span></div>
+      <h2>From Hiring to High Performance in 7 Simple Steps</h2>
+      <p class="section-intro">A proven process that takes you from discovery to success.</p>
 
-      <div class="mt-14 grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-7 lg:gap-x-4">
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .7 3a2 2 0 01-.5 2.1L8 10.1a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c1 .4 2 .6 3 .7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 1</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Discovery Call</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We understand your goals and requirements.</p>
+      <div class="hiw-grid">
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .7 3a2 2 0 01-.5 2.1L8 10.1a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c1 .4 2 .6 3 .7a2 2 0 011.7 2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p class="hiw-step">Step 1</p>
+          <h3>Discovery Call</h3>
+          <p>We understand your goals and requirements.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 2</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Shortlist</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We find and shortlist the best candidates.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg></div>
+          <p class="hiw-step">Step 2</p>
+          <h3>Shortlist</h3>
+          <p>We find and shortlist the best candidates.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 3</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Interview</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">You interview and select your team.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/></svg></div>
+          <p class="hiw-step">Step 3</p>
+          <h3>Interview</h3>
+          <p>You interview and select your team.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke-linecap="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 4</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Onboarding</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We handle onboarding, payroll &amp; compliance.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke-linecap="round"/></svg></div>
+          <p class="hiw-step">Step 4</p>
+          <h3>Onboarding</h3>
+          <p>We handle onboarding, payroll &amp; compliance.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M4 5h16v10H9l-5 4z" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 5</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Kickoff</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Your dedicated team starts working.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v10H9l-5 4z" stroke-linejoin="round"/></svg></div>
+          <p class="hiw-step">Step 5</p>
+          <h3>Kickoff</h3>
+          <p>Your dedicated team starts working.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6M21 7h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 6</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Scale</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">Scale your team as your business grows.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6M21 7h-6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p class="hiw-step">Step 6</p>
+          <h3>Scale</h3>
+          <p>Scale your team as your business grows.</p>
         </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-card">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#101A34" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="mt-4 text-xs font-bold uppercase tracking-widest text-accent">Step 7</span>
-          <h3 class="mt-1 font-display text-base font-semibold text-navy">Succeed</h3>
-          <p class="mt-2 max-w-[150px] text-sm text-navy-400">We ensure performance and long-term success.</p>
+        <div class="hiw-card">
+          <div class="hiw-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p class="hiw-step">Step 7</p>
+          <h3>Succeed</h3>
+          <p>We ensure performance and long-term success.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ FINAL CTA ============ -->
-  <section class="bg-navy py-20">
-    <div class="mx-auto max-w-3xl px-6 text-center lg:px-8">
-      <h2 class="font-display text-3xl font-bold text-white sm:text-4xl">Ready to Build Your Dream Team Without Breaking the Bank?</h2>
-      <p class="mt-4 text-navy-100/70"><a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="text-accent underline">Book a free consultation</a> with our experts and get a custom plan.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-primary bg-accent hover:bg-accent-600">Book Free Consultation</a>
-        <a href="index.html#pricing" class="btn-primary bg-accent hover:bg-accent-600">View Pricing</a>
+  <section class="cta-section">
+    <div class="cta-wrap">
+      <h2>Ready to Build Your Dream Team Without Breaking the Bank?</h2>
+      <p class="cta-sub"><a href="https://calendly.com/dimerepublic30/30min" target="_blank">Book a free consultation</a> with our experts and get a custom plan.</p>
+      <div class="cta-btns">
+        <a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="btn-link" style="padding:12px 28px;font-size:14px;">Book Free Consultation</a>
+        <a href="#pricing" class="btn-link" style="padding:12px 28px;font-size:14px;background:rgba(255,255,255,.1);">View Pricing</a>
       </div>
     </div>
   </section>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="bg-navy text-navy-100">
-    <!-- Newsletter -->
-    <div class="border-b border-white/10">
-      <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+  <footer>
+    <div class="wrap">
+      <div class="foot-news">
+        <div class="foot-news-inner">
           <div>
-            <h3 class="font-display text-lg font-semibold text-white">Stay updated</h3>
-            <p class="mt-1 text-sm text-navy-100/60">Get the latest on global talent and hiring.</p>
+            <h3>Stay updated</h3>
+            <p>Get the latest on global talent and hiring.</p>
           </div>
-          <div class="flex w-full max-w-md gap-3">
-            <input type="email" placeholder="Enter your email" class="min-w-0 flex-1 rounded-lg border border-white/20 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-navy-100/40 outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
-            <button class="shrink-0 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-600">Subscribe</button>
+          <div class="foot-news-form">
+            <input type="email" placeholder="Enter your email" />
+            <button>Subscribe</button>
           </div>
+        </div>
+      </div>
+
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a href="index.html" class="logo" style="font-size:18px;">
+            <svg width="24" height="24" viewBox="0 0 34 34" fill="none" style="display:none;">
+              <path d="M17 2C9 2 2 9 2 17s7 15 15 15" stroke="#1E8F74" stroke-width="3" stroke-linecap="round"/>
+              <path d="M17 2c8 0 15 7 15 15s-7 15-15 15" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            Dime<span>Republic</span>
+          </a>
+          <p>Global talent from Pakistan. Massive impact for your business. Let's build the future together.</p>
+          <div class="foot-social">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v6.32h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96v5.7H9z"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.6-2.3.7a4 4 0 001.8-2.2c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7 3.7A11.6 11.6 0 013 4.9a4.1 4.1 0 001.3 5.5c-.6 0-1.2-.2-1.8-.5v.1a4.1 4.1 0 003.3 4 4.2 4.2 0 01-1.8.1 4.1 4.1 0 003.8 2.9A8.3 8.3 0 012 18.6a11.6 11.6 0 006.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="customer-support.html">Customer Support</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="devops.html">DevOps</a></li>
+            <li><a href="marketing.html">Marketing</a></li>
+            <li><a href="virtual-assistants.html">Virtual Assistants</a></li>
+            <li><a href="recruiting.html">Recruiting</a></li>
+            <li><a href="sales-teams.html">Sales Teams</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Roles</h4>
+          <ul>
+            <li><a href="support-agents.html">Support Agents</a></li>
+            <li><a href="developers-role.html">Developers</a></li>
+            <li><a href="devops-engineers.html">DevOps Engineers</a></li>
+            <li><a href="marketing-experts.html">Marketing Experts</a></li>
+            <li><a href="virtual-assistants-role.html">Virtual Assistants</a></li>
+            <li><a href="recruiters.html">Recruiters</a></li>
+            <li><a href="finance-accounting.html">Finance &amp; Accounting</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="https://calendly.com/dimerepublic30/30min" target="_blank">Contact Us</a></li>
+            <li><a href="#sop">Our Process</a></li>
+            <li><a href="#case-studies">Case Studies</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#case-studies">Case Studies</a></li>
+            <li><a href="#sop">Our Process</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+          </ul>
+          <h4 style="margin-top:20px;">Legal</h4>
+          <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+            <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            <li><a href="data-processing-agreement.html">Data Processing Agreement</a></li>
+            <li><a href="gdpr-compliance.html">GDPR Compliance</a></li>
+            <li><a href="acceptable-use-policy.html">Acceptable Use Policy</a></li>
+            <li><a href="refund-cancellation.html">Refund &amp; Cancellation</a></li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-6 lg:px-8">
-      <!-- Brand -->
-      <div class="lg:col-span-2">
-        <a href="index.html" class="flex items-center gap-2">
-          <span class="leading-tight">
-            <span class="block font-display text-lg font-bold text-white">Dime<span class="text-accent">Republic</span></span>
-          </span>
-        </a>
-        <p class="mt-4 max-w-xs text-sm text-navy-100/70 leading-relaxed">Global talent from Pakistan. Massive impact for your business. Let's build the future together.</p>
-        <div class="mt-6 flex gap-3">
-          <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-navy-100/60 transition hover:border-accent hover:bg-accent hover:text-white">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v6.32h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96v5.7H9z"/></svg>
-          </a>
-          <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-navy-100/60 transition hover:border-accent hover:bg-accent hover:text-white">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </a>
-          <a href="#" aria-label="X (Twitter)" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-navy-100/60 transition hover:border-accent hover:bg-accent hover:text-white">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.6-2.3.7a4 4 0 001.8-2.2c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7 3.7A11.6 11.6 0 013 4.9a4.1 4.1 0 001.3 5.5c-.6 0-1.2-.2-1.8-.5v.1a4.1 4.1 0 003.3 4 4.2 4.2 0 01-1.8.1 4.1 4.1 0 003.8 2.9A8.3 8.3 0 012 18.6a11.6 11.6 0 006.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>
-          </a>
-          <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-navy-100/60 transition hover:border-accent hover:bg-accent hover:text-white">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-          </a>
+    <div class="foot-bar">
+      <div class="wrap">
+        <div class="foot-bar-inner">
+          <div class="foot-links">
+            <a href="mailto:hello@dimerepublic.com"><span style="color:rgba(255,255,255,.6);">Email:</span> hello@dimerepublic.com</a>
+            <a href="tel:+14705550198"><span style="color:rgba(255,255,255,.6);">Phone:</span> +1 (470) 555-0198</a>
+            <a href="https://www.dimerepublic.com">www.dimerepublic.com</a>
+          </div>
+          <p>&copy; 2026 DimeRepublic. All rights reserved.</p>
         </div>
-      </div>
-
-      <!-- Solutions -->
-      <div>
-        <h4 class="font-display text-sm font-semibold text-white">Solutions</h4>
-        <ul class="mt-4 space-y-3 text-sm text-navy-100/60">
-          <li><a href="customer-support.html" class="transition hover:text-white">Customer Support</a></li>
-          <li><a href="developers.html" class="transition hover:text-white">Developers</a></li>
-          <li><a href="devops.html" class="transition hover:text-white">DevOps</a></li>
-          <li><a href="marketing.html" class="transition hover:text-white">Marketing</a></li>
-          <li><a href="virtual-assistants.html" class="transition hover:text-white">Virtual Assistants</a></li>
-          <li><a href="recruiting.html" class="transition hover:text-white">Recruiting</a></li>
-          <li><a href="sales-teams.html" class="transition hover:text-white">Sales Teams</a></li>
-        </ul>
-      </div>
-
-      <!-- Roles -->
-      <div>
-        <h4 class="font-display text-sm font-semibold text-white">Roles</h4>
-        <ul class="mt-4 space-y-3 text-sm text-navy-100/60">
-          <li><a href="support-agents.html" class="transition hover:text-white">Support Agents</a></li>
-          <li><a href="developers-role.html" class="transition hover:text-white">Developers</a></li>
-          <li><a href="devops-engineers.html" class="transition hover:text-white">DevOps Engineers</a></li>
-          <li><a href="marketing-experts.html" class="transition hover:text-white">Marketing Experts</a></li>
-          <li><a href="virtual-assistants-role.html" class="transition hover:text-white">Virtual Assistants</a></li>
-          <li><a href="recruiters.html" class="transition hover:text-white">Recruiters</a></li>
-          <li><a href="finance-accounting.html" class="transition hover:text-white">Finance &amp; Accounting</a></li>
-        </ul>
-      </div>
-
-      <!-- Company -->
-      <div>
-        <h4 class="font-display text-sm font-semibold text-white">Company</h4>
-        <ul class="mt-4 space-y-3 text-sm text-navy-100/60">
-          <li><a href="about-us.html" class="transition hover:text-white">About Us</a></li>
-          <li><a href="careers.html" class="transition hover:text-white">Careers</a></li>
-          <li><a href="https://calendly.com/dimerepublic30/30min" target="_blank" class="transition hover:text-white">Contact Us</a></li>
-          <li><a href="index.html#sop" class="transition hover:text-white">Our Process</a></li>
-          <li><a href="index.html#case-studies" class="transition hover:text-white">Case Studies</a></li>
-          
-        </ul>
-      </div>
-
-      <!-- Resources & Legal -->
-      <div>
-        <h4 class="font-display text-sm font-semibold text-white">Resources</h4>
-        <ul class="mt-4 space-y-3 text-sm text-navy-100/60">
-          <li><a href="index.html#case-studies" class="transition hover:text-white">Case Studies</a></li>
-          <li><a href="index.html#sop" class="transition hover:text-white">Our Process</a></li>
-          
-          <li><a href="guides.html" class="transition hover:text-white">Guides</a></li>
-          <li><a href="index.html#pricing" class="transition hover:text-white">Pricing</a></li>
-        </ul>
-        <h4 class="mt-8 font-display text-sm font-semibold text-white">Legal</h4>
-        <ul class="mt-4 space-y-3 text-sm text-navy-100/60">
-          <li><a href="privacy-policy.html" class="transition hover:text-white">Privacy Policy</a></li>
-          <li><a href="terms-conditions.html" class="transition hover:text-white">Terms &amp; Conditions</a></li>
-          <li><a href="cookie-policy.html" class="transition hover:text-white">Cookie Policy</a></li>
-          <li><a href="data-processing-agreement.html" class="transition hover:text-white">Data Processing Agreement</a></li>
-          <li><a href="gdpr-compliance.html" class="transition hover:text-white">GDPR Compliance</a></li>
-          <li><a href="acceptable-use-policy.html" class="transition hover:text-white">Acceptable Use Policy</a></li>
-          <li><a href="refund-cancellation.html" class="transition hover:text-white">Refund &amp; Cancellation</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Contact Bar -->
-    <div class="border-t border-white/10">
-      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-sm text-navy-100/60 sm:flex-row lg:px-8">
-        <div class="flex flex-wrap items-center justify-center gap-6">
-          <a href="mailto:hello@dimerepublic.com" class="transition hover:text-white"><span class="font-semibold text-navy-100/80">Email:</span> hello@dimerepublic.com</a>
-          <a href="tel:+14705550198" class="transition hover:text-white"><span class="font-semibold text-navy-100/80">Phone:</span> +1 (470) 555-0198</a>
-          <a href="https://www.dimerepublic.com" class="transition hover:text-white">www.dimerepublic.com</a>
-        </div>
-        <p class="text-xs">&copy; 2026 DimeRepublic. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -793,30 +858,28 @@
       const container = document.getElementById('teamRows');
       const idx = rowCount++;
       const div = document.createElement('div');
-      div.className = 'flex flex-wrap items-end gap-3 p-4 bg-white rounded-xl border border-navy/5';
+      div.className = 'calc-row';
       div.id = 'row-' + idx;
       div.innerHTML =
-        '<div class="flex-1 min-w-[180px]">' +
-          '<label class="text-xs text-navy-400 block mb-1">Role</label>' +
-          '<select onchange="recalc()" class="role-select w-full rounded-lg border border-navy/10 bg-white px-3 py-2 text-sm text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-accent">' + roleOptions(0) + '</select>' +
+        '<div class="field">' +
+          '<label>Role</label>' +
+          '<select onchange="recalc()" class="role-select">' + roleOptions(0) + '</select>' +
         '</div>' +
-        '<div class="text-center">' +
-          '<label class="text-xs text-navy-400 block mb-1">Qty</label>' +
-          '<div class="flex items-center gap-2">' +
-            '<button onclick="qtyChange(' + idx + ',-1)" class="h-8 w-8 rounded-full bg-white border border-navy/10 text-navy font-bold hover:bg-accent hover:text-white transition">−</button>' +
-            '<span id="qty-' + idx + '" class="font-display text-lg font-bold text-navy w-8 text-center">1</span>' +
-            '<button onclick="qtyChange(' + idx + ',1)" class="h-8 w-8 rounded-full bg-white border border-navy/10 text-navy font-bold hover:bg-accent hover:text-white transition">+</button>' +
+        '<div>' +
+          '<label>Qty</label>' +
+          '<div class="qty-ctl">' +
+            '<button onclick="qtyChange(' + idx + ',-1)">−</button>' +
+            '<span id="qty-' + idx + '">1</span>' +
+            '<button onclick="qtyChange(' + idx + ',1)">+</button>' +
           '</div>' +
         '</div>' +
-        '<div class="text-center min-w-[100px]">' +
-          '<label class="text-xs text-navy-400 block mb-1">DR Cost</label>' +
-          '<span id="drSub-' + idx + '" class="font-display text-lg font-bold text-accent">$10,500</span>' +
+        '<div class="calc-subtotal">' +
+          '<span class="lab">DR Cost</span><br/><span class="dr-val" id="drSub-' + idx + '">$10,500</span>' +
         '</div>' +
-        '<div class="text-center min-w-[100px]">' +
-          '<label class="text-xs text-navy-400 block mb-1">USA Cost</label>' +
-          '<span id="usaSub-' + idx + '" class="font-display text-lg font-bold text-navy">$57,600</span>' +
+        '<div class="calc-subtotal">' +
+          '<span class="lab">USA Cost</span><br/><span class="usa-val" id="usaSub-' + idx + '">$57,600</span>' +
         '</div>' +
-        '<button onclick="removeRow(' + idx + ')" class="h-8 w-8 flex items-center justify-center rounded-full border border-red-200 text-red-400 hover:bg-red-50 hover:text-red-600 transition" title="Remove">✕</button>';
+        '<button onclick="removeRow(' + idx + ')" class="calc-remove" title="Remove">✕</button>';
       container.appendChild(div);
       recalc();
     }
@@ -866,12 +929,9 @@
     addRow();
     addRow();
 
-    // Scroll spy for nav highlighting
     document.addEventListener('DOMContentLoaded', function() {
       const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('nav a[href^="#"]');
-
-      // Smooth scroll on click
+      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
       navLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -879,8 +939,6 @@
           if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
-
-      // Highlight active section
       const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
@@ -897,6 +955,5 @@
     });
   </script>
 
-  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

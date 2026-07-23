@@ -1,39 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DimeRepublic | Guides & Resources</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    :root{--ink:#0F2438;--ink-soft:#1B3550;--paper:#F5F7F5;--panel:#FFFFFF;--mint:#1E8F74;--mint-soft:#DCEFE9;--gold:#D6A34D;--gold-soft:#F6E9D2;--slate:#445064;--line:#DEE4E1;}
-    *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;}
-    body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
-    .wrap{max-width:1040px;margin:0 auto;padding:0 32px;}
-    .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
-    .num-marker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:0.1em;}
-    h1{font-family:'Fraunces',serif;font-weight:600;font-size:36px;line-height:1.12;letter-spacing:-0.01em;margin:0;}
-    h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:2px 0 6px;color:var(--ink);}
-    .section-intro{color:var(--slate);font-size:15px;max-width:680px;line-height:1.65;margin-bottom:28px;}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;}
-    .btn{font-family:'Inter',sans-serif;font-weight:600;font-size:14px;background:var(--mint);color:white;padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-block;}
-    .btn:hover{opacity:0.9;}
-    @media (max-width:720px){
-      .wrap{padding:0 20px;}
-      h1{font-size:28px;}
-      h2{font-size:22px;}
-      .guide-grid{grid-template-columns:1fr;}
-    }
-    @media (max-width:480px){
-      .wrap{padding:0 16px;}
-      h1{font-size:24px;}
-      h2{font-size:20px;}
-    }
-  
+import re, os
+
+FOOTER_CSS = r'''
     /* ---- FOOTER ---- */
     footer{background:var(--ink);padding:0;}
     .foot-news{border-bottom:1px solid rgba(255,255,255,.1);padding:32px 0;}
@@ -73,79 +40,9 @@
     @media (max-width:720px){
       .foot-grid{grid-template-columns:1fr;}
     }
+'''
 
-</style>
-</head>
-<body>
-  <header style="background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;">
-    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;">
-      <a href="index.html" style="font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;">Dime<span style="color:var(--mint);">Republic</span></a>
-      <nav style="display:flex;gap:24px;font-size:14px;">
-        <a href="index.html#pricing" style="color:var(--slate);text-decoration:none;">Pricing</a>
-        <a href="index.html#sop" style="color:var(--slate);text-decoration:none;">Our Process</a>
-        <a href="index.html#case-studies" style="color:var(--slate);text-decoration:none;">Case Studies</a>
-        <a href="https://calendly.com/dimerepublic30/30min" style="color:var(--slate);text-decoration:none;">Contact</a>
-      </nav>
-      <a href="https://calendly.com/dimerepublic30/30min" style="font-family:'Inter',sans-serif;font-weight:600;font-size:14px;background:var(--mint);color:white;padding:10px 20px;border-radius:8px;text-decoration:none;">Build My Team</a>
-    </div>
-  </header>
-
-  <div class="wrap" style="padding-top:48px;padding-bottom:48px;">
-    <div style="max-width:720px;margin:0 auto;">
-      <p class="num-marker" style="margin:0 0 12px;">01 — Resources</p>
-      <h1 style="margin-bottom:16px;">Free Guides for <span style="color:var(--mint);">Hiring Teams</span></h1>
-      <p style="color:var(--slate);font-size:17px;line-height:1.65;">Download practical resources to help you build and scale your distributed team.</p>
-    </div>
-  </div>
-
-  <section style="background:var(--panel);border-top:1px solid var(--line);padding:48px 0;">
-    <div class="wrap" style="max-width:720px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="guide-grid">
-        <div class="card">
-          <div style="width:48px;height:48px;border-radius:10px;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8" stroke-linecap="round"/><line x1="16" y1="13" x2="8" y2="13" stroke-linecap="round"/></svg>
-          </div>
-          <div style="font-weight:600;font-size:16px;margin-bottom:6px;">Remote Team Hiring Guide</div>
-          <p style="font-size:13px;color:var(--slate);line-height:1.55;margin-bottom:14px;">A step-by-step playbook for sourcing, interviewing, and onboarding remote talent from Pakistan.</p>
-          <a href="#" class="btn" style="font-size:13px;padding:8px 16px;">Download PDF</a>
-        </div>
-        <div class="card">
-          <div style="width:48px;height:48px;border-radius:10px;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9" stroke-linecap="round"/><line x1="9" y1="21" x2="9" y2="9" stroke-linecap="round"/></svg>
-          </div>
-          <div style="font-weight:600;font-size:16px;margin-bottom:6px;">Cost Comparison Workbook</div>
-          <p style="font-size:13px;color:var(--slate);line-height:1.55;margin-bottom:14px;">An interactive workbook to compare fully loaded US vs. Pakistan-based talent costs.</p>
-          <a href="#" class="btn" style="font-size:13px;padding:8px 16px;">Download XLSX</a>
-        </div>
-        <div class="card">
-          <div style="width:48px;height:48px;border-radius:10px;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12" stroke-linecap="round"/></svg>
-          </div>
-          <div style="font-weight:600;font-size:16px;margin-bottom:6px;">Onboarding Checklist</div>
-          <p style="font-size:13px;color:var(--slate);line-height:1.55;margin-bottom:14px;">Ensure every new hire hits the ground running with this comprehensive onboarding checklist.</p>
-          <a href="#" class="btn" style="font-size:13px;padding:8px 16px;">Download PDF</a>
-        </div>
-        <div class="card">
-          <div style="width:48px;height:48px;border-radius:10px;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M12 2l3 7h7l-5 5 2 7-7-4-7 4 2-7-5-5h7z" stroke-linejoin="round"/></svg>
-          </div>
-          <div style="font-weight:600;font-size:16px;margin-bottom:6px;">Compliance Checklist</div>
-          <p style="font-size:13px;color:var(--slate);line-height:1.55;margin-bottom:14px;">Navigate cross-border hiring with confidence. Covers GDPR, contracts, and IP protection.</p>
-          <a href="#" class="btn" style="font-size:13px;padding:8px 16px;">Download PDF</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:var(--ink);padding:48px 0;">
-    <div class="wrap" style="max-width:640px;text-align:center;">
-      <h2 style="color:var(--panel);margin-bottom:8px;">Need Custom Guidance?</h2>
-      <p style="color:var(--slate);font-size:15px;margin-bottom:24px;">Our team can help you build a hiring plan tailored to your business.</p>
-      <a href="https://calendly.com/dimerepublic30/30min" class="btn">Book a Free Consultation</a>
-    </div>
-  </section>
-
-    <!-- ============ FOOTER ============ -->
+FOOTER_HTML = '''  <!-- ============ FOOTER ============ -->
   <footer>
     <div class="wrap">
       <div class="foot-news">
@@ -246,6 +143,63 @@
         </div>
       </div>
     </div>
-  </footer>
-</body>
-</html>
+  </footer>'''
+
+ROOT = '/home/ahmed-rana/Downloads/globaledge'
+
+FILES = [
+    'about-us.html', 'acceptable-use-policy.html', 'careers.html', 'contact-us.html',
+    'cookie-policy.html', 'customer-support.html', 'data-processing-agreement.html',
+    'developers-role.html', 'developers.html', 'devops-engineers.html', 'devops.html',
+    'finance-accounting.html', 'gdpr-compliance.html', 'guides.html', 'marketing-experts.html',
+    'marketing.html', 'privacy-policy.html', 'recruiters.html', 'recruiting.html',
+    'refund-cancellation.html', 'sales-teams.html', 'support-agents.html',
+    'terms-conditions.html', 'virtual-assistants-role.html', 'virtual-assistants.html',
+    'titan-anaesthesia-case-study.html', 'igate-dimerepublic-case-study.html',
+    'infinitex-trade-syndicate-case-study.html',
+]
+
+processed = []
+
+for fname in FILES:
+    fpath = os.path.join(ROOT, fname)
+    if not os.path.exists(fpath):
+        print(f"SKIP (not found): {fname}")
+        continue
+
+    with open(fpath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 1. Insert footer CSS before </style>
+    # Find the last occurrence of </style> and insert before it
+    style_end = content.rfind('</style>')
+    if style_end == -1:
+        print(f"SKIP (no </style>): {fname}")
+        continue
+
+    # Insert footer CSS before </style>
+    content = content[:style_end] + FOOTER_CSS + '\n' + content[style_end:]
+
+    # 2. Replace existing footer HTML
+    footer_start = content.find('<footer')
+    if footer_start == -1:
+        print(f"SKIP (no <footer>): {fname}")
+        continue
+
+    footer_end = content.find('</footer>', footer_start)
+    if footer_end == -1:
+        print(f"SKIP (no </footer>): {fname}")
+        continue
+    footer_end += len('</footer>')
+
+    content = content[:footer_start] + FOOTER_HTML + content[footer_end:]
+
+    with open(fpath, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+    print(f"OK: {fname}")
+    processed.append(fname)
+
+print(f"\nProcessed {len(processed)} files:")
+for p in processed:
+    print(f"  - {p}")
