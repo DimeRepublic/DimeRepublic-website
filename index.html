@@ -836,16 +836,87 @@
 
   <script>
     const roles = [
+      // Customer Support
       { name: 'Customer Support Agent', dr: 875, usa: 4800 },
-      { name: 'Marketing Manager', dr: 1400, usa: 7200 },
+      { name: 'Technical Support Engineer', dr: 1200, usa: 6500 },
+      { name: 'Live Chat Agent', dr: 800, usa: 4000 },
+      { name: 'Call Center Agent', dr: 850, usa: 4500 },
+      { name: 'Customer Success Manager', dr: 1350, usa: 7500 },
+      { name: 'Email Support Specialist', dr: 850, usa: 4200 },
+
+      // Development
+      { name: 'Frontend Developer', dr: 1450, usa: 7500 },
+      { name: 'Backend Developer', dr: 1550, usa: 8500 },
+      { name: 'Full Stack Developer', dr: 1650, usa: 9000 },
+      { name: 'React Developer', dr: 1500, usa: 8000 },
+      { name: 'Python Developer', dr: 1500, usa: 8200 },
+      { name: 'Node.js Developer', dr: 1500, usa: 8000 },
+      { name: 'Mobile App Developer', dr: 1600, usa: 8500 },
+      { name: 'QA Engineer', dr: 1100, usa: 6000 },
+      { name: 'UI/UX Designer', dr: 1200, usa: 6500 },
+      { name: 'Data Scientist', dr: 1800, usa: 10000 },
+      { name: 'Machine Learning Engineer', dr: 2000, usa: 11000 },
+      { name: 'Database Administrator', dr: 1300, usa: 7000 },
       { name: 'Software Developer', dr: 1550, usa: 8000 },
+
+      // DevOps & Infrastructure
       { name: 'DevOps Engineer', dr: 1550, usa: 9000 },
-      { name: 'Virtual Assistant', dr: 950, usa: 5600 },
-      { name: 'VFX Artist', dr: 1000, usa: 4500 },
-      { name: 'Book Keeper', dr: 850, usa: 8000 },
-      { name: 'Graphic Designer', dr: 850, usa: 3000 },
+      { name: 'Cloud Architect', dr: 1900, usa: 10500 },
+      { name: 'Security Engineer', dr: 1600, usa: 9000 },
+      { name: 'System Administrator', dr: 1100, usa: 6000 },
+      { name: 'Network Engineer', dr: 1200, usa: 6500 },
+      { name: 'Site Reliability Engineer', dr: 1700, usa: 9500 },
+
+      // Marketing
+      { name: 'Marketing Manager', dr: 1400, usa: 7200 },
+      { name: 'Content Writer', dr: 750, usa: 4000 },
+      { name: 'SEO Specialist', dr: 900, usa: 5000 },
+      { name: 'Social Media Manager', dr: 950, usa: 5200 },
+      { name: 'Email Marketing Specialist', dr: 900, usa: 4800 },
+      { name: 'PPC Specialist', dr: 1000, usa: 5500 },
+      { name: 'Brand Strategist', dr: 1200, usa: 6500 },
+      { name: 'Video Editor', dr: 950, usa: 4500 },
+      { name: 'Copywriter', dr: 800, usa: 4200 },
+      { name: 'Digital Marketing Specialist', dr: 1100, usa: 5800 },
+
+      // Sales
+      { name: 'Sales Development Rep', dr: 900, usa: 5000 },
+      { name: 'Account Executive', dr: 1200, usa: 7000 },
+      { name: 'Sales Manager', dr: 1400, usa: 8000 },
+      { name: 'Business Development Manager', dr: 1300, usa: 7500 },
+      { name: 'Lead Generation Specialist', dr: 850, usa: 4500 },
       { name: 'Cold Calling Agent', dr: 950, usa: 6400 },
+
+      // Finance & Admin
+      { name: 'Accountant', dr: 950, usa: 5500 },
+      { name: 'CFO / Financial Controller', dr: 2000, usa: 12000 },
+      { name: 'Book Keeper', dr: 850, usa: 8000 },
+      { name: 'Data Entry Clerk', dr: 650, usa: 3500 },
+      { name: 'Executive Assistant', dr: 900, usa: 5000 },
+      { name: 'Office Manager', dr: 850, usa: 4500 },
+      { name: 'Finance & Accounting Manager', dr: 1200, usa: 7000 },
+
+      // Creative
+      { name: 'Graphic Designer', dr: 850, usa: 3000 },
+      { name: 'Web Designer', dr: 1000, usa: 5500 },
+      { name: 'Motion Graphics Designer', dr: 1100, usa: 6000 },
+      { name: 'VFX Artist', dr: 1000, usa: 4500 },
+      { name: '3D Modeler', dr: 1100, usa: 5800 },
+      { name: 'Illustrator', dr: 850, usa: 4500 },
+
+      // Recruiting & HR
       { name: 'Technical Recruiter', dr: 900, usa: 5000 },
+      { name: 'HR Manager', dr: 1100, usa: 6000 },
+      { name: 'Talent Acquisition Specialist', dr: 950, usa: 5200 },
+      { name: 'HR Coordinator', dr: 800, usa: 4200 },
+
+      // Management & Operations
+      { name: 'Project Manager', dr: 1400, usa: 7500 },
+      { name: 'Product Manager', dr: 1600, usa: 9000 },
+      { name: 'Business Analyst', dr: 1200, usa: 6500 },
+      { name: 'Operations Manager', dr: 1300, usa: 7000 },
+      { name: 'Virtual Assistant', dr: 950, usa: 5600 },
+      { name: 'Supply Chain Manager', dr: 1300, usa: 7000 },
     ];
 
     let rowCount = 0;
