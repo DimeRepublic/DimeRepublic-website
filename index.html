@@ -980,8 +980,9 @@
       const dd = document.getElementById('dropdown-' + idx);
       dd.innerHTML = roles
         .filter(function(r) { return r.name.toLowerCase().includes(q); })
-        .map(function(r, i) {
-          return '<div class="role-item" onmousedown="selectRole(' + idx + ',' + i + ')">' + r.name + '</div>';
+        .map(function(r) {
+          var origIdx = roles.indexOf(r);
+          return '<div class="role-item" onmousedown="selectRole(' + idx + ',' + origIdx + ')">' + r.name + '</div>';
         }).join('');
       dd.classList.add('open');
     }
