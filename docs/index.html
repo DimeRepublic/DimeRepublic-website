@@ -151,6 +151,13 @@
     .calc-add{text-align:center;margin-top:8px;}
     .calc-add button{font-size:13px;font-weight:600;color:var(--mint);background:none;border:none;cursor:pointer;transition:color .2s;}
     .calc-add button:hover{color:#17806a;}
+    .calc-discount{display:none;align-items:center;justify-content:center;gap:10px;margin-top:14px;padding:10px 18px;background:var(--gold-soft);border:1px solid #ecd9b5;border-radius:8px;}
+    .calc-discount.show{display:flex;}
+    .calc-discount label{font-size:12px;color:var(--ink);font-weight:500;}
+    .calc-discount input{width:60px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;font-size:14px;font-weight:600;color:var(--ink);text-align:center;outline:none;}
+    .calc-discount input:focus{border-color:var(--gold);}
+    .calc-discount .pct-suffix{font-size:12px;color:var(--slate);}
+    .calc-discount .disc-note{font-size:11px;color:var(--slate);}
 
     .calc-total{border-top:1px solid var(--line);padding-top:20px;margin-top:16px;text-align:center;}
     .calc-total .tot-lab{font-size:13px;color:var(--slate);}
@@ -514,6 +521,13 @@
         </div>
         <div id="teamRows"></div>
         <div class="calc-add"><button onclick="addRow()">+ Add Another Role</button></div>
+
+        <div class="calc-discount" id="discountRow">
+          <label>Volume Discount</label>
+          <input type="number" id="discountPct" value="0" min="0" max="15" step="1" oninput="validateDiscount(this);recalc()" />
+          <span class="pct-suffix">%</span>
+          <span class="disc-note">(max 15% for 5+ roles)</span>
+        </div>
 
         <div class="calc-total">
           <p class="tot-lab">Estimated Annual Savings</p>
@@ -1055,12 +1069,24 @@
       const mult = period === 'yr' ? 12 : 1;
       const per = period === 'yr' ? '/yr' : '/mo';
 
+      var discountEl = document.getElementById('discountRow');
+      var discount = 0;
+      if (rows.length >= 5) {
+        discountEl.classList.add('show');
+        discount = parseInt(document.getElementById('discountPct').value) || 0;
+        if (discount > 15) discount = 15;
+      } else {
+        discountEl.classList.remove('show');
+        document.getElementById('discountPct').value = 0;
+      }
+
       rows.forEach(function(row) {
         const search = row.querySelector('.role-search');
         const idx = parseInt(search.dataset.roleIdx);
         const qty = parseInt(row.querySelector('[id^="qty-"]').textContent);
         const role = roles[idx] || roles[0];
-        const drSub = role.dr * qty * mult;
+        var drSub = role.dr * qty * mult;
+        if (discount > 0) drSub = Math.round(drSub * (1 - discount / 100));
         const usaSub = role.usa * qty * mult;
         totalDr += drSub;
         totalUsa += usaSub;
@@ -1077,6 +1103,12 @@
       document.getElementById('usaCost').textContent = '$' + totalUsa.toLocaleString() + ' ' + per;
       document.getElementById('drBar').style.width = savePct + '%';
       document.getElementById('drBarLabel').textContent = 'Save ' + savePct + '%';
+    }
+
+    function validateDiscount(el) {
+      var v = parseInt(el.value) || 0;
+      if (v > 15) el.value = 15;
+      if (v < 0) el.value = 0;
     }
 
     addRow();
