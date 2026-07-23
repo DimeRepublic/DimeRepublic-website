@@ -164,6 +164,13 @@
     .calc-bar-pct{font-size:11px;font-weight:600;color:var(--mint);width:50px;flex-shrink:0;}
     .calc-bar-full .calc-bar-fill{background:var(--line);}
     .calc-bar-full .calc-bar-pct{color:var(--slate);}
+    .period-toggle{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;}
+    .period-toggle .opt{font-size:12px;color:var(--slate);cursor:pointer;transition:color .2s;}
+    .period-toggle .opt.active{color:var(--ink);font-weight:600;}
+    .period-toggle .switch{width:44px;height:22px;border-radius:20px;background:var(--line);position:relative;cursor:pointer;transition:background .3s;}
+    .period-toggle .switch.active{background:var(--mint);}
+    .period-toggle .switch .knob{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+    .period-toggle .switch.active .knob{left:24px;}
 
     /* ---- TABLE ---- */
     .table-wrap{overflow-x:auto;}
@@ -495,7 +502,14 @@
 
       <div class="calc-panel" id="calculator">
         <h3>Build Your Team</h3>
-        <p class="calc-sub">Add roles and quantities to estimate your annual savings.</p>
+        <p class="calc-sub">Add roles and quantities to estimate your savings.</p>
+        <div class="period-toggle">
+          <span class="opt active" id="moLabel" onclick="setPeriod('mo')">Monthly</span>
+          <div class="switch" id="periodSwitch" onclick="togglePeriod()">
+            <div class="knob"></div>
+          </div>
+          <span class="opt" id="yrLabel" onclick="setPeriod('yr')">Yearly</span>
+        </div>
         <div id="teamRows"></div>
         <div class="calc-add"><button onclick="addRow()">+ Add Another Role</button></div>
 
@@ -930,6 +944,19 @@
     ];
 
     let rowCount = 0;
+    let period = 'mo';
+
+    function togglePeriod() {
+      setPeriod(period === 'mo' ? 'yr' : 'mo');
+    }
+
+    function setPeriod(p) {
+      period = p;
+      document.getElementById('periodSwitch').classList.toggle('active', p === 'yr');
+      document.getElementById('moLabel').classList.toggle('active', p === 'mo');
+      document.getElementById('yrLabel').classList.toggle('active', p === 'yr');
+      recalc();
+    }
 
     function roleSearchHTML(idx, selected) {
       const sel = roles[selected];
@@ -1022,14 +1049,16 @@
     function recalc() {
       const rows = document.querySelectorAll('#teamRows > div');
       let totalDr = 0, totalUsa = 0;
+      const mult = period === 'yr' ? 12 : 1;
+      const per = period === 'yr' ? '/yr' : '/mo';
 
       rows.forEach(function(row) {
         const search = row.querySelector('.role-search');
         const idx = parseInt(search.dataset.roleIdx);
         const qty = parseInt(row.querySelector('[id^="qty-"]').textContent);
         const role = roles[idx] || roles[0];
-        const drSub = role.dr * qty * 12;
-        const usaSub = role.usa * qty * 12;
+        const drSub = role.dr * qty * mult;
+        const usaSub = role.usa * qty * mult;
         totalDr += drSub;
         totalUsa += usaSub;
         row.querySelector('[id^="drSub-"]').textContent = '$' + drSub.toLocaleString();
@@ -1041,8 +1070,8 @@
       const savePct = 100 - pct;
 
       document.getElementById('savingsAmount').textContent = '$' + saved.toLocaleString();
-      document.getElementById('drCost').textContent = '$' + totalDr.toLocaleString() + ' / year';
-      document.getElementById('usaCost').textContent = '$' + totalUsa.toLocaleString() + ' / year';
+      document.getElementById('drCost').textContent = '$' + totalDr.toLocaleString() + ' ' + per;
+      document.getElementById('usaCost').textContent = '$' + totalUsa.toLocaleString() + ' ' + per;
       document.getElementById('drBar').style.width = savePct + '%';
       document.getElementById('drBarLabel').textContent = 'Save ' + savePct + '%';
     }
