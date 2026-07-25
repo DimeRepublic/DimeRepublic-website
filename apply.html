@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DimeRepublic | Apply Now</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--ink:#0F2438;--ink-soft:#1B3550;--paper:#F5F7F5;--panel:#FFFFFF;--mint:#1E8F74;--mint-soft:#DCEFE9;--gold:#D6A34D;--gold-soft:#F6E9D2;--slate:#445064;--line:#DEE4E1;--red:#D6303F;--red-soft:#FDE8E8;}
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    html,body{margin:0;padding:0;}
+    body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+    .wrap{max-width:720px;margin:0 auto;padding:0 32px;}
+    .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+    .num-marker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:0.1em;}
+    h1{font-family:'Fraunces',serif;font-weight:600;font-size:36px;line-height:1.12;letter-spacing:-0.01em;margin:0;}
+    h2{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:2px 0 6px;color:var(--ink);}
+    .section-intro{color:var(--slate);font-size:15px;max-width:680px;line-height:1.65;margin-bottom:24px;}
+
+    header{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
+    header .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 0;}
+    .logo{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;}
+    .nav-links{display:flex;gap:24px;font-size:14px;}
+    .nav-links a{color:var(--slate);text-decoration:none;}
+    .nav-links a:hover{color:var(--ink);}
+    .btn-mint{font-family:'Inter',sans-serif;font-weight:600;font-size:14px;background:var(--mint);color:white;padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-block;}
+    .btn-mint:hover{opacity:0.9;}
+
+    .form-section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px;margin-bottom:20px;}
+    .form-section h2{margin:0 0 4px;}
+    .form-section .section-intro{margin-bottom:20px;}
+
+    .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+    .form-group{display:flex;flex-direction:column;gap:5px;}
+    .form-group.full{grid-column:1/-1;}
+    .form-group label{font-weight:600;font-size:14px;color:var(--ink);}
+    .form-group label .req{color:var(--red);margin-left:2px;}
+    .form-group input,.form-group select,.form-group textarea{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .2s;}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--mint);}
+    .form-group textarea{min-height:100px;resize:vertical;}
+    .form-group select{cursor:pointer;}
+    .form-group .hint{font-size:12px;color:var(--slate);}
+    .form-group .error-msg{font-size:12px;color:var(--red);display:none;}
+    .form-group.has-error input,.form-group.has-error select,.form-group.has-error textarea{border-color:var(--red);}
+    .form-group.has-error .error-msg{display:block;}
+    .form-group.hidden{display:none;}
+
+    .submit-section{text-align:center;padding:32px 0 48px;}
+    .submit-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:16px;background:var(--mint);color:white;padding:14px 48px;border-radius:8px;border:none;cursor:pointer;transition:opacity .2s;}
+    .submit-btn:hover{opacity:0.9;}
+    .submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .submit-btn .spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle;}
+    .submit-btn.loading .spinner{display:inline-block;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    .success-msg{display:none;text-align:center;padding:60px 32px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:48px;}
+    .success-msg.show{display:block;}
+    .success-icon{width:64px;height:64px;border-radius:50%;background:var(--mint-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+    .success-msg h2{margin:0 0 8px;}
+    .success-msg p{color:var(--slate);font-size:15px;line-height:1.6;}
+
+    .error-msg-global{display:none;background:var(--red-soft);border:1px solid #f5c6c2;border-radius:8px;padding:14px 18px;color:var(--red);font-size:14px;margin-bottom:20px;text-align:center;}
+    .error-msg-global.show{display:block;}
+
+    footer{background:var(--ink);padding:0;}
+    .foot-news{border-bottom:1px solid rgba(255,255,255,.1);padding:32px 0;}
+    .foot-news-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+    .foot-news h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:#fff;margin:0 0 2px;}
+    .foot-news p{font-size:12px;color:rgba(255,255,255,.5);margin:0;}
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:40px;padding:40px 0 24px;}
+    .foot-brand .logo{color:#fff;}
+    .foot-brand p{font-size:12px;color:rgba(255,255,255,.5);margin:12px 0 16px;line-height:1.6;max-width:280px;}
+    .foot-social{display:flex;gap:8px;}
+    .foot-social a{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);transition:all .2s;}
+    .foot-social a:hover{border-color:var(--mint);background:var(--mint);color:#fff;}
+    .foot-col h4{font-size:12px;font-weight:600;color:#fff;margin:0 0 12px;}
+    .foot-col ul{margin:0;padding:0;list-style:none;}
+    .foot-col li{margin-bottom:8px;}
+    .foot-col a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+    .foot-col a:hover{color:#fff;}
+    .foot-bar{border-top:1px solid rgba(255,255,255,.1);padding:16px 0;}
+    .foot-bar-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,.4);}
+    .foot-bar-inner a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+    .foot-bar-inner a:hover{color:#fff;}
+    .foot-links{display:flex;gap:16px;}
+
+    @media (max-width:960px){.foot-grid{grid-template-columns:1fr 1fr;}}
+    @media (max-width:720px){
+      .wrap{padding:0 20px;}
+      h1{font-size:28px;}
+      .form-grid{grid-template-columns:1fr;}
+      .nav-links{display:none;}
+      .foot-grid{grid-template-columns:1fr;}
+    }
+    @media (max-width:480px){
+      .wrap{padding:0 16px;}
+      h1{font-size:24px;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">Dime<span>Republic</span></a>
+    <nav class="nav-links">
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#sop">Our Process</a>
+      <a href="index.html#case-studies">Case Studies</a>
+      <a href="https://calendly.com/dimerepublic-sales/30min">Contact</a>
+    </nav>
+    <a href="https://calendly.com/dimerepublic-sales/30min" class="btn-mint">Build My Team</a>
+  </div>
+</header>
+
+<section style="padding:48px 0 32px;">
+  <div class="wrap">
+    <p class="num-marker" style="margin:0 0 12px;">Apply Now</p>
+    <h1 style="margin-bottom:12px;">Join the <span style="color:var(--mint);">DimeRepublic</span> Team</h1>
+    <p style="color:var(--slate);font-size:17px;line-height:1.65;">Fill out the form below and we'll get back to you within 5 business days.</p>
+  </div>
+</section>
+
+<section id="form-section">
+  <div class="wrap">
+
+    <div id="error-global" class="error-msg-global">
+      Please fix the errors below before submitting.
+    </div>
+
+    <form id="applicationForm" novalidate>
+
+      <!-- ========== SECTION 1: PERSONAL INFORMATION ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">01</span></div>
+        <h2>Personal Information</h2>
+        <p class="section-intro">Basic contact and identity details.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="fullName">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" name="fullName" required placeholder="John Doe" />
+            <span class="error-msg">Please enter your full name.</span>
+          </div>
+          <div class="form-group" data-field="email">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" name="email" required placeholder="john@example.com" />
+            <span class="error-msg">Please enter a valid email address.</span>
+          </div>
+          <div class="form-group" data-field="phone">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" name="phone" required placeholder="+92 300 1234567" />
+            <span class="error-msg">Please enter a valid phone number (min 7 digits).</span>
+          </div>
+          <div class="form-group" data-field="dob">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" name="dob" required />
+            <span class="error-msg">Please enter your date of birth.</span>
+          </div>
+          <div class="form-group" data-field="gender">
+            <label>Gender <span class="req">*</span></label>
+            <select name="gender" required>
+              <option value="">Select...</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Prefer not to say</option>
+            </select>
+            <span class="error-msg">Please select your gender.</span>
+          </div>
+          <div class="form-group" data-field="city">
+            <label>City <span class="req">*</span></label>
+            <input type="text" name="city" required placeholder="Lahore" />
+            <span class="error-msg">Please enter your city.</span>
+          </div>
+          <div class="form-group" data-field="country">
+            <label>Country <span class="req">*</span></label>
+            <select name="country" required>
+              <option value="">Select...</option>
+              <option selected>Pakistan</option>
+              <option>India</option>
+              <option>Bangladesh</option>
+              <option>UAE</option>
+              <option>USA</option>
+              <option>UK</option>
+              <option>Saudi Arabia</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+            <span class="error-msg">Please select your country.</span>
+          </div>
+          <div class="form-group" data-field="nationality">
+            <label>Nationality <span class="req">*</span></label>
+            <input type="text" name="nationality" required placeholder="Pakistani" />
+            <span class="error-msg">Please enter your nationality.</span>
+          </div>
+          <div class="form-group" data-field="linkedin">
+            <label>LinkedIn Profile URL <span class="req">*</span></label>
+            <input type="url" name="linkedin" required placeholder="https://linkedin.com/in/yourprofile" />
+            <span class="error-msg">Please enter a valid LinkedIn URL (starts with http:// or https://).</span>
+          </div>
+          <div class="form-group" data-field="portfolio">
+            <label>Portfolio / Website</label>
+            <input type="url" name="portfolio" placeholder="https://yourwebsite.com" />
+            <span class="error-msg">Please enter a valid URL.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 2: POSITION & AVAILABILITY ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">02</span></div>
+        <h2>Position &amp; Availability</h2>
+        <p class="section-intro">Which role you're applying for and when you can start.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="position">
+            <label>Position Applying For <span class="req">*</span></label>
+            <select name="position" required>
+              <option value="">Select a position...</option>
+              <option value="Senior Talent Sourcer">Senior Talent Sourcer</option>
+              <option value="Account Manager">Account Manager</option>
+              <option value="Content Marketing Specialist">Content Marketing Specialist</option>
+              <option value="Technical Recruiter">Technical Recruiter</option>
+            </select>
+            <span class="error-msg">Please select a position.</span>
+          </div>
+          <div class="form-group" data-field="startDate">
+            <label>Earliest Start Date <span class="req">*</span></label>
+            <input type="date" name="startDate" required />
+            <span class="error-msg">Please select your earliest start date.</span>
+          </div>
+          <div class="form-group" data-field="noticePeriod">
+            <label>Notice Period <span class="req">*</span></label>
+            <select name="noticePeriod" required>
+              <option value="">Select...</option>
+              <option>Immediate</option>
+              <option>1 Week</option>
+              <option>2 Weeks</option>
+              <option>1 Month</option>
+              <option>2+ Months</option>
+            </select>
+            <span class="error-msg">Please select your notice period.</span>
+          </div>
+          <div class="form-group" data-field="hoursPerWeek">
+            <label>Available Hours Per Week <span class="req">*</span></label>
+            <input type="number" name="hoursPerWeek" required min="1" max="60" placeholder="40" />
+            <span class="error-msg">Please enter hours per week (1-60).</span>
+          </div>
+          <div class="form-group" data-field="workHours">
+            <label>Preferred Working Hours <span class="req">*</span></label>
+            <select name="workHours" required>
+              <option value="">Select...</option>
+              <option>US Business Hours (EST/PST)</option>
+              <option>AU Business Hours (AEST)</option>
+              <option>Flexible</option>
+              <option>Night Shift</option>
+            </select>
+            <span class="error-msg">Please select your preferred working hours.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 3: PROFESSIONAL EXPERIENCE ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">03</span></div>
+        <h2>Professional Experience</h2>
+        <p class="section-intro">Your work history and compensation details.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="totalExp">
+            <label>Years of Total Experience <span class="req">*</span></label>
+            <input type="number" name="totalExp" required min="0" max="30" placeholder="5" />
+            <span class="error-msg">Please enter total years of experience (0-30).</span>
+          </div>
+          <div class="form-group" data-field="relevantExp">
+            <label>Years of Relevant Experience <span class="req">*</span></label>
+            <input type="number" name="relevantExp" required min="0" max="20" placeholder="3" />
+            <span class="error-msg">Please enter relevant years of experience (0-20).</span>
+          </div>
+          <div class="form-group" data-field="currentTitle">
+            <label>Current Job Title <span class="req">*</span></label>
+            <input type="text" name="currentTitle" required placeholder="Marketing Manager" />
+            <span class="error-msg">Please enter your current job title.</span>
+          </div>
+          <div class="form-group" data-field="currentCompany">
+            <label>Current Company</label>
+            <input type="text" name="currentCompany" placeholder="Acme Corp" />
+          </div>
+          <div class="form-group" data-field="currentSalary">
+            <label>Current Monthly Salary (USD) <span class="req">*</span></label>
+            <input type="number" name="currentSalary" required min="0" placeholder="1500" />
+            <span class="error-msg">Please enter your current monthly salary.</span>
+          </div>
+          <div class="form-group" data-field="expectedSalary">
+            <label>Expected Monthly Salary (USD) <span class="req">*</span></label>
+            <input type="number" name="expectedSalary" required min="0" placeholder="2000" />
+            <span class="error-msg">Please enter your expected monthly salary.</span>
+          </div>
+          <div class="form-group" data-field="remoteExp">
+            <label>Previous Remote Work Experience <span class="req">*</span></label>
+            <select name="remoteExp" required>
+              <option value="">Select...</option>
+              <option>None</option>
+              <option>Less than 1 year</option>
+              <option>1-3 years</option>
+              <option>3-5 years</option>
+              <option>5+ years</option>
+            </select>
+            <span class="error-msg">Please select your remote work experience.</span>
+          </div>
+          <div class="form-group full" data-field="keySkills">
+            <label>Key Skills <span class="req">*</span></label>
+            <textarea name="keySkills" required placeholder="SEO, Content Writing, Google Analytics, HubSpot, Social Media Marketing"></textarea>
+            <span class="hint">Comma-separated. Include your top 5-10 skills.</span>
+            <span class="error-msg">Please list your key skills.</span>
+          </div>
+          <div class="form-group full" data-field="tools">
+            <label>Tools / Software Proficiency</label>
+            <textarea name="tools" placeholder="Google Workspace, Slack, Notion, Trello, Asana, Figma"></textarea>
+            <span class="hint">Comma-separated list of tools you use regularly.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 4: EDUCATION ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">04</span></div>
+        <h2>Education</h2>
+        <p class="section-intro">Your academic background.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="educationLevel">
+            <label>Highest Education Level <span class="req">*</span></label>
+            <select name="educationLevel" required>
+              <option value="">Select...</option>
+              <option>High School</option>
+              <option>Diploma</option>
+              <option>Bachelor's Degree</option>
+              <option>Master's Degree</option>
+              <option>PhD</option>
+              <option>Professional Certification</option>
+            </select>
+            <span class="error-msg">Please select your education level.</span>
+          </div>
+          <div class="form-group" data-field="fieldOfStudy">
+            <label>Field of Study <span class="req">*</span></label>
+            <input type="text" name="fieldOfStudy" required placeholder="Business Administration" />
+            <span class="error-msg">Please enter your field of study.</span>
+          </div>
+          <div class="form-group" data-field="university">
+            <label>University / Institution <span class="req">*</span></label>
+            <input type="text" name="university" required placeholder="University of Lahore" />
+            <span class="error-msg">Please enter your university or institution.</span>
+          </div>
+          <div class="form-group" data-field="gradYear">
+            <label>Graduation Year <span class="req">*</span></label>
+            <input type="number" name="gradYear" required min="1990" max="2030" placeholder="2020" />
+            <span class="error-msg">Please enter your graduation year.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 5: LANGUAGE & COMMUNICATION ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">05</span></div>
+        <h2>Language &amp; Communication</h2>
+        <p class="section-intro">Your language proficiency levels.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="englishLevel">
+            <label>English Proficiency <span class="req">*</span></label>
+            <select name="englishLevel" required>
+              <option value="">Select...</option>
+              <option>Native</option>
+              <option>Fluent</option>
+              <option>Advanced</option>
+              <option>Intermediate</option>
+              <option>Basic</option>
+            </select>
+            <span class="error-msg">Please select your English proficiency.</span>
+          </div>
+          <div class="form-group" data-field="otherLanguages">
+            <label>Other Languages</label>
+            <input type="text" name="otherLanguages" placeholder="Urdu, Punjabi, Arabic" />
+            <span class="hint">Comma-separated.</span>
+          </div>
+          <div class="form-group full" data-field="englishTest">
+            <label>English Test Score</label>
+            <input type="text" name="englishTest" placeholder="IELTS 7.5 / TOEFL 100" />
+            <span class="hint">If you have IELTS, TOEFL, or similar, enter your score here.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 6: SETUP & LOGISTICS ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">06</span></div>
+        <h2>Setup &amp; Logistics</h2>
+        <p class="section-intro">Your remote work setup and equipment.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="internet">
+            <label>Reliable Internet Connection? <span class="req">*</span></label>
+            <select name="internet" required>
+              <option value="">Select...</option>
+              <option>Yes</option>
+              <option>No</option>
+              <option>Can improve before start</option>
+            </select>
+            <span class="error-msg">Please select your internet status.</span>
+          </div>
+          <div class="form-group" data-field="internetSpeed">
+            <label>Approximate Internet Speed (Mbps)</label>
+            <input type="number" name="internetSpeed" min="0" placeholder="50" />
+          </div>
+          <div class="form-group" data-field="workspace">
+            <label>Quiet Workspace? <span class="req">*</span></label>
+            <select name="workspace" required>
+              <option value="">Select...</option>
+              <option>Yes</option>
+              <option>No</option>
+              <option>Can arrange before start</option>
+            </select>
+            <span class="error-msg">Please select your workspace status.</span>
+          </div>
+          <div class="form-group" data-field="laptop">
+            <label>Do you have a Laptop/Desktop? <span class="req">*</span></label>
+            <select name="laptop" required>
+              <option value="">Select...</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+            <span class="error-msg">Please select whether you have a computer.</span>
+          </div>
+          <div class="form-group" data-field="os">
+            <label>Operating System</label>
+            <select name="os">
+              <option value="">Select...</option>
+              <option>Windows</option>
+              <option>macOS</option>
+              <option>Linux</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 7: SOURCING ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">07</span></div>
+        <h2>How Did You Find Us?</h2>
+        <p class="section-intro">Help us understand our recruitment channels.</p>
+        <div class="form-grid">
+          <div class="form-group" data-field="howFound">
+            <label>How did you hear about us? <span class="req">*</span></label>
+            <select name="howFound" required>
+              <option value="">Select...</option>
+              <option>LinkedIn</option>
+              <option>Employee Referral</option>
+              <option>Job Board</option>
+              <option>Social Media</option>
+              <option>Google Search</option>
+              <option>University</option>
+              <option>Other</option>
+            </select>
+            <span class="error-msg">Please select how you found us.</span>
+          </div>
+          <div class="form-group hidden" data-field="referralName">
+            <label>Referral Name</label>
+            <input type="text" name="referralName" placeholder="Name of person who referred you" />
+          </div>
+          <div class="form-group hidden" data-field="jobBoard">
+            <label>Which Job Board?</label>
+            <input type="text" name="jobBoard" placeholder="e.g., Indeed, Rozee.pk" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SECTION 8: MOTIVATION ========== -->
+      <div class="form-section">
+        <div class="section-head"><span class="num-marker">08</span></div>
+        <h2>Motivation</h2>
+        <p class="section-intro">Tell us why you're a great fit.</p>
+        <div class="form-grid">
+          <div class="form-group full" data-field="whyDR">
+            <label>Why do you want to work at DimeRepublic? <span class="req">*</span></label>
+            <textarea name="whyDR" required placeholder="Tell us about your interest in DimeRepublic, what excites you about our mission, and how you see yourself contributing..." minlength="50"></textarea>
+            <span class="hint">Minimum 50 characters.</span>
+            <span class="error-msg">Please write at least 50 characters.</span>
+          </div>
+          <div class="form-group full" data-field="whyFit">
+            <label>What makes you a good fit for this role? <span class="req">*</span></label>
+            <textarea name="whyFit" required placeholder="Describe your relevant experience, skills, and why you're the right person for this position..." minlength="50"></textarea>
+            <span class="hint">Minimum 50 characters.</span>
+            <span class="error-msg">Please write at least 50 characters.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== SUBMIT ========== -->
+      <div class="submit-section">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="spinner"></span>Submit Application
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ========== SUCCESS MESSAGE ========== -->
+    <div id="successMsg" class="success-msg">
+      <div class="success-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1E8F74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Application Submitted!</h2>
+      <p>Thank you for applying to DimeRepublic. We've received your application and will review it within 5 business days. If your profile matches our requirements, we'll reach out to schedule an interview.</p>
+      <a href="careers.html" class="btn-mint" style="margin-top:20px;">View Other Positions</a>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a href="index.html" class="logo" style="font-size:18px;">Dime<span>Republic</span></a>
+          <p>Global talent from Pakistan. Massive impact for your business. Let's build the future together.</p>
+          <div class="foot-social">
+            <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12H3zM9 8.98h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v6.32h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96v5.7H9z"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.6-2.3.7a4 4 0 001.8-2.2c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7 3.7A11.6 11.6 0 013 4.9a4.1 4.1 0 001.3 5.5c-.6 0-1.2-.2-1.8-.5v.1a4.1 4.1 0 003.3 4 4.2 4.2 0 01-1.8.1 4.1 4.1 0 003.8 2.9A8.3 8.3 0 012 18.6a11.6 11.6 0 006.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="customer-support.html">Customer Support</a></li>
+            <li><a href="developers.html">Developers</a></li>
+            <li><a href="devops.html">DevOps</a></li>
+            <li><a href="marketing.html">Marketing</a></li>
+            <li><a href="virtual-assistants.html">Virtual Assistants</a></li>
+            <li><a href="recruiting.html">Recruiting</a></li>
+            <li><a href="sales-teams.html">Sales Teams</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Roles</h4>
+          <ul>
+            <li><a href="support-agents.html">Support Agents</a></li>
+            <li><a href="developers-role.html">Developers</a></li>
+            <li><a href="devops-engineers.html">DevOps Engineers</a></li>
+            <li><a href="marketing-experts.html">Marketing Experts</a></li>
+            <li><a href="virtual-assistants-role.html">Virtual Assistants</a></li>
+            <li><a href="recruiters.html">Recruiters</a></li>
+            <li><a href="finance-accounting.html">Finance &amp; Accounting</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="https://calendly.com/dimerepublic-sales/30min" target="_blank">Contact Us</a></li>
+            <li><a href="index.html#sop">Our Process</a></li>
+            <li><a href="index.html#case-studies">Case Studies</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="index.html#case-studies">Case Studies</a></li>
+            <li><a href="index.html#sop">Our Process</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+          </ul>
+          <h4 style="margin-top:20px;">Legal</h4>
+          <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+            <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            <li><a href="data-processing-agreement.html">Data Processing Agreement</a></li>
+            <li><a href="gdpr-compliance.html">GDPR Compliance</a></li>
+            <li><a href="acceptable-use-policy.html">Acceptable Use Policy</a></li>
+            <li><a href="refund-cancellation.html">Refund &amp; Cancellation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <div class="wrap">
+        <div class="foot-bar-inner">
+          <div class="foot-links">
+            <a href="mailto:contact@dimerepublic.com"><span style="color:rgba(255,255,255,.6);">Email:</span> contact@dimerepublic.com</a>
+            <a href="tel:+17707104500"><span style="color:rgba(255,255,255,.6);">Phone:</span> +1 (770) 710-4500</a>
+            <a href="https://www.dimerepublic.com">www.dimerepublic.com</a>
+          </div>
+          <p>&copy; 2026 DimeRepublic. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+(function() {
+  // =====================================================
+  // GOOGLE APPS SCRIPT URL — REPLACE THIS WITH YOUR URL
+  // =====================================================
+  // See HTML comments at bottom of file for setup instructions
+  const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+  const form = document.getElementById('applicationForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('error-global');
+  const successMsg = document.getElementById('successMsg');
+
+  // Pre-select position from URL param
+  const urlParams = new URLSearchParams(window.location.search);
+  const positionParam = urlParams.get('position');
+  if (positionParam) {
+    const posSelect = form.querySelector('select[name="position"]');
+    if (posSelect) {
+      const options = posSelect.options;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value === positionParam) {
+          posSelect.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  }
+
+  // Conditional fields: show/hide based on "How did you hear about us?"
+  const howFound = form.querySelector('select[name="howFound"]');
+  const referralGroup = form.querySelector('[data-field="referralName"]').closest('.form-group');
+  const jobBoardGroup = form.querySelector('[data-field="jobBoard"]').closest('.form-group');
+
+  howFound.addEventListener('change', function() {
+    referralGroup.classList.toggle('hidden', this.value !== 'Employee Referral');
+    jobBoardGroup.classList.toggle('hidden', this.value !== 'Job Board');
+  });
+
+  // Field validation rules
+  const validators = {
+    fullName: (v) => v.trim().length > 0,
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+    phone: (v) => v.replace(/\D/g, '').length >= 7,
+    dob: (v) => v.length > 0,
+    gender: (v) => v.length > 0,
+    city: (v) => v.trim().length > 0,
+    country: (v) => v.length > 0,
+    nationality: (v) => v.trim().length > 0,
+    linkedin: (v) => v.length === 0 || /^https?:\/\//.test(v),
+    portfolio: (v) => v.length === 0 || /^https?:\/\//.test(v),
+    position: (v) => v.length > 0,
+    startDate: (v) => v.length > 0,
+    noticePeriod: (v) => v.length > 0,
+    hoursPerWeek: (v) => { const n = parseInt(v); return n >= 1 && n <= 60; },
+    workHours: (v) => v.length > 0,
+    totalExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 30; },
+    relevantExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 20; },
+    currentTitle: (v) => v.trim().length > 0,
+    currentCompany: (v) => true, // optional
+    currentSalary: (v) => v.length > 0 && parseInt(v) >= 0,
+    expectedSalary: (v) => v.length > 0 && parseInt(v) >= 0,
+    remoteExp: (v) => v.length > 0,
+    keySkills: (v) => v.trim().length > 0,
+    tools: (v) => true, // optional
+    educationLevel: (v) => v.length > 0,
+    fieldOfStudy: (v) => v.trim().length > 0,
+    university: (v) => v.trim().length > 0,
+    gradYear: (v) => { const n = parseInt(v); return n >= 1990 && n <= 2030; },
+    englishLevel: (v) => v.length > 0,
+    otherLanguages: (v) => true, // optional
+    englishTest: (v) => true, // optional
+    internet: (v) => v.length > 0,
+    internetSpeed: (v) => true, // optional
+    workspace: (v) => v.length > 0,
+    laptop: (v) => v.length > 0,
+    os: (v) => true, // optional
+    howFound: (v) => v.length > 0,
+    referralName: (v) => true, // optional
+    jobBoard: (v) => true, // optional
+    whyDR: (v) => v.trim().length >= 50,
+    whyFit: (v) => v.trim().length >= 50
+  };
+
+  function validateField(fieldName) {
+    const input = form.querySelector('[name="' + fieldName + '"]');
+    if (!input) return true;
+    const value = input.value;
+    const validator = validators[fieldName];
+    if (!validator) return true;
+    const isValid = validator(value);
+    const group = input.closest('.form-group');
+    if (group) {
+      group.classList.toggle('has-error', !isValid);
+    }
+    return isValid;
+  }
+
+  // Live validation on blur
+  form.querySelectorAll('input, select, textarea').forEach(function(input) {
+    input.addEventListener('blur', function() {
+      const name = this.getAttribute('name');
+      if (name && validators[name]) {
+        validateField(name);
+      }
+    });
+    input.addEventListener('input', function() {
+      const group = this.closest('.form-group');
+      if (group && group.classList.contains('has-error')) {
+        validateField(this.getAttribute('name'));
+      }
+    });
+  });
+
+  // Form submission
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate all fields
+    let allValid = true;
+    for (const fieldName in validators) {
+      if (!validateField(fieldName)) {
+        allValid = false;
+      }
+    }
+
+    if (!allValid) {
+      errorMsg.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    errorMsg.classList.remove('show');
+
+    // Collect form data
+    const formData = {};
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+      const name = input.getAttribute('name');
+      if (name) {
+        formData[name] = input.value.trim();
+      }
+    });
+
+    // Add timestamp
+    formData.timestamp = new Date().toISOString();
+
+    // Check URL
+    if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+      alert('Form validated successfully! To enable submission, please set up Google Apps Script (see instructions in page source) and replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with your deployment URL.');
+      return;
+    }
+
+    // Disable button, show loading
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(formData)
+      });
+
+      // Show success (mode:no-cors won't give us response details)
+      form.style.display = 'none';
+      successMsg.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      alert('Something went wrong. Please try again or email your application to contact@dimerepublic.com');
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+    }
+  });
+})();
+</script>
+
+<!--
+==========================================================
+GOOGLE APPS SCRIPT — JOB APPLICATION FORM
+==========================================================
+
+SETUP INSTRUCTIONS:
+
+1. CREATE GOOGLE SHEET
+   - Go to sheets.google.com and create a new spreadsheet
+   - Name it "DimeRepublic Job Applications"
+   - In Row 1, add these column headers (copy exactly):
+
+     A1: Timestamp
+     B1: Full Name
+     C1: Email
+     D1: Phone
+     E1: Date of Birth
+     F1: Gender
+     G1: City
+     H1: Country
+     I1: Nationality
+     J1: LinkedIn
+     K1: Portfolio
+     L1: Position
+     M1: Start Date
+     N1: Notice Period
+     O1: Hours/Week
+     P1: Work Hours
+     Q1: Total Experience (Years)
+     R1: Relevant Experience (Years)
+     S1: Current Title
+     T1: Current Company
+     U1: Current Salary (USD)
+     V1: Expected Salary (USD)
+     W1: Remote Experience
+     X1: Key Skills
+     Y1: Tools
+     Z1: Education Level
+     AA1: Field of Study
+     AB1: University
+     AC1: Graduation Year
+     AD1: English Level
+     AE1: Other Languages
+     AF1: English Test Score
+     AG1: Internet
+     AH1: Internet Speed (Mbps)
+     AI1: Workspace
+     AJ1: Laptop
+     AK1: OS
+     AL1: How Found Us
+     AM1: Referral Name
+     AN1: Job Board
+     AO1: Why DimeRepublic
+     AP1: Why Good Fit
+
+2. OPEN APPS SCRIPT EDITOR
+   - In your Google Sheet, go to Extensions > Apps Script
+   - Delete any existing code in the editor
+
+3. PASTE THIS CODE:
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  
+  sheet.appendRow([
+    new Date(),
+    data.fullName || '',
+    data.email || '',
+    data.phone || '',
+    data.dob || '',
+    data.gender || '',
+    data.city || '',
+    data.country || '',
+    data.nationality || '',
+    data.linkedin || '',
+    data.portfolio || '',
+    data.position || '',
+    data.startDate || '',
+    data.noticePeriod || '',
+    data.hoursPerWeek || '',
+    data.workHours || '',
+    data.totalExp || '',
+    data.relevantExp || '',
+    data.currentTitle || '',
+    data.currentCompany || '',
+    data.currentSalary || '',
+    data.expectedSalary || '',
+    data.remoteExp || '',
+    data.keySkills || '',
+    data.tools || '',
+    data.educationLevel || '',
+    data.fieldOfStudy || '',
+    data.university || '',
+    data.gradYear || '',
+    data.englishLevel || '',
+    data.otherLanguages || '',
+    data.englishTest || '',
+    data.internet || '',
+    data.internetSpeed || '',
+    data.workspace || '',
+    data.laptop || '',
+    data.os || '',
+    data.howFound || '',
+    data.referralName || '',
+    data.jobBoard || '',
+    data.whyDR || '',
+    data.whyFit || ''
+  ]);
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({status: 'success'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+4. SAVE (Ctrl+S or Cmd+S)
+
+5. DEPLOY AS WEB APP
+   - Click "Deploy" > "New deployment"
+   - Click the gear icon > select "Web app"
+   - Description: "Job Application Form"
+   - Execute as: Me
+   - Who has access: Anyone
+   - Click "Deploy"
+   - Copy the Web app URL that appears
+
+6. UPDATE THIS FILE
+   - Open apply.html
+   - Find this line near the top of the <script>:
+       const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+   - Replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with the URL you copied
+   - Save the file
+
+7. TEST
+   - Open apply.html in your browser
+   - Fill out and submit the form
+   - Check your Google Sheet — the data should appear as a new row
+
+==========================================================
+-->
+
+</body>
+</html>
