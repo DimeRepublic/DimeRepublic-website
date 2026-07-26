@@ -48,6 +48,16 @@
     .form-group.has-error input,.form-group.has-error select,.form-group.has-error textarea{border-color:var(--red);}
     .form-group.has-error .error-msg{display:block;}
     .form-group.hidden{display:none;}
+    .search-select-wrap{position:relative;}
+    .search-select-input{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .2s;width:100%;}
+    .search-select-input:focus{border-color:var(--mint);}
+    .has-error .search-select-input{border-color:var(--red);}
+    .search-select-dropdown{display:none;position:absolute;top:100%;left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;max-height:220px;overflow-y:auto;z-index:100;margin-top:4px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);}
+    .search-select-dropdown.open{display:block;}
+    .search-select-dropdown li{list-style:none;padding:8px 12px;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink);}
+    .search-select-dropdown li:hover,.search-select-dropdown li.highlight{background:var(--mint-soft);color:var(--ink);}
+    .search-select-dropdown li.no-match{color:var(--slate);cursor:default;font-style:italic;}
+    .search-select-dropdown li.no-match:hover{background:none;}
 
     .submit-section{text-align:center;padding:32px 0 48px;}
     .submit-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:16px;background:var(--mint);color:white;padding:14px 48px;border-radius:8px;border:none;cursor:pointer;transition:opacity .2s;}
@@ -218,13 +228,10 @@
         <div class="form-grid">
           <div class="form-group" data-field="position">
             <label>Position Applying For <span class="req">*</span></label>
-            <select name="position" required>
-              <option value="">Select a position...</option>
-              <option value="Senior Talent Sourcer">Senior Talent Sourcer</option>
-              <option value="Account Manager">Account Manager</option>
-              <option value="Content Marketing Specialist">Content Marketing Specialist</option>
-              <option value="Technical Recruiter">Technical Recruiter</option>
-            </select>
+            <div class="search-select-wrap">
+              <input type="text" class="search-select-input" name="position" autocomplete="off" placeholder="Search positions..." required />
+              <ul class="search-select-dropdown"></ul>
+            </div>
             <span class="error-msg">Please select a position.</span>
           </div>
           <div class="form-group" data-field="startDate">
@@ -620,20 +627,100 @@
   const errorMsg = document.getElementById('error-global');
   const successMsg = document.getElementById('successMsg');
 
+  // =====================================================
+  // Searchable Position Select
+  // =====================================================
+  const POSITIONS = [
+    'Customer Support Agent', 'Senior Customer Support Agent', 'Support Team Lead',
+    'Junior Developer', 'Software Engineer', 'Senior Software Engineer',
+    'Full-Stack Developer', 'Frontend Developer', 'Backend Developer',
+    'DevOps Engineer', 'Senior DevOps Engineer', 'Cloud Engineer',
+    'Marketing Specialist', 'Content Marketing Specialist', 'SEO Specialist',
+    'Social Media Manager', 'Marketing Manager',
+    'Virtual Assistant', 'Executive Assistant', 'Admin Assistant',
+    'Recruiter', 'Senior Talent Sourcer', 'Technical Recruiter',
+    'Account Manager', 'Sales Representative', 'Sales Team Lead',
+    'Finance Associate', 'Accountant', 'Finance Manager',
+    'Graphic Designer', 'UI/UX Designer', 'Data Entry Specialist',
+    'Quality Assurance Analyst', 'Project Manager', 'Operations Manager'
+  ];
+
+  const posWrap = form.querySelector('.search-select-wrap');
+  const posInput = form.querySelector('.search-select-input');
+  const posDropdown = form.querySelector('.search-select-dropdown');
+
+  function renderPositions(filter) {
+    var f = (filter || '').toLowerCase();
+    var html = '';
+    var matched = 0;
+    POSITIONS.forEach(function(p) {
+      if (!f || p.toLowerCase().includes(f)) {
+        html += '<li data-value="' + p + '">' + p + '</li>';
+        matched++;
+      }
+    });
+    if (!matched) html = '<li class="no-match">No positions found</li>';
+    posDropdown.innerHTML = html;
+    posDropdown.classList.add('open');
+  }
+
+  posInput.addEventListener('input', function() {
+    renderPositions(this.value);
+  });
+
+  posInput.addEventListener('focus', function() {
+    renderPositions(this.value);
+  });
+
+  posInput.addEventListener('blur', function() {
+    setTimeout(function() { posDropdown.classList.remove('open'); }, 200);
+  });
+
+  posDropdown.addEventListener('click', function(e) {
+    var li = e.target.closest('li');
+    if (!li || li.classList.contains('no-match')) return;
+    posInput.value = li.dataset.value;
+    posDropdown.classList.remove('open');
+  });
+
+  posDropdown.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+  });
+
+  // Keyboard navigation
+  posInput.addEventListener('keydown', function(e) {
+    var items = posDropdown.querySelectorAll('li:not(.no-match)');
+    var cur = posDropdown.querySelector('.highlight');
+    var idx = Array.prototype.indexOf.call(items, cur);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (cur) cur.classList.remove('highlight');
+      var next = items[Math.min(idx + 1, items.length - 1)];
+      if (next) next.classList.add('highlight');
+      else if (items.length) items[0].classList.add('highlight');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cur) cur.classList.remove('highlight');
+      var prev = items[Math.max(idx - 1, 0)];
+      if (prev) prev.classList.add('highlight');
+      else if (items.length) items[items.length - 1].classList.add('highlight');
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (cur) {
+        posInput.value = cur.dataset.value;
+        posDropdown.classList.remove('open');
+      }
+    } else if (e.key === 'Escape') {
+      posDropdown.classList.remove('open');
+    }
+  });
+
   // Pre-select position from URL param
   const urlParams = new URLSearchParams(window.location.search);
   const positionParam = urlParams.get('position');
-  if (positionParam) {
-    const posSelect = form.querySelector('select[name="position"]');
-    if (posSelect) {
-      const options = posSelect.options;
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].value === positionParam) {
-          posSelect.selectedIndex = i;
-          break;
-        }
-      }
-    }
+  if (positionParam && POSITIONS.indexOf(positionParam) !== -1) {
+    posInput.value = positionParam;
   }
 
   // Conditional fields: show/hide based on "How did you hear about us?"
