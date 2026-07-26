@@ -48,6 +48,16 @@
     .form-group.has-error input,.form-group.has-error select,.form-group.has-error textarea{border-color:var(--red);}
     .form-group.has-error .error-msg{display:block;}
     .form-group.hidden{display:none;}
+    .search-select-wrap{position:relative;}
+    .search-select-input{padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .2s;width:100%;}
+    .search-select-input:focus{border-color:var(--mint);}
+    .has-error .search-select-input{border-color:var(--red);}
+    .search-select-dropdown{display:none;position:absolute;top:100%;left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;max-height:220px;overflow-y:auto;z-index:100;margin-top:4px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);}
+    .search-select-dropdown.open{display:block;}
+    .search-select-dropdown li{list-style:none;padding:8px 12px;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink);}
+    .search-select-dropdown li:hover,.search-select-dropdown li.highlight{background:var(--mint-soft);color:var(--ink);}
+    .search-select-dropdown li.no-match{color:var(--slate);cursor:default;font-style:italic;}
+    .search-select-dropdown li.no-match:hover{background:none;}
 
     .submit-section{text-align:center;padding:32px 0 48px;}
     .submit-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:16px;background:var(--mint);color:white;padding:14px 48px;border-radius:8px;border:none;cursor:pointer;transition:opacity .2s;}
@@ -218,13 +228,10 @@
         <div class="form-grid">
           <div class="form-group" data-field="position">
             <label>Position Applying For <span class="req">*</span></label>
-            <select name="position" required>
-              <option value="">Select a position...</option>
-              <option value="Senior Talent Sourcer">Senior Talent Sourcer</option>
-              <option value="Account Manager">Account Manager</option>
-              <option value="Content Marketing Specialist">Content Marketing Specialist</option>
-              <option value="Technical Recruiter">Technical Recruiter</option>
-            </select>
+            <div class="search-select-wrap">
+              <input type="text" class="search-select-input" name="position" autocomplete="off" placeholder="Search positions..." required />
+              <ul class="search-select-dropdown"></ul>
+            </div>
             <span class="error-msg">Please select a position.</span>
           </div>
           <div class="form-group" data-field="startDate">
@@ -604,30 +611,116 @@
 <script>
 (function() {
   // =====================================================
-  // GOOGLE APPS SCRIPT URL — REPLACE THIS WITH YOUR URL
+  // CONFIG — Set these before deploying to production
   // =====================================================
-  // See HTML comments at bottom of file for setup instructions
-  const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // 1. Deploy google-apps-script.gs as a Web App (see file for instructions)
+  // 2. Copy the Web App URL and paste it below
+  // 3. Optionally set VITE_APPS_SCRIPT_URL in .env for local dev
+  // =====================================================
+  const CONFIG = {
+    // Paste your Google Apps Script Web App URL here
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwAcnE_yhzKQlf1LHeXeWuSLwROuI9laY0v6nHxVo_6aLtZ2djj8pVDOib3dL1mAiUxcQ/exec',
+  };
 
   const form = document.getElementById('applicationForm');
   const submitBtn = document.getElementById('submitBtn');
   const errorMsg = document.getElementById('error-global');
   const successMsg = document.getElementById('successMsg');
 
+  // =====================================================
+  // Searchable Position Select
+  // =====================================================
+  const POSITIONS = [
+    'Customer Support Agent', 'Senior Customer Support Agent', 'Support Team Lead',
+    'Junior Developer', 'Software Engineer', 'Senior Software Engineer',
+    'Full-Stack Developer', 'Frontend Developer', 'Backend Developer',
+    'DevOps Engineer', 'Senior DevOps Engineer', 'Cloud Engineer',
+    'Marketing Specialist', 'Content Marketing Specialist', 'SEO Specialist',
+    'Social Media Manager', 'Marketing Manager',
+    'Virtual Assistant', 'Executive Assistant', 'Admin Assistant',
+    'Recruiter', 'Senior Talent Sourcer', 'Technical Recruiter',
+    'Account Manager', 'Sales Representative', 'Sales Team Lead',
+    'Finance Associate', 'Accountant', 'Finance Manager',
+    'Graphic Designer', 'UI/UX Designer', 'Data Entry Specialist',
+    'Quality Assurance Analyst', 'Project Manager', 'Operations Manager'
+  ];
+
+  const posWrap = form.querySelector('.search-select-wrap');
+  const posInput = form.querySelector('.search-select-input');
+  const posDropdown = form.querySelector('.search-select-dropdown');
+
+  function renderPositions(filter) {
+    var f = (filter || '').toLowerCase();
+    var html = '';
+    var matched = 0;
+    POSITIONS.forEach(function(p) {
+      if (!f || p.toLowerCase().includes(f)) {
+        html += '<li data-value="' + p + '">' + p + '</li>';
+        matched++;
+      }
+    });
+    if (!matched) html = '<li class="no-match">No positions found</li>';
+    posDropdown.innerHTML = html;
+    posDropdown.classList.add('open');
+  }
+
+  posInput.addEventListener('input', function() {
+    renderPositions(this.value);
+  });
+
+  posInput.addEventListener('focus', function() {
+    renderPositions(this.value);
+  });
+
+  posInput.addEventListener('blur', function() {
+    setTimeout(function() { posDropdown.classList.remove('open'); }, 200);
+  });
+
+  posDropdown.addEventListener('click', function(e) {
+    var li = e.target.closest('li');
+    if (!li || li.classList.contains('no-match')) return;
+    posInput.value = li.dataset.value;
+    posDropdown.classList.remove('open');
+  });
+
+  posDropdown.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+  });
+
+  // Keyboard navigation
+  posInput.addEventListener('keydown', function(e) {
+    var items = posDropdown.querySelectorAll('li:not(.no-match)');
+    var cur = posDropdown.querySelector('.highlight');
+    var idx = Array.prototype.indexOf.call(items, cur);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (cur) cur.classList.remove('highlight');
+      var next = items[Math.min(idx + 1, items.length - 1)];
+      if (next) next.classList.add('highlight');
+      else if (items.length) items[0].classList.add('highlight');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cur) cur.classList.remove('highlight');
+      var prev = items[Math.max(idx - 1, 0)];
+      if (prev) prev.classList.add('highlight');
+      else if (items.length) items[items.length - 1].classList.add('highlight');
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (cur) {
+        posInput.value = cur.dataset.value;
+        posDropdown.classList.remove('open');
+      }
+    } else if (e.key === 'Escape') {
+      posDropdown.classList.remove('open');
+    }
+  });
+
   // Pre-select position from URL param
   const urlParams = new URLSearchParams(window.location.search);
   const positionParam = urlParams.get('position');
-  if (positionParam) {
-    const posSelect = form.querySelector('select[name="position"]');
-    if (posSelect) {
-      const options = posSelect.options;
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].value === positionParam) {
-          posSelect.selectedIndex = i;
-          break;
-        }
-      }
-    }
+  if (positionParam && POSITIONS.indexOf(positionParam) !== -1) {
+    posInput.value = positionParam;
   }
 
   // Conditional fields: show/hide based on "How did you hear about us?"
@@ -640,138 +733,85 @@
     jobBoardGroup.classList.toggle('hidden', this.value !== 'Job Board');
   });
 
-  // Field validation rules
-  const validators = {
-    fullName: (v) => v.trim().length > 0,
-    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-    phone: (v) => v.replace(/\D/g, '').length >= 7,
-    dob: (v) => v.length > 0,
-    gender: (v) => v.length > 0,
-    city: (v) => v.trim().length > 0,
-    country: (v) => v.length > 0,
-    nationality: (v) => v.trim().length > 0,
-    linkedin: (v) => v.length === 0 || /^https?:\/\//.test(v),
-    portfolio: (v) => v.length === 0 || /^https?:\/\//.test(v),
-    position: (v) => v.length > 0,
-    startDate: (v) => v.length > 0,
-    noticePeriod: (v) => v.length > 0,
-    hoursPerWeek: (v) => { const n = parseInt(v); return n >= 1 && n <= 60; },
-    workHours: (v) => v.length > 0,
-    totalExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 30; },
-    relevantExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 20; },
-    currentTitle: (v) => v.trim().length > 0,
-    currentCompany: (v) => true, // optional
-    currentSalary: (v) => v.length > 0 && parseInt(v) >= 0,
-    expectedSalary: (v) => v.length > 0 && parseInt(v) >= 0,
-    remoteExp: (v) => v.length > 0,
-    keySkills: (v) => v.trim().length > 0,
-    tools: (v) => true, // optional
-    educationLevel: (v) => v.length > 0,
-    fieldOfStudy: (v) => v.trim().length > 0,
-    university: (v) => v.trim().length > 0,
-    gradYear: (v) => { const n = parseInt(v); return n >= 1990 && n <= 2030; },
-    englishLevel: (v) => v.length > 0,
-    otherLanguages: (v) => true, // optional
-    englishTest: (v) => true, // optional
-    internet: (v) => v.length > 0,
-    internetSpeed: (v) => true, // optional
-    workspace: (v) => v.length > 0,
-    laptop: (v) => v.length > 0,
-    os: (v) => true, // optional
-    howFound: (v) => v.length > 0,
-    referralName: (v) => true, // optional
-    jobBoard: (v) => true, // optional
-    whyDR: (v) => v.trim().length >= 50,
-    whyFit: (v) => v.trim().length >= 50
-  };
-
-  function validateField(fieldName) {
-    const input = form.querySelector('[name="' + fieldName + '"]');
+  // Simple validation
+  function validateField(name) {
+    var input = form.querySelector('[name="' + name + '"]');
     if (!input) return true;
-    const value = input.value;
-    const validator = validators[fieldName];
-    if (!validator) return true;
-    const isValid = validator(value);
-    const group = input.closest('.form-group');
-    if (group) {
-      group.classList.toggle('has-error', !isValid);
-    }
-    return isValid;
+    var val = input.value.trim();
+    var group = input.closest('.form-group');
+    if (!group) return true;
+    var req = input.hasAttribute('required') || group.querySelector('.req');
+    if (!req) return true;
+    var valid = val.length > 0;
+    group.classList.toggle('has-error', !valid);
+    return valid;
   }
 
-  // Live validation on blur
   form.querySelectorAll('input, select, textarea').forEach(function(input) {
     input.addEventListener('blur', function() {
-      const name = this.getAttribute('name');
-      if (name && validators[name]) {
-        validateField(name);
-      }
-    });
-    input.addEventListener('input', function() {
-      const group = this.closest('.form-group');
-      if (group && group.classList.contains('has-error')) {
-        validateField(this.getAttribute('name'));
-      }
+      var name = this.getAttribute('name');
+      if (name) validateField(name);
     });
   });
 
   // Form submission
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    console.log('[Form] Submit triggered');
 
-    // Validate all fields
-    let allValid = true;
-    for (const fieldName in validators) {
-      if (!validateField(fieldName)) {
-        allValid = false;
-      }
+    if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+      console.error('[Form] SCRIPT_URL is still the placeholder!');
+      errorMsg.textContent = 'Form is not yet connected. Update the SCRIPT_URL in CONFIG.';
+      errorMsg.classList.add('show');
+      return;
     }
 
-    if (!allValid) {
+    // Validate required fields
+    var valid = true;
+    var names = ['fullName','email','phone','dob','gender','city','country','nationality',
+      'linkedin','position','startDate','noticePeriod','hoursPerWeek','workHours',
+      'totalExp','relevantExp','currentTitle','currentSalary','expectedSalary','remoteExp',
+      'keySkills','educationLevel','fieldOfStudy','university','gradYear','englishLevel',
+      'internet','workspace','laptop','howFound','whyDR','whyFit'];
+    names.forEach(function(n) { if (!validateField(n)) valid = false; });
+
+    if (!valid) {
+      errorMsg.textContent = 'Please fill in all required fields.';
       errorMsg.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
     errorMsg.classList.remove('show');
 
     // Collect form data
-    const formData = {};
-    const inputs = form.querySelectorAll('input, select, textarea');
+    var formData = {};
+    var inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach(function(input) {
-      const name = input.getAttribute('name');
-      if (name) {
-        formData[name] = input.value.trim();
-      }
+      var name = input.getAttribute('name');
+      if (name) formData[name] = input.value.trim();
     });
-
-    // Add timestamp
     formData.timestamp = new Date().toISOString();
+    console.log('[Form] Sending data:', formData);
 
-    // Check URL
-    if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      alert('Form validated successfully! To enable submission, please set up Google Apps Script (see instructions in page source) and replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with your deployment URL.');
-      return;
-    }
-
-    // Disable button, show loading
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
 
     try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(formData)
+      var params = new URLSearchParams();
+      for (var key in formData) {
+        params.append(key, formData[key]);
+      }
+      await fetch(CONFIG.SCRIPT_URL + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
       });
-
-      // Show success (mode:no-cors won't give us response details)
       form.style.display = 'none';
       successMsg.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      alert('Something went wrong. Please try again or email your application to contact@dimerepublic.com');
+      console.error('[Form] Error:', err);
+      errorMsg.textContent = 'Error submitting. Check console (F12) and try again.';
+      errorMsg.classList.add('show');
       submitBtn.disabled = false;
       submitBtn.classList.remove('loading');
     }
@@ -781,141 +821,40 @@
 
 <!--
 ==========================================================
-GOOGLE APPS SCRIPT — JOB APPLICATION FORM
+GOOGLE APPS SCRIPT — SETUP INSTRUCTIONS
 ==========================================================
-
-SETUP INSTRUCTIONS:
 
 1. CREATE GOOGLE SHEET
    - Go to sheets.google.com and create a new spreadsheet
    - Name it "DimeRepublic Job Applications"
-   - In Row 1, add these column headers (copy exactly):
-
-     A1: Timestamp
-     B1: Full Name
-     C1: Email
-     D1: Phone
-     E1: Date of Birth
-     F1: Gender
-     G1: City
-     H1: Country
-     I1: Nationality
-     J1: LinkedIn
-     K1: Portfolio
-     L1: Position
-     M1: Start Date
-     N1: Notice Period
-     O1: Hours/Week
-     P1: Work Hours
-     Q1: Total Experience (Years)
-     R1: Relevant Experience (Years)
-     S1: Current Title
-     T1: Current Company
-     U1: Current Salary (USD)
-     V1: Expected Salary (USD)
-     W1: Remote Experience
-     X1: Key Skills
-     Y1: Tools
-     Z1: Education Level
-     AA1: Field of Study
-     AB1: University
-     AC1: Graduation Year
-     AD1: English Level
-     AE1: Other Languages
-     AF1: English Test Score
-     AG1: Internet
-     AH1: Internet Speed (Mbps)
-     AI1: Workspace
-     AJ1: Laptop
-     AK1: OS
-     AL1: How Found Us
-     AM1: Referral Name
-     AN1: Job Board
-     AO1: Why DimeRepublic
-     AP1: Why Good Fit
 
 2. OPEN APPS SCRIPT EDITOR
-   - In your Google Sheet, go to Extensions > Apps Script
-   - Delete any existing code in the editor
+   - In your Google Sheet: Extensions > Apps Script
+   - Delete existing code, then paste the entire contents of
+     google-apps-script.gs (in the project root)
+   - Save (Ctrl+S)
 
-3. PASTE THIS CODE:
+3. (Optional) Set Sheet ID in script properties
+   - Run setupSheet() once to create headers
+   - Or set your sheet ID:
+       ScriptApp.getScriptProperties().setProperty('SHEET_ID', 'your-sheet-id');
 
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  
-  sheet.appendRow([
-    new Date(),
-    data.fullName || '',
-    data.email || '',
-    data.phone || '',
-    data.dob || '',
-    data.gender || '',
-    data.city || '',
-    data.country || '',
-    data.nationality || '',
-    data.linkedin || '',
-    data.portfolio || '',
-    data.position || '',
-    data.startDate || '',
-    data.noticePeriod || '',
-    data.hoursPerWeek || '',
-    data.workHours || '',
-    data.totalExp || '',
-    data.relevantExp || '',
-    data.currentTitle || '',
-    data.currentCompany || '',
-    data.currentSalary || '',
-    data.expectedSalary || '',
-    data.remoteExp || '',
-    data.keySkills || '',
-    data.tools || '',
-    data.educationLevel || '',
-    data.fieldOfStudy || '',
-    data.university || '',
-    data.gradYear || '',
-    data.englishLevel || '',
-    data.otherLanguages || '',
-    data.englishTest || '',
-    data.internet || '',
-    data.internetSpeed || '',
-    data.workspace || '',
-    data.laptop || '',
-    data.os || '',
-    data.howFound || '',
-    data.referralName || '',
-    data.jobBoard || '',
-    data.whyDR || '',
-    data.whyFit || ''
-  ]);
-  
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'success'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-4. SAVE (Ctrl+S or Cmd+S)
-
-5. DEPLOY AS WEB APP
-   - Click "Deploy" > "New deployment"
-   - Click the gear icon > select "Web app"
-   - Description: "Job Application Form"
+4. DEPLOY AS WEB APP
+   - Deploy > New deployment > Web app
    - Execute as: Me
    - Who has access: Anyone
-   - Click "Deploy"
-   - Copy the Web app URL that appears
+   - Click Deploy, then COPY THE WEB APP URL
 
-6. UPDATE THIS FILE
+5. UPDATE THIS FILE
    - Open apply.html
-   - Find this line near the top of the <script>:
-       const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+   - Find the CONFIG object near the top of the <script>:
+       const CONFIG = { SCRIPT_URL: 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' };
    - Replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with the URL you copied
-   - Save the file
+   - Save
 
-7. TEST
-   - Open apply.html in your browser
-   - Fill out and submit the form
-   - Check your Google Sheet — the data should appear as a new row
+6. TEST
+   - Open apply.html and submit the form
+   - Check your Google Sheet — data should appear as a new row
 
 ==========================================================
 -->
