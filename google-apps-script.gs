@@ -1,40 +1,31 @@
-var FORM_FIELDS = [
-  'Timestamp', 'fullName', 'email', 'phone', 'dob', 'gender', 'city', 'country',
-  'nationality', 'linkedin', 'portfolio', 'position', 'startDate', 'noticePeriod',
-  'hoursPerWeek', 'workHours', 'totalExp', 'relevantExp', 'currentTitle',
-  'currentCompany', 'currentSalary', 'expectedSalary', 'remoteExp', 'keySkills',
-  'tools', 'educationLevel', 'fieldOfStudy', 'university', 'gradYear',
-  'englishLevel', 'otherLanguages', 'englishTest', 'internet', 'internetSpeed',
-  'workspace', 'laptop', 'os', 'howFound', 'referralName', 'jobBoard',
-  'whyDR', 'whyFit'
-];
+var SHEET_NAME = 'Submissions';
 
 function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y').getSheets()[0];
-    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-    var data = e.parameter;
-    var row = [];
-
-    for (var i = 0; i < headers.length; i++) {
-      var h = headers[i];
-      if (h === 'Timestamp') {
-        row.push(new Date());
-      } else {
-        row.push(data[h] || '');
-      }
+    var ss = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y');
+    var sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      sheet.appendRow(['Timestamp', 'fullName', 'email', 'phone', 'dob', 'gender', 'city', 'country',
+        'nationality', 'linkedin', 'portfolio', 'position', 'startDate', 'noticePeriod',
+        'hoursPerWeek', 'workHours', 'totalExp', 'relevantExp', 'currentTitle',
+        'currentCompany', 'currentSalary', 'expectedSalary', 'remoteExp', 'keySkills',
+        'tools', 'educationLevel', 'fieldOfStudy', 'university', 'gradYear',
+        'englishLevel', 'otherLanguages', 'englishTest', 'internet', 'internetSpeed',
+        'workspace', 'laptop', 'os', 'howFound', 'referralName', 'jobBoard',
+        'whyDR', 'whyFit']);
+      sheet.setFrozenRows(1);
     }
 
+    var row = [new Date()];
+    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    for (var i = 1; i < headers.length; i++) {
+      row.push(e.parameter[headers[i]] || '');
+    }
     sheet.appendRow(row);
-    return HtmlService.createHtmlOutput('<html><body onload="google.script.host.close()"><h2>Submitted</h2></body></html>');
-  } catch(error) {
-    return HtmlService.createHtmlOutput('<html><body><h2>Error</h2><p>' + error.toString() + '</p></body></html>');
-  }
-}
 
-function setupSheet() {
-  var sheet = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y').getSheets()[0];
-  sheet.getRange(1, 1, 1, FORM_FIELDS.length).setValues([FORM_FIELDS]);
-  sheet.setFrozenRows(1);
-  Logger.log('Headers updated: ' + FORM_FIELDS.join(', '));
+    return HtmlService.createHtmlOutput('<html><body>OK</body></html>');
+  } catch(error) {
+    return HtmlService.createHtmlOutput('<html><body>Error: ' + error.toString() + '</body></html>');
+  }
 }
