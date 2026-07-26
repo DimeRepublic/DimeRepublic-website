@@ -26,9 +26,9 @@ function doPost(e) {
     }
 
     sheet.appendRow(row);
-    return ContentService.createTextOutput(JSON.stringify({status:'success'})).setMimeType(ContentService.MimeType.JSON);
+    return HtmlService.createHtmlOutput('<html><body onload="google.script.host.close()"><h2>Submitted</h2></body></html>');
   } catch(error) {
-    return ContentService.createTextOutput(JSON.stringify({status:'error',message:error.toString()})).setMimeType(ContentService.MimeType.JSON);
+    return HtmlService.createHtmlOutput('<html><body><h2>Error</h2><p>' + error.toString() + '</p></body></html>');
   }
 }
 
