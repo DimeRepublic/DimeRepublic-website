@@ -1,7 +1,16 @@
 var SHEET_NAME = 'Submissions';
 
+function doGet(e) {
+  return handle(e);
+}
+
 function doPost(e) {
+  return handle(e);
+}
+
+function handle(e) {
   try {
+    var params = e.parameter || {};
     var ss = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y');
     var sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) {
@@ -20,7 +29,7 @@ function doPost(e) {
     var row = [new Date()];
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     for (var i = 1; i < headers.length; i++) {
-      row.push(e.parameter[headers[i]] || '');
+      row.push(params[headers[i]] || '');
     }
     sheet.appendRow(row);
 

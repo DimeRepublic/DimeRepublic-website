@@ -646,7 +646,26 @@
     jobBoardGroup.classList.toggle('hidden', this.value !== 'Job Board');
   });
 
-  // Validation skipped for quick testing
+  // Simple validation
+  function validateField(name) {
+    var input = form.querySelector('[name="' + name + '"]');
+    if (!input) return true;
+    var val = input.value.trim();
+    var group = input.closest('.form-group');
+    if (!group) return true;
+    var req = input.hasAttribute('required') || group.querySelector('.req');
+    if (!req) return true;
+    var valid = val.length > 0;
+    group.classList.toggle('has-error', !valid);
+    return valid;
+  }
+
+  form.querySelectorAll('input, select, textarea').forEach(function(input) {
+    input.addEventListener('blur', function() {
+      var name = this.getAttribute('name');
+      if (name) validateField(name);
+    });
+  });
 
   // Form submission
   form.addEventListener('submit', async function(e) {
@@ -655,10 +674,27 @@
 
     if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
       console.error('[Form] SCRIPT_URL is still the placeholder!');
-      errorMsg.textContent = 'Form is not yet connected to Google Sheets. Please set up the Apps Script URL.';
+      errorMsg.textContent = 'Form is not yet connected. Update the SCRIPT_URL in CONFIG.';
       errorMsg.classList.add('show');
       return;
     }
+
+    // Validate required fields
+    var valid = true;
+    var names = ['fullName','email','phone','dob','gender','city','country','nationality',
+      'linkedin','position','startDate','noticePeriod','hoursPerWeek','workHours',
+      'totalExp','relevantExp','currentTitle','currentSalary','expectedSalary','remoteExp',
+      'keySkills','educationLevel','fieldOfStudy','university','gradYear','englishLevel',
+      'internet','workspace','laptop','howFound','whyDR','whyFit'];
+    names.forEach(function(n) { if (!validateField(n)) valid = false; });
+
+    if (!valid) {
+      errorMsg.textContent = 'Please fill in all required fields.';
+      errorMsg.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    errorMsg.classList.remove('show');
 
     // Collect form data
     var formData = {};
@@ -678,11 +714,9 @@
       for (var key in formData) {
         params.append(key, formData[key]);
       }
-      await fetch(CONFIG.SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
+      await fetch(CONFIG.SCRIPT_URL + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
       });
       form.style.display = 'none';
       successMsg.classList.add('show');
