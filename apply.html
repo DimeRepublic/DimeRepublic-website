@@ -604,10 +604,16 @@
 <script>
 (function() {
   // =====================================================
-  // GOOGLE APPS SCRIPT URL — REPLACE THIS WITH YOUR URL
+  // CONFIG — Set these before deploying to production
   // =====================================================
-  // See HTML comments at bottom of file for setup instructions
-  const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // 1. Deploy google-apps-script.gs as a Web App (see file for instructions)
+  // 2. Copy the Web App URL and paste it below
+  // 3. Optionally set VITE_APPS_SCRIPT_URL in .env for local dev
+  // =====================================================
+  const CONFIG = {
+    // Paste your Google Apps Script Web App URL here
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwAcnE_yhzKQlf1LHeXeWuSLwROuI9laY0v6nHxVo_6aLtZ2djj8pVDOib3dL1mAiUxcQ/exec',
+  };
 
   const form = document.getElementById('applicationForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -749,7 +755,7 @@
     formData.timestamp = new Date().toISOString();
 
     // Check URL
-    if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
       alert('Form validated successfully! To enable submission, please set up Google Apps Script (see instructions in page source) and replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with your deployment URL.');
       return;
     }
@@ -759,7 +765,7 @@
     submitBtn.classList.add('loading');
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      const response = await fetch(CONFIG.SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
@@ -781,141 +787,40 @@
 
 <!--
 ==========================================================
-GOOGLE APPS SCRIPT — JOB APPLICATION FORM
+GOOGLE APPS SCRIPT — SETUP INSTRUCTIONS
 ==========================================================
-
-SETUP INSTRUCTIONS:
 
 1. CREATE GOOGLE SHEET
    - Go to sheets.google.com and create a new spreadsheet
    - Name it "DimeRepublic Job Applications"
-   - In Row 1, add these column headers (copy exactly):
-
-     A1: Timestamp
-     B1: Full Name
-     C1: Email
-     D1: Phone
-     E1: Date of Birth
-     F1: Gender
-     G1: City
-     H1: Country
-     I1: Nationality
-     J1: LinkedIn
-     K1: Portfolio
-     L1: Position
-     M1: Start Date
-     N1: Notice Period
-     O1: Hours/Week
-     P1: Work Hours
-     Q1: Total Experience (Years)
-     R1: Relevant Experience (Years)
-     S1: Current Title
-     T1: Current Company
-     U1: Current Salary (USD)
-     V1: Expected Salary (USD)
-     W1: Remote Experience
-     X1: Key Skills
-     Y1: Tools
-     Z1: Education Level
-     AA1: Field of Study
-     AB1: University
-     AC1: Graduation Year
-     AD1: English Level
-     AE1: Other Languages
-     AF1: English Test Score
-     AG1: Internet
-     AH1: Internet Speed (Mbps)
-     AI1: Workspace
-     AJ1: Laptop
-     AK1: OS
-     AL1: How Found Us
-     AM1: Referral Name
-     AN1: Job Board
-     AO1: Why DimeRepublic
-     AP1: Why Good Fit
 
 2. OPEN APPS SCRIPT EDITOR
-   - In your Google Sheet, go to Extensions > Apps Script
-   - Delete any existing code in the editor
+   - In your Google Sheet: Extensions > Apps Script
+   - Delete existing code, then paste the entire contents of
+     google-apps-script.gs (in the project root)
+   - Save (Ctrl+S)
 
-3. PASTE THIS CODE:
+3. (Optional) Set Sheet ID in script properties
+   - Run setupSheet() once to create headers
+   - Or set your sheet ID:
+       ScriptApp.getScriptProperties().setProperty('SHEET_ID', 'your-sheet-id');
 
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  
-  sheet.appendRow([
-    new Date(),
-    data.fullName || '',
-    data.email || '',
-    data.phone || '',
-    data.dob || '',
-    data.gender || '',
-    data.city || '',
-    data.country || '',
-    data.nationality || '',
-    data.linkedin || '',
-    data.portfolio || '',
-    data.position || '',
-    data.startDate || '',
-    data.noticePeriod || '',
-    data.hoursPerWeek || '',
-    data.workHours || '',
-    data.totalExp || '',
-    data.relevantExp || '',
-    data.currentTitle || '',
-    data.currentCompany || '',
-    data.currentSalary || '',
-    data.expectedSalary || '',
-    data.remoteExp || '',
-    data.keySkills || '',
-    data.tools || '',
-    data.educationLevel || '',
-    data.fieldOfStudy || '',
-    data.university || '',
-    data.gradYear || '',
-    data.englishLevel || '',
-    data.otherLanguages || '',
-    data.englishTest || '',
-    data.internet || '',
-    data.internetSpeed || '',
-    data.workspace || '',
-    data.laptop || '',
-    data.os || '',
-    data.howFound || '',
-    data.referralName || '',
-    data.jobBoard || '',
-    data.whyDR || '',
-    data.whyFit || ''
-  ]);
-  
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'success'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-4. SAVE (Ctrl+S or Cmd+S)
-
-5. DEPLOY AS WEB APP
-   - Click "Deploy" > "New deployment"
-   - Click the gear icon > select "Web app"
-   - Description: "Job Application Form"
+4. DEPLOY AS WEB APP
+   - Deploy > New deployment > Web app
    - Execute as: Me
    - Who has access: Anyone
-   - Click "Deploy"
-   - Copy the Web app URL that appears
+   - Click Deploy, then COPY THE WEB APP URL
 
-6. UPDATE THIS FILE
+5. UPDATE THIS FILE
    - Open apply.html
-   - Find this line near the top of the <script>:
-       const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+   - Find the CONFIG object near the top of the <script>:
+       const CONFIG = { SCRIPT_URL: 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' };
    - Replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with the URL you copied
-   - Save the file
+   - Save
 
-7. TEST
-   - Open apply.html in your browser
-   - Fill out and submit the form
-   - Check your Google Sheet — the data should appear as a new row
+6. TEST
+   - Open apply.html and submit the form
+   - Check your Google Sheet — data should appear as a new row
 
 ==========================================================
 -->
