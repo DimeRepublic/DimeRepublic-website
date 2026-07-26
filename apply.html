@@ -646,100 +646,12 @@
     jobBoardGroup.classList.toggle('hidden', this.value !== 'Job Board');
   });
 
-  // Field validation rules
-  const validators = {
-    fullName: (v) => v.trim().length > 0,
-    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-    phone: (v) => v.replace(/\D/g, '').length >= 7,
-    dob: (v) => v.length > 0,
-    gender: (v) => v.length > 0,
-    city: (v) => v.trim().length > 0,
-    country: (v) => v.length > 0,
-    nationality: (v) => v.trim().length > 0,
-    linkedin: (v) => v.length === 0 || /^https?:\/\//.test(v),
-    portfolio: (v) => v.length === 0 || /^https?:\/\//.test(v),
-    position: (v) => v.length > 0,
-    startDate: (v) => v.length > 0,
-    noticePeriod: (v) => v.length > 0,
-    hoursPerWeek: (v) => { const n = parseInt(v); return n >= 1 && n <= 60; },
-    workHours: (v) => v.length > 0,
-    totalExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 30; },
-    relevantExp: (v) => { const n = parseInt(v); return n >= 0 && n <= 20; },
-    currentTitle: (v) => v.trim().length > 0,
-    currentCompany: (v) => true, // optional
-    currentSalary: (v) => v.length > 0 && parseInt(v) >= 0,
-    expectedSalary: (v) => v.length > 0 && parseInt(v) >= 0,
-    remoteExp: (v) => v.length > 0,
-    keySkills: (v) => v.trim().length > 0,
-    tools: (v) => true, // optional
-    educationLevel: (v) => v.length > 0,
-    fieldOfStudy: (v) => v.trim().length > 0,
-    university: (v) => v.trim().length > 0,
-    gradYear: (v) => { const n = parseInt(v); return n >= 1990 && n <= 2030; },
-    englishLevel: (v) => v.length > 0,
-    otherLanguages: (v) => true, // optional
-    englishTest: (v) => true, // optional
-    internet: (v) => v.length > 0,
-    internetSpeed: (v) => true, // optional
-    workspace: (v) => v.length > 0,
-    laptop: (v) => v.length > 0,
-    os: (v) => true, // optional
-    howFound: (v) => v.length > 0,
-    referralName: (v) => true, // optional
-    jobBoard: (v) => true, // optional
-    whyDR: (v) => v.trim().length >= 50,
-    whyFit: (v) => v.trim().length >= 50
-  };
-
-  function validateField(fieldName) {
-    const input = form.querySelector('[name="' + fieldName + '"]');
-    if (!input) return true;
-    const value = input.value;
-    const validator = validators[fieldName];
-    if (!validator) return true;
-    const isValid = validator(value);
-    const group = input.closest('.form-group');
-    if (group) {
-      group.classList.toggle('has-error', !isValid);
-    }
-    return isValid;
-  }
-
-  // Live validation on blur
-  form.querySelectorAll('input, select, textarea').forEach(function(input) {
-    input.addEventListener('blur', function() {
-      const name = this.getAttribute('name');
-      if (name && validators[name]) {
-        validateField(name);
-      }
-    });
-    input.addEventListener('input', function() {
-      const group = this.closest('.form-group');
-      if (group && group.classList.contains('has-error')) {
-        validateField(this.getAttribute('name'));
-      }
-    });
-  });
+  // Validation skipped for quick testing
 
   // Form submission
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    // Validate all fields
-    let allValid = true;
-    for (const fieldName in validators) {
-      if (!validateField(fieldName)) {
-        allValid = false;
-      }
-    }
-
-    if (!allValid) {
-      errorMsg.classList.add('show');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    errorMsg.classList.remove('show');
+    console.log('[Form] Submit triggered (validation disabled)');
 
     // Collect form data
     const formData = {};
@@ -753,12 +665,18 @@
 
     // Add timestamp
     formData.timestamp = new Date().toISOString();
+    console.log('[Form] Collected data:', formData);
 
     // Check URL
     if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      alert('Form validated successfully! To enable submission, please set up Google Apps Script (see instructions in page source) and replace YOUR_GOOGLE_APPS_SCRIPT_URL_HERE with your deployment URL.');
+      console.error('[Form] SCRIPT_URL is still the placeholder! Update CONFIG.SCRIPT_URL in apply.html');
+      errorMsg.textContent = 'Form is not yet connected to Google Sheets. Please set up the Apps Script URL (see page source for instructions).';
+      errorMsg.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+
+    console.log('[Form] Posting to:', CONFIG.SCRIPT_URL);
 
     // Disable button, show loading
     submitBtn.disabled = true;
@@ -772,12 +690,16 @@
         body: JSON.stringify(formData)
       });
 
+      console.log('[Form] Response received (mode: no-cors, status unavailable)');
+
       // Show success (mode:no-cors won't give us response details)
       form.style.display = 'none';
       successMsg.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      alert('Something went wrong. Please try again or email your application to contact@dimerepublic.com');
+      console.error('[Form] Fetch error:', err);
+      errorMsg.textContent = 'Network error — check console (F12) for details. Try again or email contact@dimerepublic.com';
+      errorMsg.classList.add('show');
       submitBtn.disabled = false;
       submitBtn.classList.remove('loading');
     }
