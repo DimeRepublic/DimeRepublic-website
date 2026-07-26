@@ -1,24 +1,40 @@
+var FORM_FIELDS = [
+  'Timestamp', 'fullName', 'email', 'phone', 'dob', 'gender', 'city', 'country',
+  'nationality', 'linkedin', 'portfolio', 'position', 'startDate', 'noticePeriod',
+  'hoursPerWeek', 'workHours', 'totalExp', 'relevantExp', 'currentTitle',
+  'currentCompany', 'currentSalary', 'expectedSalary', 'remoteExp', 'keySkills',
+  'tools', 'educationLevel', 'fieldOfStudy', 'university', 'gradYear',
+  'englishLevel', 'otherLanguages', 'englishTest', 'internet', 'internetSpeed',
+  'workspace', 'laptop', 'os', 'howFound', 'referralName', 'jobBoard',
+  'whyDR', 'whyFit'
+];
+
 function doPost(e) {
   try {
-    var data = JSON.parse(e.postData.contents);
     var sheet = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y').getSheets()[0];
-    sheet.appendRow([
-      new Date(),
-      data.fullName || '', data.email || '', data.phone || '', data.dob || '',
-      data.gender || '', data.city || '', data.country || '', data.nationality || '',
-      data.linkedin || '', data.portfolio || '', data.position || '', data.startDate || '',
-      data.noticePeriod || '', data.hoursPerWeek || '', data.workHours || '',
-      data.totalExp || '', data.relevantExp || '', data.currentTitle || '',
-      data.currentCompany || '', data.currentSalary || '', data.expectedSalary || '',
-      data.remoteExp || '', data.keySkills || '', data.tools || '', data.educationLevel || '',
-      data.fieldOfStudy || '', data.university || '', data.gradYear || '',
-      data.englishLevel || '', data.otherLanguages || '', data.englishTest || '',
-      data.internet || '', data.internetSpeed || '', data.workspace || '', data.laptop || '',
-      data.os || '', data.howFound || '', data.referralName || '', data.jobBoard || '',
-      data.whyDR || '', data.whyFit || ''
-    ]);
+    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    var data = e.parameter;
+    var row = [];
+
+    for (var i = 0; i < headers.length; i++) {
+      var h = headers[i];
+      if (h === 'Timestamp') {
+        row.push(new Date());
+      } else {
+        row.push(data[h] || '');
+      }
+    }
+
+    sheet.appendRow(row);
     return ContentService.createTextOutput(JSON.stringify({status:'success'})).setMimeType(ContentService.MimeType.JSON);
   } catch(error) {
     return ContentService.createTextOutput(JSON.stringify({status:'error',message:error.toString()})).setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function setupSheet() {
+  var sheet = SpreadsheetApp.openById('1ILOAWSqA9ezp7BqP9gU6qUIwrp2BfAjxGq4EsEGgZ9Y').getSheets()[0];
+  sheet.getRange(1, 1, 1, FORM_FIELDS.length).setValues([FORM_FIELDS]);
+  sheet.setFrozenRows(1);
+  Logger.log('Headers updated: ' + FORM_FIELDS.join(', '));
 }

@@ -649,60 +649,72 @@
   // Validation skipped for quick testing
 
   // Form submission
-  form.addEventListener('submit', async function(e) {
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
-    console.log('[Form] Submit triggered (validation disabled)');
+    console.log('[Form] Submit triggered');
 
-    // Collect form data
-    const formData = {};
-    const inputs = form.querySelectorAll('input, select, textarea');
-    inputs.forEach(function(input) {
-      const name = input.getAttribute('name');
-      if (name) {
-        formData[name] = input.value.trim();
-      }
-    });
-
-    // Add timestamp
-    formData.timestamp = new Date().toISOString();
-    console.log('[Form] Collected data:', formData);
-
-    // Check URL
     if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      console.error('[Form] SCRIPT_URL is still the placeholder! Update CONFIG.SCRIPT_URL in apply.html');
-      errorMsg.textContent = 'Form is not yet connected to Google Sheets. Please set up the Apps Script URL (see page source for instructions).';
+      console.error('[Form] SCRIPT_URL is still the placeholder!');
+      errorMsg.textContent = 'Form is not yet connected to Google Sheets. Please set up the Apps Script URL.';
       errorMsg.classList.add('show');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    console.log('[Form] Posting to:', CONFIG.SCRIPT_URL);
+    // Collect form data
+    var formData = {};
+    var inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+      var name = input.getAttribute('name');
+      if (name) formData[name] = input.value.trim();
+    });
+    formData.timestamp = new Date().toISOString();
+    console.log('[Form] Submitting via hidden form:', formData);
 
-    // Disable button, show loading
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
 
-    try {
-      const response = await fetch(CONFIG.SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(formData)
-      });
+    // Create hidden iframe
+    var iframe = document.createElement('iframe');
+    iframe.name = 'gform-frame';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-      console.log('[Form] Response received (mode: no-cors, status unavailable)');
+    // Create hidden form
+    var hiddenForm = document.createElement('form');
+    hiddenForm.method = 'POST';
+    hiddenForm.action = CONFIG.SCRIPT_URL;
+    hiddenForm.target = 'gform-frame';
+    hiddenForm.style.display = 'none';
 
-      // Show success (mode:no-cors won't give us response details)
+    for (var key in formData) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = formData[key];
+      hiddenForm.appendChild(input);
+    }
+
+    document.body.appendChild(hiddenForm);
+    hiddenForm.submit();
+
+    // Poll iframe for completion (timeout fallback after 10s)
+    var checkCount = 0;
+    var check = setInterval(function() {
+      checkCount++;
+      if (checkCount > 50) {
+        clearInterval(check);
+        form.style.display = 'none';
+        successMsg.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 200);
+
+    iframe.onload = function() {
+      clearInterval(check);
       form.style.display = 'none';
       successMsg.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error('[Form] Fetch error:', err);
-      errorMsg.textContent = 'Network error — check console (F12) for details. Try again or email contact@dimerepublic.com';
-      errorMsg.classList.add('show');
-      submitBtn.disabled = false;
-      submitBtn.classList.remove('loading');
-    }
+    };
   });
 })();
 </script>
